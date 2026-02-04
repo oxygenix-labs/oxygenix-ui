@@ -1,0 +1,340 @@
+---
+title: "IconButton"
+description: "Compact icon-only button perfect for toolbars, tables, and dense UIs"
+---
+
+# IconButton
+
+Compact button designed specifically for icons. Perfect for toolbars, data tables, and dense user interfaces where space is limited.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/ui
+```
+
+## Basic Usage
+
+```tsx
+import { IconButton } from '@oxygenix-ui/ui';
+import { Settings } from 'lucide-react';
+
+function App() {
+  return (
+    <IconButton
+      icon={<Settings size={16} />}
+      aria-label="Settings"
+      onClick={() => console.log('Settings clicked')}
+    />
+  );
+}
+```
+
+## Sizes
+
+Three sizes are available: `sm`, `md` (default), and `lg`.
+
+```tsx
+import { Edit } from 'lucide-react';
+
+<IconButton 
+  icon={<Edit size={14} />}
+  aria-label="Edit"
+  size="sm"
+/>
+
+<IconButton 
+  icon={<Edit size={16} />}
+  aria-label="Edit"
+  size="md"
+/>
+
+<IconButton 
+  icon={<Edit size={18} />}
+  aria-label="Edit"
+  size="lg"
+/>
+```
+
+## API Reference
+
+### IconButton
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `icon` | `ReactNode` | Required | Icon to display |
+| `aria-label` | `string` | Required | Accessible label for screen readers |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Button size |
+| `className` | `string` | - | Additional CSS class |
+| `onClick` | `(event: MouseEvent) => void` | - | Click handler |
+| `disabled` | `boolean` | `false` | Disabled state |
+
+All standard HTML button attributes are supported.
+
+## Accessibility
+
+The IconButton component is fully accessible:
+
+- **Required aria-label**: Must provide descriptive label for screen readers
+- **Keyboard Navigation**: Focusable and activatable with Enter/Space
+- **Focus Visible**: Clear focus indicator for keyboard users
+- **Proper Role**: Uses semantic `<button>` element
+
+> **Important**: The `aria-label` prop is required. This ensures screen reader users understand the button's purpose.
+
+## Examples
+
+### Toolbar Actions
+
+```tsx
+import { IconButton } from '@oxygenix-ui/ui';
+import { Bold, Italic, Underline, Link } from 'lucide-react';
+
+function TextEditorToolbar() {
+  return (
+    <div style={{ display: 'flex', gap: '4px', padding: '8px' }}>
+      <IconButton
+        icon={<Bold size={16} />}
+        aria-label="Bold"
+        onClick={() => formatText('bold')}
+      />
+      <IconButton
+        icon={<Italic size={16} />}
+        aria-label="Italic"
+        onClick={() => formatText('italic')}
+      />
+      <IconButton
+        icon={<Underline size={16} />}
+        aria-label="Underline"
+        onClick={() => formatText('underline')}
+      />
+      <IconButton
+        icon={<Link size={16} />}
+        aria-label="Insert link"
+        onClick={() => insertLink()}
+      />
+    </div>
+  );
+}
+```
+
+### Table Row Actions
+
+```tsx
+import { IconButton } from '@oxygenix-ui/ui';
+import { Edit, Trash2, MoreVertical } from 'lucide-react';
+
+function TableRow({ item }) {
+  return (
+    <tr>
+      <td>{item.name}</td>
+      <td>{item.email}</td>
+      <td>
+        <div style={{ display: 'flex', gap: '4px' }}>
+          <IconButton
+            icon={<Edit size={14} />}
+            aria-label={`Edit ${item.name}`}
+            size="sm"
+            onClick={() => editItem(item.id)}
+          />
+          <IconButton
+            icon={<Trash2 size={14} />}
+            aria-label={`Delete ${item.name}`}
+            size="sm"
+            onClick={() => deleteItem(item.id)}
+          />
+          <IconButton
+            icon={<MoreVertical size={14} />}
+            aria-label={`More actions for ${item.name}`}
+            size="sm"
+            onClick={() => showMenu(item.id)}
+          />
+        </div>
+      </td>
+    </tr>
+  );
+}
+```
+
+### Close Button
+
+```tsx
+import { IconButton } from '@oxygenix-ui/ui';
+import { X } from 'lucide-react';
+
+function Modal({ onClose }) {
+  return (
+    <div className="modal">
+      <div className="modal-header">
+        <h2>Modal Title</h2>
+        <IconButton
+          icon={<X size={16} />}
+          aria-label="Close modal"
+          onClick={onClose}
+        />
+      </div>
+      <div className="modal-content">
+        {/* Modal content */}
+      </div>
+    </div>
+  );
+}
+```
+
+### Navigation Controls
+
+```tsx
+import { IconButton } from '@oxygenix-ui/ui';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+function Pagination({ page, totalPages, onPageChange }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <IconButton
+        icon={<ChevronLeft size={16} />}
+        aria-label="Previous page"
+        onClick={() => onPageChange(page - 1)}
+        disabled={page === 1}
+      />
+      <span>Page {page} of {totalPages}</span>
+      <IconButton
+        icon={<ChevronRight size={16} />}
+        aria-label="Next page"
+        onClick={() => onPageChange(page + 1)}
+        disabled={page === totalPages}
+      />
+    </div>
+  );
+}
+```
+
+### Dropdown Trigger
+
+```tsx
+import { IconButton } from '@oxygenix-ui/ui';
+import { MoreHorizontal } from 'lucide-react';
+
+function DropdownMenu() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="dropdown">
+      <IconButton
+        icon={<MoreHorizontal size={16} />}
+        aria-label="Open menu"
+        aria-expanded={open}
+        aria-haspopup="true"
+        onClick={() => setOpen(!open)}
+      />
+      {open && (
+        <div className="dropdown-menu">
+          <button>Edit</button>
+          <button>Duplicate</button>
+          <button>Delete</button>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+## Best Practices
+
+### 1. Always Provide aria-label
+
+The `aria-label` is required and must be descriptive:
+
+```tsx
+// ✅ Good - descriptive labels
+<IconButton icon={<Edit />} aria-label="Edit profile" />
+<IconButton icon={<Trash />} aria-label="Delete item" />
+
+// ❌ Bad - vague or missing labels
+<IconButton icon={<Edit />} aria-label="Edit" />
+<IconButton icon={<Trash />} /> {/* Missing label */}
+```
+
+### 2. Use Appropriate Icon Sizes
+
+Match icon size to button size:
+
+```tsx
+// ✅ Good
+<IconButton size="sm" icon={<Edit size={14} />} aria-label="Edit" />
+<IconButton size="md" icon={<Edit size={16} />} aria-label="Edit" />
+<IconButton size="lg" icon={<Edit size={18} />} aria-label="Edit" />
+
+// ❌ Bad - icon too large for button
+<IconButton size="sm" icon={<Edit size={24} />} aria-label="Edit" />
+```
+
+### 3. Use in Dense UIs
+
+IconButton is perfect for toolbars and tables where space is limited:
+
+```tsx
+// ✅ Good - compact toolbar
+<div className="toolbar">
+  <IconButton icon={<Save />} aria-label="Save" />
+  <IconButton icon={<Undo />} aria-label="Undo" />
+  <IconButton icon={<Redo />} aria-label="Redo" />
+</div>
+
+// ❌ Bad - use regular Button for primary actions
+<IconButton icon={<Save />} aria-label="Save changes" />
+// Should be: <Button leftIcon={<Save />}>Save Changes</Button>
+```
+
+### 4. Group Related Actions
+
+Keep related icon buttons together:
+
+```tsx
+<div style={{ display: 'flex', gap: '4px' }}>
+  <IconButton icon={<Edit />} aria-label="Edit" />
+  <IconButton icon={<Copy />} aria-label="Duplicate" />
+  <IconButton icon={<Trash />} aria-label="Delete" />
+</div>
+```
+
+### 5. Provide Visual Feedback
+
+Use hover and active states to show interactivity (handled by default styles).
+
+## When to Use
+
+### Use IconButton when:
+- ✅ Space is limited (toolbars, tables, headers)
+- ✅ The icon is universally recognized (close, edit, delete)
+- ✅ You have multiple similar actions in a row
+- ✅ The action is secondary or tertiary
+
+### Use regular Button when:
+- ❌ The action is primary or important
+- ❌ The icon meaning isn't obvious
+- ❌ You have space for text labels
+- ❌ Users might not recognize the icon
+
+## Styling
+
+The IconButton component uses CSS modules. Customize by:
+
+```tsx
+<IconButton
+  icon={<Settings />}
+  aria-label="Settings"
+  className="my-custom-icon-button"
+/>
+```
+
+```css
+.my-custom-icon-button {
+  --icon-button-size: 40px;
+  --icon-button-border-radius: 8px;
+}
+```
+
+## Related Components
+
+- **Button** - For buttons with text labels
+- **Divider** - For separating button groups in toolbars

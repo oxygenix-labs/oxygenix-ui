@@ -1,0 +1,293 @@
+/* ========================================
+   BUTTON
+   ======================================== */
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--oxy-spacing-2);
+    padding: var(--oxy-spacing-2) var(--oxy-spacing-4);
+    font-family: var(--oxy-font-family-base);
+    font-size: var(--oxy-font-size-sm);
+    font-weight: var(--oxy-font-weight-medium);
+    line-height: 1.5;
+    border: 1px solid transparent;
+    border-radius: var(--oxy-radius-base);
+    cursor: pointer;
+    transition: all var(--oxy-transition-fast);
+    white-space: nowrap;
+    user-select: none;
+}
+
+.button:focus-visible {
+    outline: 2px solid var(--oxy-primary-500);
+    outline-offset: 2px;
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Button Variants */
+.button-primary {
+    background: var(--oxy-primary-600);
+    color: white;
+    border-color: var(--oxy-primary-600);
+}
+
+.button-primary:hover:not(:disabled) {
+    background: var(--oxy-primary-700);
+    border-color: var(--oxy-primary-700);
+}
+
+.button-primary:active:not(:disabled) {
+    background: var(--oxy-primary-800);
+    border-color: var(--oxy-primary-800);
+}
+
+.button-secondary {
+    background: var(--oxy-color-bg-secondary);
+    color: var(--oxy-color-text-primary);
+    border-color: var(--oxy-color-border-default);
+}
+
+.button-secondary:hover:not(:disabled) {
+    background: var(--oxy-color-interactive-secondary-hover);
+    border-color: var(--oxy-color-border-hover);
+}
+
+.button-secondary:active:not(:disabled) {
+    background: var(--oxy-color-interactive-secondary-active);
+}
+
+.button-ghost {
+    background: transparent;
+    color: var(--oxy-color-text-primary);
+    border-color: transparent;
+}
+
+.button-ghost:hover:not(:disabled) {
+    background: var(--oxy-color-interactive-secondary-hover);
+}
+
+.button-ghost:active:not(:disabled) {
+    background: var(--oxy-color-interactive-secondary-active);
+}
+
+.button-danger {
+    background: var(--oxy-error-600);
+    color: white;
+    border-color: var(--oxy-error-600);
+}
+
+.button-danger:hover:not(:disabled) {
+    background: var(--oxy-error-700);
+    border-color: var(--oxy-error-700);
+}
+
+.button-danger:active:not(:disabled) {
+    background: var(--oxy-error-800);
+    border-color: var(--oxy-error-800);
+}
+
+/* Button Sizes */
+.button-sm {
+    padding: var(--oxy-spacing-1) var(--oxy-spacing-3);
+    font-size: var(--oxy-font-size-xs);
+}
+
+.button-md {
+    padding: var(--oxy-spacing-2) var(--oxy-spacing-4);
+    font-size: var(--oxy-font-size-sm);
+}
+
+.button-lg {
+    padding: var(--oxy-spacing-3) var(--oxy-spacing-6);
+    font-size: var(--oxy-font-size-base);
+}
+
+/* Loading State */
+.button-loading {
+    position: relative;
+    color: transparent;
+    pointer-events: none;
+}
+
+.button-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* ========================================
+   ICON BUTTON
+   ======================================== */
+.icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    color: var(--oxy-color-text-secondary);
+    border: none;
+    border-radius: var(--oxy-radius-base);
+    cursor: pointer;
+    transition: all var(--oxy-transition-fast);
+}
+
+.icon-button:hover:not(:disabled) {
+    background: var(--oxy-color-interactive-secondary-hover);
+    color: var(--oxy-color-text-primary);
+}
+
+.icon-button:active:not(:disabled) {
+    background: var(--oxy-color-interactive-secondary-active);
+}
+
+.icon-button:focus-visible {
+    outline: 2px solid var(--oxy-primary-500);
+    outline-offset: 2px;
+}
+
+.icon-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.icon-button-sm {
+    width: 24px;
+    height: 24px;
+}
+
+.icon-button-md {
+    width: 32px;
+    height: 32px;
+}
+
+.icon-button-lg {
+    width: 40px;
+    height: 40px;
+}
+
+/* ========================================
+   TEXT
+   ======================================== */
+.text {
+    margin: 0;
+    color: var(--oxy-color-text-primary);
+    font-family: var(--oxy-font-family-base);
+}
+
+.text-body {
+    font-size: var(--oxy-font-size-base);
+    line-height: 1.5;
+}
+
+.text-muted {
+    color: var(--oxy-color-text-secondary);
+    font-size: var(--oxy-font-size-sm);
+    line-height: 1.5;
+}
+
+.text-caption {
+    color: var(--oxy-color-text-tertiary);
+    font-size: var(--oxy-font-size-xs);
+    line-height: 1.4;
+}
+
+.text-small {
+    font-size: var(--oxy-font-size-sm);
+    line-height: 1.5;
+}
+
+.text-large {
+    font-size: var(--oxy-font-size-lg);
+    line-height: 1.5;
+}
+
+.text-bold {
+    font-weight: var(--oxy-font-weight-semibold);
+}
+
+.text-medium {
+    font-weight: var(--oxy-font-weight-medium);
+}
+
+/* ========================================
+   HEADING
+   ======================================== */
+.heading {
+    margin: 0;
+    color: var(--oxy-color-text-primary);
+    font-family: var(--oxy-font-family-base);
+    font-weight: var(--oxy-font-weight-semibold);
+    line-height: 1.2;
+}
+
+.heading-h1 {
+    font-size: var(--oxy-font-size-4xl);
+    font-weight: var(--oxy-font-weight-bold);
+}
+
+.heading-h2 {
+    font-size: var(--oxy-font-size-3xl);
+}
+
+.heading-h3 {
+    font-size: var(--oxy-font-size-2xl);
+}
+
+.heading-h4 {
+    font-size: var(--oxy-font-size-xl);
+}
+
+.heading-h5 {
+    font-size: var(--oxy-font-size-lg);
+}
+
+.heading-h6 {
+    font-size: var(--oxy-font-size-base);
+}
+
+/* ========================================
+   DIVIDER
+   ======================================== */
+.divider {
+    border: none;
+    border-top: 1px solid var(--oxy-color-border-default);
+    margin: var(--oxy-spacing-4) 0;
+}
+
+.divider-vertical {
+    display: inline-block;
+    width: 1px;
+    height: 100%;
+    border-top: none;
+    border-left: 1px solid var(--oxy-color-border-default);
+    margin: 0 var(--oxy-spacing-4);
+    vertical-align: middle;
+}
+
+.divider-dashed {
+    border-top-style: dashed;
+}
+
+.divider-vertical.divider-dashed {
+    border-left-style: dashed;
+}

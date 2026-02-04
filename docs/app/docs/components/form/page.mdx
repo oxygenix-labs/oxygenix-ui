@@ -1,0 +1,439 @@
+---
+title: "Form System"
+description: "Enterprise-grade form components with validation, multi-step support, and autosave"
+---
+
+import { Badge } from '@/components/ui/Badge'
+import { LivePreview } from '@/components/mdx/LivePreview'
+import { CodeTabs } from '@/components/mdx/CodeTabs'
+
+# Form System <Badge variant="stable">Stable</Badge>
+
+Enterprise-grade form components built for complex business applications. Supports validation, field arrays, multi-step forms, autosave, and permissions.
+
+## Installation
+
+<CodeTabs
+  tabs={[
+    { label: 'npm', code: 'npm install @oxygenix-ui/forms', language: 'bash' },
+    { label: 'yarn', code: 'yarn add @oxygenix-ui/forms', language: 'bash' },
+    { label: 'pnpm', code: 'pnpm add @oxygenix-ui/forms', language: 'bash' },
+  ]}
+/>
+
+## Basic Usage
+
+```tsx
+import { Form, Field, FieldGroup } from '@oxygenix-ui/forms';
+
+function UserForm() {
+  const handleSubmit = async (data) => {
+    console.log('Form data:', data);
+  };
+
+  return (
+    <Form
+      defaultValues={{ name: '', email: '' }}
+      onSubmit={handleSubmit}
+    >
+      <FieldGroup legend="User Information">
+        <Field
+          name="name"
+          label="Full Name"
+          type="text"
+          required
+        />
+
+        <Field
+          name="email"
+          label="Email"
+          type="email"
+          required
+        />
+      </FieldGroup>
+
+      <button type="submit">Submit</button>
+    </Form>
+  );
+}
+```
+
+## Features
+
+### Validation
+
+The Form system supports synchronous and asynchronous validation with custom error messages.
+
+```tsx
+<Field
+  name="email"
+  label="Email"
+  type="email"
+  required
+  validate={async (value) => {
+    if (!value.includes('@')) {
+      return 'Invalid email address';
+    }
+
+    // Async validation (e.g., check if email exists)
+    const exists = await checkEmailExists(value);
+    if (exists) {
+      return 'Email already taken';
+    }
+
+    return true;
+  }}
+/>
+```
+
+### Field Arrays (Repeater)
+
+Use the `Repeater` component to handle dynamic lists of fields.
+
+```tsx
+<Repeater
+  name="addresses"
+  minItems={1}
+  maxItems={5}
+  defaultItem={{ street: '', city: '', zip: '' }}
+>
+  {(fields, { append, remove }) => (
+    <>
+      {fields.map((field, index) => (
+        <div key={field.id}>
+          <Field
+            name={`addresses.${index}.street`}
+            label="Street"
+            type="text"
+            required
+          />
+          <Field
+            name={`addresses.${index}.city`}
+            label="City"
+            type="text"
+            required
+          />
+          <Field
+            name={`addresses.${index}.zip`}
+            label="ZIP Code"
+            type="text"
+            required
+          />
+          <button onClick={() => remove(index)}>Remove</button>
+        </div>
+      ))}
+      <button onClick={() => append()}>Add Address</button>
+    </>
+  )}
+</Repeater>
+```
+
+### Multi-Step Forms
+
+Create wizard-style forms with step validation.
+
+```tsx
+const steps = [
+  {
+    id: 'personal',
+    label: 'Personal Info',
+    fields: ['name', 'email'],
+    validate: true,
+  },
+  {
+    id: 'address',
+    label: 'Address',
+    fields: ['street', 'city', 'zip'],
+    validate: true,
+  },
+];
+
+<Form
+  steps={steps}
+  currentStep={currentStep}
+  onStepChange={setCurrentStep}
+  onSubmit={handleSubmit}
+>
+  {/* Fields */}
+</Form>
+```
+
+### Autosave
+
+Automatically save form data at regular intervals.
+
+```tsx
+<Form
+  autosave={{
+    enabled: true,
+    interval: 30000, // 30 seconds
+    onSave: async (data) => {
+      await saveToLocalStorage(data);
+    },
+    onRestore: async () => {
+      return await loadFromLocalStorage();
+    },
+  }}
+  onSubmit={handleSubmit}
+>
+  {/* Fields */}
+</Form>
+```
+
+### Permissions
+
+Control field visibility and editability based on user permissions.
+
+```tsx
+<Form
+  permissions={{
+    canEdit: (fieldName) => {
+      return user.role === 'admin' || fieldName !== 'role';
+    },
+    canView: (fieldName) => {
+      return user.role === 'admin' || fieldName !== 'salary';
+    },
+  }}
+  onSubmit={handleSubmit}
+>
+  {/* Fields */}
+</Form>
+```
+
+## API Reference
+
+### Form
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `onSubmit` | `(data: T) => void \| Promise<void>` | Required | Form submission handler |
+| `onError` | `(errors: FormErrors<T>) => void` | - | Error handler |
+| `defaultValues` | `Partial<T>` | - | Default form values |
+| `values` | `Partial<T>` | - | Controlled form values |
+| `onValuesChange` | `(values: Partial<T>) => void` | - | Values change handler |
+| `steps` | `FormStep[]` | - | Multi-step configuration |
+| `currentStep` | `number` | - | Current step index |
+| `onStepChange` | `(step: number) => void` | - | Step change handler |
+| `autosave` | `AutosaveConfig` | - | Autosave configuration |
+| `permissions` | `PermissionsConfig` | - | Permissions configuration |
+| `mode` | `'onSubmit' \| 'onBlur' \| 'onChange' \| 'all'` | `'onSubmit'` | Validation mode |
+| `reValidateMode` | `'onSubmit' \| 'onBlur' \| 'onChange'` | `'onChange'` | Revalidation mode |
+| `debug` | `boolean` | `false` | Show debug panel (dev only) |
+
+### Field
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | Required | Field name (path in form data) |
+| `label` | `ReactNode` | - | Field label |
+| `description` | `string` | - | Field description |
+| `placeholder` | `string` | - | Placeholder text |
+| `type` | `FieldType` | `'text'` | Field type |
+| `required` | `boolean` | `false` | Whether field is required |
+| `validate` | `ValidationFunction \| ValidationFunction[]` | - | Validation function(s) |
+| `options` | `Option[]` | - | Options for select/radio/checkbox |
+| `condition` | `(formValues: any) => boolean` | - | Conditional rendering |
+| `disabled` | `boolean` | `false` | Whether field is disabled |
+| `readOnly` | `boolean` | `false` | Whether field is read-only |
+| `render` | `(props: FieldRenderProps) => ReactNode` | - | Custom render function |
+
+### FieldGroup
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `legend` | `ReactNode` | - | Group legend |
+| `description` | `string` | - | Group description |
+| `children` | `ReactNode` | Required | Child fields |
+
+### Repeater
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | Required | Field name |
+| `minItems` | `number` | - | Minimum items |
+| `maxItems` | `number` | - | Maximum items |
+| `defaultItem` | `T` | Required | Default item value |
+| `children` | `(fields, actions) => ReactNode` | Required | Render function |
+
+## Field Types
+
+The Form system supports the following field types:
+
+- `text` - Text input
+- `email` - Email input
+- `password` - Password input
+- `number` - Number input
+- `tel` - Telephone input
+- `url` - URL input
+- `date` - Date picker
+- `datetime-local` - Date and time picker
+- `time` - Time picker
+- `select` - Dropdown select
+- `multiselect` - Multiple selection
+- `checkbox` - Checkbox
+- `radio` - Radio buttons
+- `textarea` - Multi-line text
+- `file` - File upload
+- `custom` - Custom field (use `render` prop)
+
+## Accessibility
+
+All form components are WCAG 2.2 AA compliant:
+
+- Proper ARIA labels and descriptions
+- Keyboard navigation support
+- Screen reader announcements for errors
+- Focus management
+- Required field indicators
+
+## Performance
+
+The Form system is optimized for large forms:
+
+- Efficient re-renders with React Hook Form
+- Debounced validation
+- Lazy validation (only validates touched fields)
+- Memoized field components
+
+## Examples
+
+### Complete User Profile Form
+
+```tsx
+import { Form, Field, FieldGroup, Repeater } from '@oxygenix-ui/forms';
+
+interface UserProfile {
+  name: string;
+  email: string;
+  role: 'admin' | 'editor' | 'viewer';
+  bio?: string;
+  newsletter: boolean;
+  addresses: Array<{
+    street: string;
+    city: string;
+    zip: string;
+  }>;
+}
+
+export function UserProfileForm() {
+  const handleSubmit = async (data: UserProfile) => {
+    await saveUserProfile(data);
+  };
+
+  return (
+    <Form<UserProfile>
+      defaultValues={{
+        name: '',
+        email: '',
+        role: 'viewer',
+        bio: '',
+        newsletter: false,
+        addresses: [{ street: '', city: '', zip: '' }],
+      }}
+      onSubmit={handleSubmit}
+    >
+      <FieldGroup legend="Basic Information">
+        <Field
+          name="name"
+          label="Full Name"
+          type="text"
+          required
+          validate={(value) => {
+            if (value.length < 2) {
+              return 'Name must be at least 2 characters';
+            }
+            return true;
+          }}
+        />
+
+        <Field
+          name="email"
+          label="Email"
+          type="email"
+          required
+        />
+
+        <Field
+          name="role"
+          label="Role"
+          type="select"
+          required
+          options={[
+            { value: 'admin', label: 'Administrator' },
+            { value: 'editor', label: 'Editor' },
+            { value: 'viewer', label: 'Viewer' },
+          ]}
+        />
+
+        <Field
+          name="bio"
+          label="Bio"
+          type="textarea"
+          placeholder="Tell us about yourself..."
+        />
+      </FieldGroup>
+
+      <FieldGroup legend="Preferences">
+        <Field
+          name="newsletter"
+          label="Subscribe to newsletter"
+          type="checkbox"
+        />
+      </FieldGroup>
+
+      <FieldGroup legend="Addresses">
+        <Repeater
+          name="addresses"
+          minItems={1}
+          maxItems={3}
+          defaultItem={{ street: '', city: '', zip: '' }}
+        >
+          {(fields, { append, remove }) => (
+            <>
+              {fields.map((field, index) => (
+                <div key={field.id}>
+                  <h4>Address {index + 1}</h4>
+                  <Field
+                    name={`addresses.${index}.street`}
+                    label="Street"
+                    type="text"
+                    required
+                  />
+                  <Field
+                    name={`addresses.${index}.city`}
+                    label="City"
+                    type="text"
+                    required
+                  />
+                  <Field
+                    name={`addresses.${index}.zip`}
+                    label="ZIP Code"
+                    type="text"
+                    required
+                    validate={(value) => {
+                      if (!/^\d{5}$/.test(value)) {
+                        return 'ZIP code must be 5 digits';
+                      }
+                      return true;
+                    }}
+                  />
+                  {fields.length > 1 && (
+                    <button onClick={() => remove(index)}>
+                      Remove Address
+                    </button>
+                  )}
+                </div>
+              ))}
+              {fields.length < 3 && (
+                <button onClick={() => append()}>Add Address</button>
+              )}
+            </>
+          )}
+        </Repeater>
+      </FieldGroup>
+
+      <button type="submit">Submit</button>
+    </Form>
+  );
+}
+```

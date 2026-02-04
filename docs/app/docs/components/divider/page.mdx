@@ -1,0 +1,390 @@
+---
+title: "Divider"
+description: "Subtle separators for dense layouts"
+---
+
+# Divider
+
+Subtle separator component for creating visual divisions in dense layouts. Supports horizontal and vertical orientations.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/ui
+```
+
+## Basic Usage
+
+```tsx
+import { Divider } from '@oxygenix-ui/ui';
+
+function App() {
+  return (
+    <div>
+      <p>Content above</p>
+      <Divider />
+      <p>Content below</p>
+    </div>
+  );
+}
+```
+
+## Orientation
+
+### Horizontal (Default)
+
+Horizontal dividers separate content vertically.
+
+```tsx
+<div>
+  <p>Section 1</p>
+  <Divider orientation="horizontal" />
+  <p>Section 2</p>
+</div>
+```
+
+### Vertical
+
+Vertical dividers separate content horizontally.
+
+```tsx
+<div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+  <span>Item 1</span>
+  <Divider orientation="vertical" />
+  <span>Item 2</span>
+  <Divider orientation="vertical" />
+  <span>Item 3</span>
+</div>
+```
+
+## Styles
+
+### Solid (Default)
+
+Standard solid line divider.
+
+```tsx
+<Divider />
+```
+
+### Dashed
+
+Dashed line for subtle separation.
+
+```tsx
+<Divider dashed />
+```
+
+## API Reference
+
+### Divider
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Divider orientation |
+| `dashed` | `boolean` | `false` | Use dashed style |
+| `className` | `string` | - | Additional CSS class |
+
+All standard HTML `<hr>` attributes are supported.
+
+## Accessibility
+
+The Divider component is fully accessible:
+
+- **Semantic HTML**: Uses `<hr>` element
+- **ARIA Role**: `role="separator"` for assistive technologies
+- **Orientation**: `aria-orientation` attribute for screen readers
+
+## Examples
+
+### Section Dividers
+
+```tsx
+function Page() {
+  return (
+    <div>
+      <section>
+        <Heading level="h2">Introduction</Heading>
+        <Text>Introduction content...</Text>
+      </section>
+
+      <Divider />
+
+      <section>
+        <Heading level="h2">Features</Heading>
+        <Text>Features content...</Text>
+      </section>
+
+      <Divider />
+
+      <section>
+        <Heading level="h2">Conclusion</Heading>
+        <Text>Conclusion content...</Text>
+      </section>
+    </div>
+  );
+}
+```
+
+### Menu Separators
+
+```tsx
+function DropdownMenu() {
+  return (
+    <div className="menu">
+      <button>Edit</button>
+      <button>Duplicate</button>
+      <Divider />
+      <button>Archive</button>
+      <Divider />
+      <button className="danger">Delete</button>
+    </div>
+  );
+}
+```
+
+### Toolbar Separators
+
+```tsx
+function Toolbar() {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <IconButton icon={<Bold />} aria-label="Bold" />
+      <IconButton icon={<Italic />} aria-label="Italic" />
+      <IconButton icon={<Underline />} aria-label="Underline" />
+      
+      <Divider orientation="vertical" />
+      
+      <IconButton icon={<AlignLeft />} aria-label="Align left" />
+      <IconButton icon={<AlignCenter />} aria-label="Align center" />
+      <IconButton icon={<AlignRight />} aria-label="Align right" />
+      
+      <Divider orientation="vertical" />
+      
+      <IconButton icon={<Link />} aria-label="Insert link" />
+      <IconButton icon={<Image />} aria-label="Insert image" />
+    </div>
+  );
+}
+```
+
+### Card Sections
+
+```tsx
+function Card() {
+  return (
+    <div className="card">
+      <div className="card-header">
+        <Heading level="h3">User Profile</Heading>
+        <Text variant="muted">Active</Text>
+      </div>
+
+      <Divider />
+
+      <div className="card-body">
+        <Text>Name: John Doe</Text>
+        <Text>Email: john@example.com</Text>
+      </div>
+
+      <Divider />
+
+      <div className="card-footer">
+        <Button variant="primary">Edit</Button>
+        <Button variant="secondary">Cancel</Button>
+      </div>
+    </div>
+  );
+}
+```
+
+### List Groups
+
+```tsx
+function ListGroup() {
+  return (
+    <div className="list-group">
+      <div className="list-item">
+        <Text weight="medium">Item 1</Text>
+        <Text variant="muted">Description 1</Text>
+      </div>
+
+      <Divider />
+
+      <div className="list-item">
+        <Text weight="medium">Item 2</Text>
+        <Text variant="muted">Description 2</Text>
+      </div>
+
+      <Divider />
+
+      <div className="list-item">
+        <Text weight="medium">Item 3</Text>
+        <Text variant="muted">Description 3</Text>
+      </div>
+    </div>
+  );
+}
+```
+
+### Breadcrumb Separators
+
+```tsx
+function Breadcrumbs() {
+  return (
+    <nav style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <a href="/">Home</a>
+      <Divider orientation="vertical" />
+      <a href="/products">Products</a>
+      <Divider orientation="vertical" />
+      <Text variant="muted">Current Page</Text>
+    </nav>
+  );
+}
+```
+
+### Form Sections
+
+```tsx
+function SettingsForm() {
+  return (
+    <form>
+      <div className="form-section">
+        <Heading level="h3">Personal Information</Heading>
+        <input type="text" placeholder="Name" />
+        <input type="email" placeholder="Email" />
+      </div>
+
+      <Divider dashed />
+
+      <div className="form-section">
+        <Heading level="h3">Security</Heading>
+        <input type="password" placeholder="Password" />
+        <input type="password" placeholder="Confirm Password" />
+      </div>
+
+      <Divider dashed />
+
+      <div className="form-section">
+        <Heading level="h3">Preferences</Heading>
+        <label>
+          <input type="checkbox" />
+          <Text>Email notifications</Text>
+        </label>
+      </div>
+    </form>
+  );
+}
+```
+
+## Best Practices
+
+### 1. Use for Visual Separation
+
+Dividers create visual breaks between related content:
+
+```tsx
+// ✅ Good - separating distinct sections
+<section>Content 1</section>
+<Divider />
+<section>Content 2</section>
+
+// ❌ Bad - overusing dividers
+<p>Line 1</p>
+<Divider />
+<p>Line 2</p>
+<Divider />
+<p>Line 3</p>
+```
+
+### 2. Choose Appropriate Orientation
+
+Use vertical dividers for horizontal layouts:
+
+```tsx
+// ✅ Good - vertical for flex row
+<div style={{ display: 'flex' }}>
+  <span>Item 1</span>
+  <Divider orientation="vertical" />
+  <span>Item 2</span>
+</div>
+
+// ❌ Bad - horizontal in flex row
+<div style={{ display: 'flex' }}>
+  <span>Item 1</span>
+  <Divider orientation="horizontal" />
+  <span>Item 2</span>
+</div>
+```
+
+### 3. Use Dashed for Subtle Separation
+
+Dashed dividers are less prominent:
+
+```tsx
+// ✅ Good - dashed for related content
+<div>
+  <Text>Primary content</Text>
+  <Divider dashed />
+  <Text variant="muted">Related metadata</Text>
+</div>
+
+// ✅ Good - solid for distinct sections
+<section>Section 1</section>
+<Divider />
+<section>Section 2</section>
+```
+
+### 4. Maintain Consistent Spacing
+
+Add consistent spacing around dividers:
+
+```tsx
+// ✅ Good - consistent spacing
+<div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+  <section>Content 1</section>
+  <Divider />
+  <section>Content 2</section>
+</div>
+
+// ❌ Bad - inconsistent spacing
+<div>
+  <section style={{ marginBottom: '8px' }}>Content 1</section>
+  <Divider />
+  <section style={{ marginTop: '24px' }}>Content 2</section>
+</div>
+```
+
+## When to Use
+
+### Use Divider when:
+- ✅ Separating distinct content sections
+- ✅ Creating visual breaks in dense layouts
+- ✅ Grouping related items in menus or lists
+- ✅ Separating toolbar button groups
+
+### Don't use Divider when:
+- ❌ Whitespace alone would suffice
+- ❌ Content is already visually distinct
+- ❌ Overusing creates visual clutter
+
+## Styling
+
+Customize Divider using className:
+
+```tsx
+<Divider className="custom-divider" />
+```
+
+```css
+.custom-divider {
+  --divider-color: #custom-color;
+  --divider-thickness: 2px;
+  --divider-margin: 24px 0;
+}
+```
+
+## Related Components
+
+- **Heading** - For section headers
+- **Text** - For content around dividers
+- **IconButton** - Often used with vertical dividers in toolbars

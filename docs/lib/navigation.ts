@@ -26,12 +26,22 @@ export const navigation: NavItem[] = [
         title: 'Components',
         items: [
             {
+                title: 'UI',
+                items: [
+                    { title: 'Button', href: '/docs/components/button', badge: 'New' },
+                    { title: 'IconButton', href: '/docs/components/icon-button', badge: 'New' },
+                    { title: 'Text', href: '/docs/components/text', badge: 'New' },
+                    { title: 'Heading', href: '/docs/components/heading', badge: 'New' },
+                    { title: 'Divider', href: '/docs/components/divider', badge: 'New' },
+                ],
+            },
+            {
                 title: 'Forms',
                 items: [
+                    { title: 'Form System', href: '/docs/components/form', badge: 'New' },
                     { title: 'Input', href: '/docs/components/input' },
                     { title: 'Select', href: '/docs/components/select' },
                     { title: 'Checkbox', href: '/docs/components/checkbox' },
-                    { title: 'Form', href: '/docs/components/form' },
                 ],
             },
             {
@@ -45,6 +55,7 @@ export const navigation: NavItem[] = [
             {
                 title: 'Layout',
                 items: [
+                    { title: 'AppShell', href: '/docs/components/app-shell', badge: 'New' },
                     { title: 'Container', href: '/docs/components/container' },
                     { title: 'Grid', href: '/docs/components/grid' },
                     { title: 'Stack', href: '/docs/components/stack' },

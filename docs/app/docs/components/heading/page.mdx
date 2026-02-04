@@ -1,0 +1,327 @@
+---
+title: "Heading"
+description: "Controlled heading hierarchy to prevent random h1-h6 misuse"
+---
+
+# Heading
+
+Semantic heading component that enforces proper heading hierarchy. Prevents arbitrary h1-h6 usage and ensures consistent styling.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/ui
+```
+
+## Basic Usage
+
+```tsx
+import { Heading } from '@oxygenix-ui/ui';
+
+function App() {
+  return (
+    <Heading level="h1">Page Title</Heading>
+  );
+}
+```
+
+## Heading Levels
+
+The Heading component supports all six heading levels (h1-h6).
+
+```tsx
+<Heading level="h1">Heading 1</Heading>
+<Heading level="h2">Heading 2</Heading>
+<Heading level="h3">Heading 3</Heading>
+<Heading level="h4">Heading 4</Heading>
+<Heading level="h5">Heading 5</Heading>
+<Heading level="h6">Heading 6</Heading>
+```
+
+## API Reference
+
+### Heading
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `level` | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | Required | Heading level (controls both semantics and styling) |
+| `children` | `ReactNode` | Required | Heading content |
+| `className` | `string` | - | Additional CSS class |
+
+All standard HTML heading attributes are supported.
+
+## Why Use Heading?
+
+### Problem: Arbitrary Heading Usage
+
+Without a controlled component, developers often misuse headings:
+
+```tsx
+// ❌ Bad - using h3 for styling, not semantics
+<h3 className="small-heading">Actually a subheading</h3>
+
+// ❌ Bad - skipping levels
+<h1>Page Title</h1>
+<h4>Subsection</h4> {/* Skipped h2 and h3 */}
+
+// ❌ Bad - multiple h1s
+<h1>Header</h1>
+<h1>Another Section</h1>
+```
+
+### Solution: Controlled Hierarchy
+
+The Heading component enforces proper usage:
+
+```tsx
+// ✅ Good - explicit level
+<Heading level="h1">Page Title</Heading>
+<Heading level="h2">Section</Heading>
+<Heading level="h3">Subsection</Heading>
+```
+
+## Examples
+
+### Page Structure
+
+```tsx
+function Page() {
+  return (
+    <div>
+      <Heading level="h1">Dashboard</Heading>
+      
+      <section>
+        <Heading level="h2">Recent Activity</Heading>
+        <Heading level="h3">Today</Heading>
+        {/* Activity items */}
+        <Heading level="h3">Yesterday</Heading>
+        {/* Activity items */}
+      </section>
+
+      <section>
+        <Heading level="h2">Statistics</Heading>
+        <Heading level="h3">Revenue</Heading>
+        {/* Revenue chart */}
+        <Heading level="h3">Users</Heading>
+        {/* User chart */}
+      </section>
+    </div>
+  );
+}
+```
+
+### Article Layout
+
+```tsx
+function Article() {
+  return (
+    <article>
+      <Heading level="h1">
+        Understanding React Server Components
+      </Heading>
+
+      <Heading level="h2">Introduction</Heading>
+      <p>Server Components are a new feature...</p>
+
+      <Heading level="h2">How They Work</Heading>
+      <p>Server Components render on the server...</p>
+
+      <Heading level="h3">Rendering Process</Heading>
+      <p>The rendering process involves...</p>
+
+      <Heading level="h3">Data Fetching</Heading>
+      <p>Data fetching in Server Components...</p>
+
+      <Heading level="h2">Conclusion</Heading>
+      <p>Server Components provide...</p>
+    </article>
+  );
+}
+```
+
+### Card Headers
+
+```tsx
+function Card({ title, subtitle }) {
+  return (
+    <div className="card">
+      <Heading level="h3">{title}</Heading>
+      {subtitle && (
+        <Text variant="muted">{subtitle}</Text>
+      )}
+      {/* Card content */}
+    </div>
+  );
+}
+```
+
+### Modal Titles
+
+```tsx
+function Modal({ title, children, onClose }) {
+  return (
+    <div className="modal">
+      <div className="modal-header">
+        <Heading level="h2">{title}</Heading>
+        <IconButton
+          icon={<X />}
+          aria-label="Close"
+          onClick={onClose}
+        />
+      </div>
+      <div className="modal-content">
+        {children}
+      </div>
+    </div>
+  );
+}
+```
+
+### Section Headers
+
+```tsx
+function Settings() {
+  return (
+    <div>
+      <Heading level="h1">Settings</Heading>
+
+      <section>
+        <Heading level="h2">Profile</Heading>
+        <Heading level="h3">Personal Information</Heading>
+        {/* Form fields */}
+        <Heading level="h3">Avatar</Heading>
+        {/* Avatar upload */}
+      </section>
+
+      <section>
+        <Heading level="h2">Security</Heading>
+        <Heading level="h3">Password</Heading>
+        {/* Password change */}
+        <Heading level="h3">Two-Factor Authentication</Heading>
+        {/* 2FA settings */}
+      </section>
+    </div>
+  );
+}
+```
+
+## Best Practices
+
+### 1. Follow Heading Hierarchy
+
+Always use headings in order without skipping levels:
+
+```tsx
+// ✅ Good - proper hierarchy
+<Heading level="h1">Page Title</Heading>
+<Heading level="h2">Section</Heading>
+<Heading level="h3">Subsection</Heading>
+
+// ❌ Bad - skipped h2
+<Heading level="h1">Page Title</Heading>
+<Heading level="h3">Subsection</Heading>
+```
+
+### 2. One h1 Per Page
+
+Each page should have exactly one h1:
+
+```tsx
+// ✅ Good - single h1
+<Heading level="h1">Dashboard</Heading>
+<Heading level="h2">Section 1</Heading>
+<Heading level="h2">Section 2</Heading>
+
+// ❌ Bad - multiple h1s
+<Heading level="h1">Dashboard</Heading>
+<Heading level="h1">Another Section</Heading>
+```
+
+### 3. Use for Structure, Not Styling
+
+Choose heading levels based on content hierarchy, not visual appearance:
+
+```tsx
+// ✅ Good - semantic structure
+<Heading level="h2">Section Title</Heading>
+
+// ❌ Bad - using for size
+<Heading level="h4">Actually a section title</Heading>
+// (If you need smaller text, use className or Text component)
+```
+
+### 4. Descriptive Content
+
+Headings should clearly describe the content that follows:
+
+```tsx
+// ✅ Good - descriptive
+<Heading level="h2">User Profile Settings</Heading>
+<Heading level="h2">Recent Transactions</Heading>
+
+// ❌ Bad - vague
+<Heading level="h2">Settings</Heading>
+<Heading level="h2">Items</Heading>
+```
+
+## Heading Hierarchy
+
+Proper heading hierarchy is crucial for:
+
+- **Accessibility**: Screen readers use headings to navigate
+- **SEO**: Search engines use headings to understand content structure
+- **Readability**: Clear hierarchy helps users scan content
+
+### Example Hierarchy
+
+```
+h1: Page Title
+  h2: Main Section
+    h3: Subsection
+      h4: Sub-subsection
+    h3: Another Subsection
+  h2: Another Main Section
+    h3: Subsection
+```
+
+## Accessibility
+
+The Heading component is fully accessible:
+
+- **Semantic HTML**: Uses proper h1-h6 elements
+- **Screen Reader Navigation**: Enables heading-based navigation
+- **Keyboard Navigation**: Focusable when needed
+- **Proper Hierarchy**: Enforces logical document outline
+
+## Styling
+
+Customize Heading using className:
+
+```tsx
+<Heading level="h2" className="custom-heading">
+  Custom Styled Heading
+</Heading>
+```
+
+```css
+.custom-heading {
+  --heading-color: #custom-color;
+  --heading-margin: 2rem 0 1rem;
+}
+```
+
+## Typography Scale
+
+The Heading component follows a consistent scale:
+
+- **h1**: 32px / 1.2 line-height / 700 weight
+- **h2**: 24px / 1.3 line-height / 600 weight
+- **h3**: 20px / 1.4 line-height / 600 weight
+- **h4**: 18px / 1.4 line-height / 600 weight
+- **h5**: 16px / 1.5 line-height / 600 weight
+- **h6**: 14px / 1.5 line-height / 600 weight
+
+## Related Components
+
+- **Text** - For body text and captions
+- **Divider** - For separating sections
