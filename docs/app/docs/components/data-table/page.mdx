@@ -1,0 +1,266 @@
+import { Badge } from '@/components/ui/Badge'
+import { LivePreview } from '@/components/mdx/LivePreview'
+import { CodeTabs } from '@/components/mdx/CodeTabs'
+import { DataTableDemo } from '@/components/demos/DataTableDemo'
+
+# DataTable
+
+<Badge variant="stable">Stable</Badge>
+
+Enterprise-grade data table component designed for large datasets and complex workflows. Built for performance, accessibility, and real-world business applications.
+
+## Live Demo
+
+<LivePreview
+  title="Interactive DataTable"
+  description="Click column headers to sort, select rows with checkboxes"
+  code={`import { DataTable } from '@oxygenix-ui/data'
+
+const columns = [
+  { id: 'name', header: 'Name', accessor: 'name', sortable: true },
+  { id: 'email', header: 'Email', accessor: 'email', sortable: true },
+  { id: 'role', header: 'Role', accessor: 'role' },
+]
+
+function UserTable() {
+  return <DataTable data={users} columns={columns} />
+}`}
+>
+  <DataTableDemo />
+</LivePreview>
+
+## Installation
+
+<CodeTabs
+  tabs={[
+    { label: 'npm', code: 'npm install @oxygenix-ui/data', language: 'bash' },
+    { label: 'yarn', code: 'yarn add @oxygenix-ui/data', language: 'bash' },
+    { label: 'pnpm', code: 'pnpm add @oxygenix-ui/data', language: 'bash' },
+  ]}
+/>
+
+## Basic Usage
+
+The DataTable component provides a flexible API for displaying tabular data with sorting, pagination, and selection.
+
+```tsx
+import { DataTable } from '@oxygenix-ui/data'
+
+const columns = [
+  { id: 'name', header: 'Name', accessor: 'name', sortable: true },
+  { id: 'email', header: 'Email', accessor: 'email', sortable: true },
+  { id: 'role', header: 'Role', accessor: 'role' },
+]
+
+const users = [
+  { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'Admin' },
+  { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'User' },
+  { id: 3, name: 'Carol White', email: 'carol@example.com', role: 'Editor' },
+]
+
+function UserTable() {
+  return (
+    <DataTable
+      data={users}
+      columns={columns}
+      sorting={{ enabled: true }}
+    />
+  )
+}
+```
+
+## Features
+
+- **Sorting** - Client and server-side sorting with multi-column support
+- **Pagination** - Customizable page sizes with server-side support
+- **Row Selection** - Single and multi-select with keyboard navigation
+- **Virtualization** - Handles 10,000+ rows efficiently
+- **Inline Editing** - Edit cells directly in the table
+- **Bulk Actions** - Perform actions on multiple selected rows
+- **Accessible** - WCAG 2.2 AA compliant with full keyboard support
+
+## Pagination
+
+Enable pagination for large datasets:
+
+```tsx
+<DataTable
+  data={users}
+  columns={columns}
+  pagination={{ 
+    enabled: true, 
+    pageSize: 20,
+    showPageInfo: true 
+  }}
+/>
+```
+
+## Row Selection
+
+Enable row selection with callbacks:
+
+```tsx
+function SelectableTable() {
+  const [selected, setSelected] = useState<string[]>([])
+
+  return (
+    <DataTable
+      data={users}
+      columns={columns}
+      selection={{ 
+        enabled: true,
+        selectedRows: selected,
+        onSelectionChange: setSelected,
+        selectOnRowClick: true 
+      }}
+    />
+  )
+}
+```
+
+## Custom Cell Rendering
+
+Customize how cells are rendered using the `cell` function:
+
+```tsx
+const columns = [
+  {
+    id: 'name',
+    header: 'Name',
+    accessor: 'name',
+    cell: ({ value, row }) => (
+      <div style={{ fontWeight: row.role === 'Admin' ? 'bold' : 'normal' }}>
+        {value}
+      </div>
+    ),
+  },
+  {
+    id: 'status',
+    header: 'Status',
+    accessor: 'status',
+    cell: ({ value }) => (
+      <span className={`status-${value}`}>
+        {value}
+      </span>
+    ),
+  },
+]
+```
+
+## Server-Side Data
+
+For large datasets, use server-side pagination and sorting:
+
+```tsx
+function ServerSideTable() {
+  const [data, setData] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [pagination, setPagination] = useState({ page: 1, pageSize: 20 })
+
+  useEffect(() => {
+    fetchData(pagination)
+  }, [pagination])
+
+  const fetchData = async (page) => {
+    setLoading(true)
+    const response = await api.getUsers({
+      page: page.page,
+      pageSize: page.pageSize,
+    })
+    setData(response.data)
+    setLoading(false)
+  }
+
+  return (
+    <DataTable
+      data={data}
+      columns={columns}
+      loading={loading}
+      pagination={{
+        enabled: true,
+        mode: 'server',
+        ...pagination,
+        onPageChange: setPagination,
+      }}
+    />
+  )
+}
+```
+
+## API Reference
+
+### DataTable Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `data` | `T[]` | Required | Array of data objects to display |
+| `columns` | `Column<T>[]` | Required | Column definitions |
+| `sorting` | `SortingConfig` | `undefined` | Sorting configuration |
+| `pagination` | `PaginationConfig` | `undefined` | Pagination configuration |
+| `selection` | `SelectionConfig` | `undefined` | Row selection configuration |
+| `loading` | `boolean` | `false` | Show loading state |
+| `error` | `Error` | `undefined` | Error to display |
+| `onRowClick` | `(row: T) => void` | `undefined` | Row click handler |
+
+### Column Definition
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `id` | `string` | Unique column identifier |
+| `header` | `string \| (ctx) => ReactNode` | Column header content |
+| `accessor` | `string \| (row) => any` | How to access cell value |
+| `cell` | `(ctx) => ReactNode` | Custom cell renderer |
+| `sortable` | `boolean` | Enable sorting for this column |
+| `width` | `string \| number` | Column width |
+
+## Accessibility
+
+The DataTable component is fully accessible:
+
+- **Keyboard Navigation**: Use arrow keys to navigate cells, Tab to move between interactive elements
+- **Screen Readers**: Proper ARIA grid role with row and cell announcements
+- **Focus Management**: Clear focus indicators and logical tab order
+
+### Keyboard Shortcuts
+
+- `↑` `↓` - Navigate rows
+- `←` `→` - Navigate columns
+- `Space` - Select/deselect row
+- `Enter` - Activate row action
+- `Tab` - Move to next interactive element
+
+## Performance
+
+The DataTable is optimized for large datasets:
+
+- **Virtualization**: Only renders visible rows (handles 50,000+ rows)
+- **Memoization**: Columns and data are memoized to prevent unnecessary re-renders
+- **Efficient Sorting**: Uses optimized sorting algorithms
+- **Bundle Size**: 12kb gzipped (including dependencies)
+
+### Performance Tips
+
+1. **Memoize columns**: Use `useMemo` for column definitions
+2. **Use `getRowId`**: Provide a stable row identifier
+3. **Avoid inline functions**: Define cell renderers outside the component
+4. **Enable virtualization**: For datasets > 1000 rows
+
+```tsx
+const columns = useMemo(() => [
+  { id: 'name', header: 'Name', accessor: 'name' },
+  // ... other columns
+], [])
+
+<DataTable
+  data={data}
+  columns={columns}
+  getRowId={(row) => row.id}
+  virtualization={{ enabled: true }}
+/>
+```
+
+## Related Components
+
+- [List](/docs/components/list) - Simple list component for smaller datasets
+- [Tree](/docs/components/tree) - Hierarchical data display
+- [Form](/docs/components/form) - For editing table data

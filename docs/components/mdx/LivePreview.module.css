@@ -1,0 +1,173 @@
+.preview {
+    border: var(--border-width) solid var(--color-border-primary);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    margin: var(--space-6) 0;
+    background-color: var(--color-bg-primary);
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-bg-secondary);
+    border-bottom: var(--border-width) solid var(--color-border-primary);
+}
+
+.toolbarLeft {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.toolbarRight {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.label {
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: var(--font-medium);
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: none;
+    border: var(--border-width) solid var(--color-border-primary);
+    border-radius: var(--border-radius-sm);
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.button:hover {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+    border-color: var(--color-border-focus);
+}
+
+.button.active {
+    background-color: var(--color-accent-light);
+    color: var(--color-accent-primary);
+    border-color: var(--color-accent-primary);
+}
+
+.renderArea {
+    padding: var(--space-8);
+    min-height: 300px;
+    background-color: var(--color-bg-primary);
+}
+
+.renderArea.dark {
+    background-color: var(--color-bg-primary);
+}
+
+.codeArea {
+    position: relative;
+    background-color: var(--color-code-bg);
+    border-top: var(--border-width) solid var(--color-border-primary);
+}
+
+.codeHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-bg-tertiary);
+    border-bottom: var(--border-width) solid var(--color-border-primary);
+}
+
+.codeTitle {
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: var(--font-medium);
+}
+
+.copyButton {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    border-radius: var(--border-radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.copyButton:hover {
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+}
+
+.copyButton.copied {
+    color: var(--color-success);
+}
+
+.code {
+    padding: var(--space-4);
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+}
+
+.code pre {
+    margin: 0;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.error {
+    padding: var(--space-4);
+    background-color: rgba(222, 53, 11, 0.1);
+    border-left: 3px solid var(--color-error);
+    color: var(--color-error);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    margin: var(--space-4);
+}
+
+.tabs {
+    display: flex;
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-bg-secondary);
+    border-bottom: var(--border-width) solid var(--color-border-primary);
+}
+
+.tab {
+    padding: var(--space-2) var(--space-4);
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    cursor: pointer;
+    border-radius: var(--border-radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.tab:hover {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+}
+
+.tab.active {
+    background-color: var(--color-bg-primary);
+    color: var(--color-accent-primary);
+}

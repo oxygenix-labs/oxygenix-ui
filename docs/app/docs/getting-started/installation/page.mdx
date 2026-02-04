@@ -1,0 +1,54 @@
+# Installation
+
+Get started with Oxygenix UI in your React project.
+
+## Prerequisites
+
+- Node.js 18 or higher
+- React 18 or higher
+- TypeScript 5.0 or higher (recommended)
+
+## Package Manager
+
+Install Oxygenix UI using your preferred package manager:
+
+```bash
+# npm
+npm install @oxygenix-ui/core @oxygenix-ui/data @oxygenix-ui/forms
+
+# pnpm
+pnpm add @oxygenix-ui/core @oxygenix-ui/data @oxygenix-ui/forms
+
+# yarn
+yarn add @oxygenix-ui/core @oxygenix-ui/data @oxygenix-ui/forms
+```
+
+## Import Styles
+
+Import the base styles in your app's entry point:
+
+```tsx
+// app.tsx or index.tsx
+import '@oxygenix-ui/core/styles'
+```
+
+## TypeScript Configuration
+
+For the best development experience, update your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "bundler"
+  }
+}
+```
+
+## Next Steps
+
+- [Quick Start](/docs/getting-started/quick-start) - Build your first component
+- [Configuration](/docs/getting-started/configuration) - Customize theme and defaults
+- [Components](/docs/components/data-table) - Explore the component library

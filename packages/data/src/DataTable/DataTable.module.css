@@ -1,0 +1,207 @@
+.table-container {
+    width: 100%;
+    overflow: auto;
+    background: var(--oxy-color-bg-primary);
+    border: 1px solid var(--oxy-color-border-default);
+    border-radius: var(--oxy-radius-lg);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--oxy-font-size-sm);
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+.header {
+    background: var(--oxy-color-bg-secondary);
+    border-bottom: 2px solid var(--oxy-color-border-default);
+}
+
+.header-cell {
+    padding: var(--oxy-spacing-3) var(--oxy-spacing-4);
+    text-align: left;
+    font-weight: var(--oxy-font-weight-semibold);
+    color: var(--oxy-color-text-primary);
+    white-space: nowrap;
+    user-select: none;
+}
+
+.header-cell-sortable {
+    cursor: pointer;
+    transition: background-color var(--oxy-transition-fast);
+}
+
+.header-cell-sortable:hover {
+    background: var(--oxy-color-interactive-secondary-hover);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: var(--oxy-spacing-2);
+}
+
+.sort-icon {
+    display: inline-flex;
+    opacity: 0.5;
+    transition: opacity var(--oxy-transition-fast);
+}
+
+.header-cell-sorted .sort-icon {
+    opacity: 1;
+}
+
+/* ========================================
+   BODY
+   ======================================== */
+.body {
+    background: var(--oxy-color-bg-primary);
+}
+
+.row {
+    border-bottom: 1px solid var(--oxy-color-border-default);
+    transition: background-color var(--oxy-transition-fast);
+}
+
+.row:hover {
+    background: var(--oxy-color-bg-secondary);
+}
+
+.row-selected {
+    background: var(--oxy-primary-50);
+}
+
+[data-theme="dark"] .row-selected {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.row-clickable {
+    cursor: pointer;
+}
+
+.cell {
+    padding: var(--oxy-spacing-3) var(--oxy-spacing-4);
+    color: var(--oxy-color-text-primary);
+}
+
+.cell-align-left {
+    text-align: left;
+}
+
+.cell-align-center {
+    text-align: center;
+}
+
+.cell-align-right {
+    text-align: right;
+}
+
+/* ========================================
+   EMPTY STATE
+   ======================================== */
+.empty-state {
+    padding: var(--oxy-spacing-16) var(--oxy-spacing-8);
+    text-align: center;
+    color: var(--oxy-color-text-secondary);
+}
+
+.empty-state-title {
+    font-size: var(--oxy-font-size-lg);
+    font-weight: var(--oxy-font-weight-semibold);
+    margin-bottom: var(--oxy-spacing-2);
+    color: var(--oxy-color-text-primary);
+}
+
+.empty-state-description {
+    font-size: var(--oxy-font-size-sm);
+    color: var(--oxy-color-text-secondary);
+}
+
+/* ========================================
+   LOADING STATE
+   ======================================== */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--oxy-color-bg-overlay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--oxy-z-sticky);
+}
+
+/* ========================================
+   PAGINATION
+   ======================================== */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--oxy-spacing-4);
+    border-top: 1px solid var(--oxy-color-border-default);
+    background: var(--oxy-color-bg-secondary);
+}
+
+.pagination-info {
+    font-size: var(--oxy-font-size-sm);
+    color: var(--oxy-color-text-secondary);
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--oxy-spacing-2);
+}
+
+.pagination-button {
+    padding: var(--oxy-spacing-2) var(--oxy-spacing-3);
+    border: 1px solid var(--oxy-color-border-default);
+    background: var(--oxy-color-bg-primary);
+    color: var(--oxy-color-text-primary);
+    border-radius: var(--oxy-radius-base);
+    cursor: pointer;
+    font-size: var(--oxy-font-size-sm);
+    transition: all var(--oxy-transition-fast);
+}
+
+.pagination-button:hover:not(:disabled) {
+    background: var(--oxy-color-interactive-secondary-hover);
+    border-color: var(--oxy-color-border-hover);
+}
+
+.pagination-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+.table:focus-visible {
+    outline: 2px solid var(--oxy-color-border-focus);
+    outline-offset: 2px;
+}
+
+.row:focus-visible {
+    outline: 2px solid var(--oxy-color-border-focus);
+    outline-offset: -2px;
+}
+
+/* Screen reader only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}

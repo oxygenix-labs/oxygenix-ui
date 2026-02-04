@@ -1,0 +1,37 @@
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.button:hover {
+    background: var(--color-bg-subtle);
+    color: var(--color-text);
+    border-color: var(--color-border-hover);
+}
+
+.button:active {
+    transform: scale(0.95);
+}
+
+.button.copied {
+    color: #059669;
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+[data-theme="dark"] .button.copied {
+    color: #34d399;
+}
+
+.button span {
+    font-size: 13px;
+}

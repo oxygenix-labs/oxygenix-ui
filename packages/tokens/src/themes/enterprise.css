@@ -1,0 +1,241 @@
+/**
+ * Enterprise Theme - Light Mode
+ * 
+ * Professional color palette designed for enterprise applications.
+ * Optimized for readability and accessibility (WCAG 2.2 AA).
+ */
+
+:root {
+  /* ========================================
+     PRIMITIVE COLORS - Gray Scale
+     ======================================== */
+  --oxy-gray-50: #fafafa;
+  --oxy-gray-100: #f5f5f5;
+  --oxy-gray-200: #e5e5e5;
+  --oxy-gray-300: #d4d4d4;
+  --oxy-gray-400: #a3a3a3;
+  --oxy-gray-500: #737373;
+  --oxy-gray-600: #525252;
+  --oxy-gray-700: #404040;
+  --oxy-gray-800: #262626;
+  --oxy-gray-900: #171717;
+  --oxy-gray-950: #0a0a0a;
+
+  /* ========================================
+     PRIMITIVE COLORS - Primary (Blue)
+     ======================================== */
+  --oxy-primary-50: #eff6ff;
+  --oxy-primary-100: #dbeafe;
+  --oxy-primary-200: #bfdbfe;
+  --oxy-primary-300: #93c5fd;
+  --oxy-primary-400: #60a5fa;
+  --oxy-primary-500: #3b82f6;
+  --oxy-primary-600: #2563eb;
+  --oxy-primary-700: #1d4ed8;
+  --oxy-primary-800: #1e40af;
+  --oxy-primary-900: #1e3a8a;
+
+  /* ========================================
+     PRIMITIVE COLORS - Success (Green)
+     ======================================== */
+  --oxy-success-50: #f0fdf4;
+  --oxy-success-100: #dcfce7;
+  --oxy-success-200: #bbf7d0;
+  --oxy-success-300: #86efac;
+  --oxy-success-400: #4ade80;
+  --oxy-success-500: #22c55e;
+  --oxy-success-600: #16a34a;
+  --oxy-success-700: #15803d;
+  --oxy-success-800: #166534;
+  --oxy-success-900: #14532d;
+
+  /* ========================================
+     PRIMITIVE COLORS - Warning (Amber)
+     ======================================== */
+  --oxy-warning-50: #fffbeb;
+  --oxy-warning-100: #fef3c7;
+  --oxy-warning-200: #fde68a;
+  --oxy-warning-300: #fcd34d;
+  --oxy-warning-400: #fbbf24;
+  --oxy-warning-500: #f59e0b;
+  --oxy-warning-600: #d97706;
+  --oxy-warning-700: #b45309;
+  --oxy-warning-800: #92400e;
+  --oxy-warning-900: #78350f;
+
+  /* ========================================
+     PRIMITIVE COLORS - Error (Red)
+     ======================================== */
+  --oxy-error-50: #fef2f2;
+  --oxy-error-100: #fee2e2;
+  --oxy-error-200: #fecaca;
+  --oxy-error-300: #fca5a5;
+  --oxy-error-400: #f87171;
+  --oxy-error-500: #ef4444;
+  --oxy-error-600: #dc2626;
+  --oxy-error-700: #b91c1c;
+  --oxy-error-800: #991b1b;
+  --oxy-error-900: #7f1d1d;
+
+  /* ========================================
+     SEMANTIC COLORS - Backgrounds
+     ======================================== */
+  --oxy-color-bg-primary: var(--oxy-gray-50);
+  --oxy-color-bg-secondary: var(--oxy-gray-100);
+  --oxy-color-bg-tertiary: var(--oxy-gray-200);
+  --oxy-color-bg-inverse: var(--oxy-gray-900);
+  --oxy-color-bg-overlay: rgba(0, 0, 0, 0.5);
+
+  /* ========================================
+     SEMANTIC COLORS - Text
+     ======================================== */
+  --oxy-color-text-primary: var(--oxy-gray-900);
+  --oxy-color-text-secondary: var(--oxy-gray-600);
+  --oxy-color-text-tertiary: var(--oxy-gray-500);
+  --oxy-color-text-inverse: var(--oxy-gray-50);
+  --oxy-color-text-link: var(--oxy-primary-600);
+  --oxy-color-text-link-hover: var(--oxy-primary-700);
+
+  /* ========================================
+     SEMANTIC COLORS - Borders
+     ======================================== */
+  --oxy-color-border-default: var(--oxy-gray-300);
+  --oxy-color-border-hover: var(--oxy-gray-400);
+  --oxy-color-border-focus: var(--oxy-primary-500);
+  --oxy-color-border-error: var(--oxy-error-500);
+
+  /* ========================================
+     SEMANTIC COLORS - Interactive
+     ======================================== */
+  --oxy-color-interactive-primary: var(--oxy-primary-600);
+  --oxy-color-interactive-primary-hover: var(--oxy-primary-700);
+  --oxy-color-interactive-primary-active: var(--oxy-primary-800);
+  --oxy-color-interactive-secondary: var(--oxy-gray-200);
+  --oxy-color-interactive-secondary-hover: var(--oxy-gray-300);
+
+  /* ========================================
+     SPACING
+     ======================================== */
+  --oxy-spacing-1: 0.25rem;   /* 4px */
+  --oxy-spacing-2: 0.5rem;    /* 8px */
+  --oxy-spacing-3: 0.75rem;   /* 12px */
+  --oxy-spacing-4: 1rem;      /* 16px */
+  --oxy-spacing-5: 1.25rem;   /* 20px */
+  --oxy-spacing-6: 1.5rem;    /* 24px */
+  --oxy-spacing-8: 2rem;      /* 32px */
+  --oxy-spacing-10: 2.5rem;   /* 40px */
+  --oxy-spacing-12: 3rem;     /* 48px */
+  --oxy-spacing-16: 4rem;     /* 64px */
+
+  /* ========================================
+     TYPOGRAPHY
+     ======================================== */
+  --oxy-font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --oxy-font-family-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  --oxy-font-size-xs: 0.75rem;     /* 12px */
+  --oxy-font-size-sm: 0.875rem;    /* 14px */
+  --oxy-font-size-base: 1rem;      /* 16px */
+  --oxy-font-size-lg: 1.125rem;    /* 18px */
+  --oxy-font-size-xl: 1.25rem;     /* 20px */
+  --oxy-font-size-2xl: 1.5rem;     /* 24px */
+  --oxy-font-size-3xl: 1.875rem;   /* 30px */
+  --oxy-font-size-4xl: 2.25rem;    /* 36px */
+
+  --oxy-font-weight-normal: 400;
+  --oxy-font-weight-medium: 500;
+  --oxy-font-weight-semibold: 600;
+  --oxy-font-weight-bold: 700;
+
+  --oxy-line-height-tight: 1.25;
+  --oxy-line-height-normal: 1.5;
+  --oxy-line-height-relaxed: 1.75;
+
+  /* ========================================
+     BORDER RADIUS
+     ======================================== */
+  --oxy-radius-sm: 0.125rem;   /* 2px */
+  --oxy-radius-base: 0.25rem;  /* 4px */
+  --oxy-radius-md: 0.375rem;   /* 6px */
+  --oxy-radius-lg: 0.5rem;     /* 8px */
+  --oxy-radius-xl: 0.75rem;    /* 12px */
+  --oxy-radius-2xl: 1rem;      /* 16px */
+  --oxy-radius-full: 9999px;
+
+  /* ========================================
+     SHADOWS
+     ======================================== */
+  --oxy-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --oxy-shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --oxy-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --oxy-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --oxy-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* ========================================
+     Z-INDEX
+     ======================================== */
+  --oxy-z-dropdown: 1000;
+  --oxy-z-sticky: 1100;
+  --oxy-z-fixed: 1200;
+  --oxy-z-modal-backdrop: 1300;
+  --oxy-z-modal: 1400;
+  --oxy-z-popover: 1500;
+  --oxy-z-tooltip: 1600;
+  --oxy-z-toast: 1700;
+
+  /* ========================================
+     TRANSITIONS
+     ======================================== */
+  --oxy-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --oxy-transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --oxy-transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================================
+   DARK THEME
+   ======================================== */
+[data-theme="dark"] {
+  /* Semantic colors for dark mode */
+  --oxy-color-bg-primary: var(--oxy-gray-900);
+  --oxy-color-bg-secondary: var(--oxy-gray-800);
+  --oxy-color-bg-tertiary: var(--oxy-gray-700);
+  --oxy-color-bg-inverse: var(--oxy-gray-50);
+  --oxy-color-bg-overlay: rgba(0, 0, 0, 0.7);
+
+  --oxy-color-text-primary: var(--oxy-gray-50);
+  --oxy-color-text-secondary: var(--oxy-gray-400);
+  --oxy-color-text-tertiary: var(--oxy-gray-500);
+  --oxy-color-text-inverse: var(--oxy-gray-900);
+  --oxy-color-text-link: var(--oxy-primary-400);
+  --oxy-color-text-link-hover: var(--oxy-primary-300);
+
+  --oxy-color-border-default: var(--oxy-gray-700);
+  --oxy-color-border-hover: var(--oxy-gray-600);
+  --oxy-color-border-focus: var(--oxy-primary-500);
+
+  --oxy-color-interactive-primary: var(--oxy-primary-500);
+  --oxy-color-interactive-primary-hover: var(--oxy-primary-400);
+  --oxy-color-interactive-primary-active: var(--oxy-primary-600);
+  --oxy-color-interactive-secondary: var(--oxy-gray-700);
+  --oxy-color-interactive-secondary-hover: var(--oxy-gray-600);
+}
+
+/* ========================================
+   GLOBAL RESETS & BASE STYLES
+   ======================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--oxy-font-family-sans);
+  font-size: var(--oxy-font-size-base);
+  line-height: var(--oxy-line-height-normal);
+  color: var(--oxy-color-text-primary);
+  background-color: var(--oxy-color-bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -1,0 +1,304 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ============================================
+   DESIGN SYSTEM - Radix-Inspired
+   Calm, Dense, Confident, Enterprise-grade
+   ============================================ */
+
+/* CSS Variables */
+:root {
+    /* Typography */
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-mono: "JetBrains Mono", "Fira Code", Consolas, monospace;
+
+    /* Spacing (4px base) */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+    --space-16: 64px;
+
+    /* Colors - Neutral Palette */
+    --gray-50: #fafafa;
+    --gray-100: #f5f5f5;
+    --gray-200: #e5e5e5;
+    --gray-300: #d4d4d4;
+    --gray-400: #a3a3a3;
+    --gray-500: #737373;
+    --gray-600: #525252;
+    --gray-700: #404040;
+    --gray-800: #262626;
+    --gray-900: #171717;
+
+    /* Accent */
+    --accent: #0066ff;
+    --accent-hover: #0052cc;
+
+    /* Semantic Colors */
+    --color-bg: #ffffff;
+    --color-bg-subtle: var(--gray-50);
+    --color-bg-muted: var(--gray-100);
+    --color-text: var(--gray-900);
+    --color-text-secondary: var(--gray-600);
+    --color-text-tertiary: var(--gray-500);
+    --color-border: var(--gray-200);
+    --color-border-hover: var(--gray-300);
+
+    /* Layout */
+    --sidebar-width: 240px;
+    --toc-width: 200px;
+    --content-max-width: 720px;
+    --header-height: 48px;
+}
+
+[data-theme="dark"] {
+    --color-bg: #0a0a0a;
+    --color-bg-subtle: var(--gray-900);
+    --color-bg-muted: var(--gray-800);
+    --color-text: var(--gray-50);
+    --color-text-secondary: var(--gray-400);
+    --color-text-tertiary: var(--gray-500);
+    --color-border: var(--gray-800);
+    --color-border-hover: var(--gray-700);
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 var(--space-4) 0;
+}
+
+h2 {
+    font-size: 24px;
+    margin: var(--space-12) 0 var(--space-4) 0;
+}
+
+h3 {
+    font-size: 18px;
+    margin: var(--space-8) 0 var(--space-3) 0;
+}
+
+h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: var(--space-6) 0 var(--space-2) 0;
+}
+
+p {
+    margin-bottom: var(--space-4);
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background-color: var(--color-bg-muted);
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--color-border);
+}
+
+pre {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    background-color: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: var(--space-4);
+    margin: var(--space-6) 0;
+    overflow-x: auto;
+}
+
+pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+}
+
+/* ============================================
+   LISTS
+   ============================================ */
+
+ul,
+ol {
+    margin-bottom: var(--space-4);
+    padding-left: var(--space-6);
+}
+
+li {
+    margin-bottom: var(--space-2);
+}
+
+li>ul,
+li>ol {
+    margin-top: var(--space-2);
+    margin-bottom: 0;
+}
+
+/* ============================================
+   TABLES
+   ============================================ */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--space-6) 0;
+    font-size: 14px;
+}
+
+thead {
+    border-bottom: 1px solid var(--color-border);
+}
+
+th {
+    text-align: left;
+    font-weight: 600;
+    padding: var(--space-2) var(--space-3);
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+td {
+    padding: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* ============================================
+   BLOCKQUOTES
+   ============================================ */
+
+blockquote {
+    border-left: 2px solid var(--accent);
+    padding-left: var(--space-4);
+    margin: var(--space-6) 0;
+    color: var(--color-text-secondary);
+    font-style: italic;
+}
+
+/* ============================================
+   HORIZONTAL RULE
+   ============================================ */
+
+hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: var(--space-12) 0;
+}
+
+/* ============================================
+   UTILITIES
+   ============================================ */
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* ============================================
+   PROSE (MDX Content)
+   ============================================ */
+
+.prose {
+    max-width: var(--content-max-width);
+}
+
+.prose>*+* {
+    margin-top: var(--space-4);
+}
+
+.prose>h2+*,
+.prose>h3+* {
+    margin-top: var(--space-3);
+}
+
+/* ============================================
+   SMOOTH SCROLLING
+   ============================================ */
+
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
