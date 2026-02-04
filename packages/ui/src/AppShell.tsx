@@ -1,6 +1,6 @@
 /**
  * AppShell Component
- * 
+ *
  * Main application layout with header, sidebar, and content areas
  */
 
@@ -9,46 +9,31 @@ import { cn } from '@oxygenix-ui/core';
 import styles from './Layout.module.css';
 
 export interface AppShellProps {
-    /** Sidebar content */
-    sidebar?: ReactNode;
+  /** Sidebar content */
+  sidebar?: ReactNode;
 
-    /** Header content */
-    header?: ReactNode;
+  /** Header content */
+  header?: ReactNode;
 
-    /** Main content */
-    children: ReactNode;
+  /** Main content */
+  children: ReactNode;
 
-    /** Additional CSS class */
-    className?: string;
+  /** Additional CSS class */
+  className?: string;
 }
 
 export function AppShell(props: AppShellProps) {
-    const {
-        sidebar,
-        header,
-        children,
-        className,
-    } = props;
+  const { sidebar, header, children, className } = props;
 
-    return (
-        <div className={cn(styles['app-shell'], className)}>
-            {sidebar && (
-                <aside className={styles['app-shell-sidebar']}>
-                    {sidebar}
-                </aside>
-            )}
-            <div className={styles['app-shell-main']}>
-                {header && (
-                    <header className={styles['app-shell-header']}>
-                        {header}
-                    </header>
-                )}
-                <main className={styles['app-shell-content']}>
-                    {children}
-                </main>
-            </div>
-        </div>
-    );
+  return (
+    <div className={cn(styles['app-shell'], className)}>
+      {sidebar && <aside className={styles['app-shell-sidebar']}>{sidebar}</aside>}
+      <div className={styles['app-shell-main']}>
+        {header && <header className={styles['app-shell-header']}>{header}</header>}
+        <main className={styles['app-shell-content']}>{children}</main>
+      </div>
+    </div>
+  );
 }
 
 AppShell.displayName = 'AppShell';

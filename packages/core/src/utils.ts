@@ -5,7 +5,7 @@
 /**
  * Combines multiple class names into a single string
  * Filters out falsy values
- * 
+ *
  * @example
  * ```tsx
  * cn('base-class', isActive && 'active', 'another-class')
@@ -13,13 +13,13 @@
  * ```
  */
 export function cn(...classes: Array<string | boolean | undefined | null>): string {
-    return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(' ');
 }
 
 /**
  * Generates a unique ID
  * Useful for accessibility attributes (aria-labelledby, aria-describedby)
- * 
+ *
  * @example
  * ```tsx
  * const id = generateId('field');
@@ -28,13 +28,13 @@ export function cn(...classes: Array<string | boolean | undefined | null>): stri
  */
 let idCounter = 0;
 export function generateId(prefix = 'oxy'): string {
-    idCounter += 1;
-    return `${prefix}-${idCounter}-${Math.random().toString(36).substr(2, 9)}`;
+  idCounter += 1;
+  return `${prefix}-${idCounter}-${Math.random().toString(36).substr(2, 9)}`;
 }
 
 /**
  * Clamps a number between min and max values
- * 
+ *
  * @example
  * ```tsx
  * clamp(5, 0, 10)  // Returns: 5
@@ -43,7 +43,5 @@ export function generateId(prefix = 'oxy'): string {
  * ```
  */
 export function clamp(value: number, min: number, max: number): number {
-    return Math.min(Math.max(value, min), max);
+  return Math.min(Math.max(value, min), max);
 }
-
-

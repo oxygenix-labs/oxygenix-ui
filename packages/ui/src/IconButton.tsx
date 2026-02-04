@@ -1,6 +1,6 @@
 /**
  * IconButton Component
- * 
+ *
  * Compact button for icons only - perfect for toolbars, tables, and dense UIs
  */
 
@@ -11,40 +11,31 @@ import styles from './UI.module.css';
 export type IconButtonSize = 'sm' | 'md' | 'lg';
 
 export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    /** Icon to display */
-    icon: ReactNode;
+  /** Icon to display */
+  icon: ReactNode;
 
-    /** Accessible label (required for screen readers) */
-    'aria-label': string;
+  /** Accessible label (required for screen readers) */
+  'aria-label': string;
 
-    /** Button size */
-    size?: IconButtonSize;
+  /** Button size */
+  size?: IconButtonSize;
 
-    /** Additional CSS class */
-    className?: string;
+  /** Additional CSS class */
+  className?: string;
 }
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) => {
-    const {
-        icon,
-        size = 'md',
-        className,
-        ...rest
-    } = props;
+  const { icon, size = 'md', className, ...rest } = props;
 
-    return (
-        <button
-            ref={ref}
-            className={cn(
-                styles['icon-button'],
-                styles[`icon-button-${size}`],
-                className
-            )}
-            {...rest}
-        >
-            {icon}
-        </button>
-    );
+  return (
+    <button
+      ref={ref}
+      className={cn(styles['icon-button'], styles[`icon-button-${size}`], className)}
+      {...rest}
+    >
+      {icon}
+    </button>
+  );
 });
 
 IconButton.displayName = 'IconButton';

@@ -1,6 +1,6 @@
 /**
  * Stack Component
- * 
+ *
  * Vertical/horizontal spacing utility (Radix-style)
  */
 
@@ -14,54 +14,54 @@ export type StackJustify = 'start' | 'center' | 'end' | 'between';
 export type StackGap = 1 | 2 | 3 | 4 | 5 | 6 | 8;
 
 export interface StackProps {
-    /** Stack direction */
-    direction?: StackDirection;
+  /** Stack direction */
+  direction?: StackDirection;
 
-    /** Align items */
-    align?: StackAlign;
+  /** Align items */
+  align?: StackAlign;
 
-    /** Justify content */
-    justify?: StackJustify;
+  /** Justify content */
+  justify?: StackJustify;
 
-    /** Gap between items (spacing scale) */
-    gap?: StackGap;
+  /** Gap between items (spacing scale) */
+  gap?: StackGap;
 
-    /** Children */
-    children: ReactNode;
+  /** Children */
+  children: ReactNode;
 
-    /** Additional CSS class */
-    className?: string;
+  /** Additional CSS class */
+  className?: string;
 
-    /** Inline styles */
-    style?: CSSProperties;
+  /** Inline styles */
+  style?: CSSProperties;
 }
 
 export function Stack(props: StackProps) {
-    const {
-        direction = 'vertical',
-        align = 'stretch',
-        justify = 'start',
-        gap = 4,
-        children,
-        className,
-        style,
-    } = props;
+  const {
+    direction = 'vertical',
+    align = 'stretch',
+    justify = 'start',
+    gap = 4,
+    children,
+    className,
+    style,
+  } = props;
 
-    return (
-        <div
-            className={cn(
-                styles.stack,
-                styles[`stack-${direction}`],
-                styles[`stack-align-${align}`],
-                styles[`stack-justify-${justify}`],
-                styles[`stack-gap-${gap}`],
-                className
-            )}
-            style={style}
-        >
-            {children}
-        </div>
-    );
+  return (
+    <div
+      className={cn(
+        styles.stack,
+        styles[`stack-${direction}`],
+        styles[`stack-align-${align}`],
+        styles[`stack-justify-${justify}`],
+        styles[`stack-gap-${gap}`],
+        className
+      )}
+      style={style}
+    >
+      {children}
+    </div>
+  );
 }
 
 Stack.displayName = 'Stack';

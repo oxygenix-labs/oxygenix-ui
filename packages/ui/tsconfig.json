@@ -1,24 +1,19 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-        "outDir": "./dist",
-        "rootDir": "./src",
-        "composite": true,
-        "declaration": true
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "composite": true,
+    "declaration": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"],
+  "references": [
+    {
+      "path": "../core"
     },
-    "include": [
-        "src"
-    ],
-    "exclude": [
-        "node_modules",
-        "dist"
-    ],
-    "references": [
-        {
-            "path": "../core"
-        },
-        {
-            "path": "../tokens"
-        }
-    ]
+    {
+      "path": "../tokens"
+    }
+  ]
 }

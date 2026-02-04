@@ -18,7 +18,8 @@
     "format:check": "prettier --check \"packages/**/*.{ts,tsx,json,md}\"",
     "clean": "pnpm -r clean && rm -rf node_modules",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^8.6.14",
@@ -40,7 +41,10 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "husky": "^9.1.7",
     "jsdom": "^28.0.0",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.0",
@@ -53,5 +57,14 @@
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
   }
 }
