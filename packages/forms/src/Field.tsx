@@ -31,23 +31,15 @@ export function Field(props: FieldProps) {
         'aria-describedby': ariaDescribedBy,
     } = props;
 
-    const { form, permissions } = useFormContext();
+    // All hooks must be called unconditionally at the top level
+    const { form, permissions: formPermissions } = useFormContext();
     const { control, watch } = form;
 
-    // Check permissions
-    const canEdit = permissions?.canEdit?.(name) ?? true;
-    const canView = permissions?.canView?.(name) ?? true;
+    // Check permissions inline
+    const canEdit = formPermissions?.canEdit?.(name) ?? true;
+    const canView = formPermissions?.canView?.(name) ?? true;
 
-    // Check condition
-    const formValues = watch();
-    const shouldRender = condition ? condition(formValues) : true;
-
-    // Don't render if condition is false or no view permission
-    if (!shouldRender || !canView) {
-        return null;
-    }
-
-    // Use controller for field state
+    // Use controller for field state (must be called unconditionally)
     const {
         field,
         fieldState: { error, isDirty, isTouched },
@@ -58,7 +50,7 @@ export function Field(props: FieldProps) {
         rules: {
             required: required ? 'This field is required' : false,
             ...(validate && {
-                validate: async (value: any) => {
+                validate: async (value: unknown) => { // Changed type from 'any' to 'unknown'
                     const validators = Array.isArray(validate) ? validate : [validate];
 
                     for (const validator of validators) {
@@ -74,10 +66,19 @@ export function Field(props: FieldProps) {
         },
     });
 
-    // Generate IDs for accessibility
+    // Generate IDs for accessibility (must be called unconditionally)
     const fieldId = useMemo(() => generateId('field'), []);
     const errorId = useMemo(() => generateId('error'), []);
     const descriptionId = useMemo(() => generateId('description'), []);
+
+    // Check condition (derived state, can be after hooks)
+    const formValues = watch();
+    const shouldRender = condition ? condition(formValues) : true;
+
+    // Don't render if condition is false or no view permission
+    if (!shouldRender || !canView) {
+        return null;
+    }
 
     // Custom render
     if (render) {

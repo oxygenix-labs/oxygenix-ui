@@ -55,6 +55,13 @@ export function Toast(props: ToastProps) {
 
     const [exiting, setExiting] = useState(false);
 
+    const handleClose = () => {
+        setExiting(true);
+        setTimeout(() => {
+            onClose?.();
+        }, 200); // Match animation duration
+    };
+
     useEffect(() => {
         if (duration > 0) {
             const timer = setTimeout(() => {
@@ -63,14 +70,7 @@ export function Toast(props: ToastProps) {
 
             return () => clearTimeout(timer);
         }
-    }, [duration]);
-
-    const handleClose = () => {
-        setExiting(true);
-        setTimeout(() => {
-            onClose?.();
-        }, 200); // Match animation duration
-    };
+    }, [duration, handleClose]);
 
     return (
         <div

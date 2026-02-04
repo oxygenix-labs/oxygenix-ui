@@ -57,6 +57,14 @@ export function Modal(props: ModalProps) {
         setMounted(true);
     }, []);
 
+    const handleClose = () => {
+        setExiting(true);
+        setTimeout(() => {
+            setExiting(false);
+            onClose();
+        }, 200); // Match animation duration
+    };
+
     useEffect(() => {
         if (!open) return;
 
@@ -85,15 +93,7 @@ export function Modal(props: ModalProps) {
             document.removeEventListener('keydown', handleEscape);
             document.body.style.overflow = '';
         };
-    }, [open, closeOnEscape]);
-
-    const handleClose = () => {
-        setExiting(true);
-        setTimeout(() => {
-            setExiting(false);
-            onClose();
-        }, 200); // Match animation duration
-    };
+    }, [open, closeOnEscape, handleClose]);
 
     const handleOverlayClick = (e: React.MouseEvent) => {
         if (closeOnOverlayClick && e.target === e.currentTarget) {
@@ -115,7 +115,15 @@ export function Modal(props: ModalProps) {
             />
 
             {/* Container */}
-            <div className={styles['modal-container']} onClick={handleOverlayClick}>
+            <div
+                className={styles['modal-container']}
+                onClick={handleOverlayClick}
+                onKeyDown={(e) => {
+                    if (e.key === 'Escape') {
+                        handleClose();
+                    }
+                }}
+            >
                 <div
                     ref={modalRef}
                     className={cn(

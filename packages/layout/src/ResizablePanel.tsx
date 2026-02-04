@@ -133,7 +133,15 @@ export function ResizablePanel(props: ResizablePanelProps) {
             <div
                 className={handleClassName}
                 onMouseDown={handleMouseDown}
+                onKeyDown={(e) => {
+                    // Allow keyboard control for accessibility
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleMouseDown(e as unknown as React.MouseEvent);
+                    }
+                }}
                 role="separator"
+                tabIndex={0}
                 aria-orientation={isHorizontal ? 'vertical' : 'horizontal'}
                 aria-valuenow={size}
                 aria-valuemin={minSize}

@@ -35,7 +35,6 @@ export function Divider(props: DividerProps) {
                 dashed && styles['divider-dashed'],
                 className
             )}
-            role="separator"
             aria-orientation={orientation}
             {...rest}
         />

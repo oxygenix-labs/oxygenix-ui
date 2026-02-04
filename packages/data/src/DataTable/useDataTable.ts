@@ -181,7 +181,7 @@ export function useDataTable<T = any>(
             }
             return 0;
         });
-    }, [data, sortState, sortingConfig, columns]);
+    }, [data, sortState, sortingConfig, columns]); // getCellValue is stable, defined below
 
     // Paginated data
     const paginatedRows = useMemo(() => {
