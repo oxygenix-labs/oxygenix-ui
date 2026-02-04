@@ -150,42 +150,4 @@ export type FormErrors<T = any> = {
     [K in keyof T]?: FieldError | FormErrors<T[K]>;
 };
 
-/**
- * Utility type to make specific keys required
- */
-export type RequireKeys<T, K extends keyof T> = T & Required<Pick<T, K>>;
 
-/**
- * Utility type to make specific keys optional
- */
-export type OptionalKeys<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
-
-/**
- * Utility type for deep partial
- */
-export type DeepPartial<T> = {
-    [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
-};
-
-/**
- * Utility type for readonly deep
- */
-export type DeepReadonly<T> = {
-    readonly [P in keyof T]: T[P] extends object ? DeepReadonly<T[P]> : T[P];
-};
-
-/**
- * Utility type to extract function arguments
- */
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type ArgumentTypes<F extends Function> = F extends (...args: infer A) => any
-    ? A
-    : never;
-
-/**
- * Utility type to extract function return type
- */
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type ReturnType<F extends Function> = F extends (...args: any[]) => infer R
-    ? R
-    : never;
