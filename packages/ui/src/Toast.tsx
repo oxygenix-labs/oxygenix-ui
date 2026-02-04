@@ -4,7 +4,7 @@
  * Promise-aware toast notifications with auto-dismiss
  */
 
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '@oxygenix-ui/core';
 import styles from './Feedback.module.css';
@@ -55,12 +55,12 @@ export function Toast(props: ToastProps) {
 
     const [exiting, setExiting] = useState(false);
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setExiting(true);
         setTimeout(() => {
             onClose?.();
         }, 200); // Match animation duration
-    };
+    }, [onClose]);
 
     useEffect(() => {
         if (duration > 0) {

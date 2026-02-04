@@ -177,6 +177,7 @@ export type DeepReadonly<T> = {
 /**
  * Utility type to extract function arguments
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type ArgumentTypes<F extends Function> = F extends (...args: infer A) => any
     ? A
     : never;
@@ -184,6 +185,7 @@ export type ArgumentTypes<F extends Function> = F extends (...args: infer A) => 
 /**
  * Utility type to extract function return type
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type ReturnType<F extends Function> = F extends (...args: any[]) => infer R
     ? R
     : never;

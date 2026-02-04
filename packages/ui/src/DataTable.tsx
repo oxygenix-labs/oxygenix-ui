@@ -155,7 +155,7 @@ export function DataTable<T = any>(props: DataTableProps<T>) {
     };
 
     // Sort data
-    let sortedData = [...data];
+    const sortedData = [...data];
     if (activeSortColumn && activeSortDirection) {
         sortedData.sort((a, b) => {
             const aValue = (a as any)[activeSortColumn];

@@ -130,6 +130,7 @@ export function ResizablePanel(props: ResizablePanelProps) {
         >
             {children}
 
+            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
             <div
                 className={handleClassName}
                 onMouseDown={handleMouseDown}
@@ -141,6 +142,7 @@ export function ResizablePanel(props: ResizablePanelProps) {
                     }
                 }}
                 role="separator"
+                // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
                 tabIndex={0}
                 aria-orientation={isHorizontal ? 'vertical' : 'horizontal'}
                 aria-valuenow={size}

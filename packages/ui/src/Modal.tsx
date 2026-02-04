@@ -4,7 +4,7 @@
  * Accessible, focus-trapped, composable modal dialog
  */
 
-import { ReactNode, useEffect, useState, useRef } from 'react';
+import { ReactNode, useEffect, useState, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '@oxygenix-ui/core';
 import styles from './Navigation.module.css';
@@ -57,13 +57,13 @@ export function Modal(props: ModalProps) {
         setMounted(true);
     }, []);
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setExiting(true);
         setTimeout(() => {
             setExiting(false);
             onClose();
         }, 200); // Match animation duration
-    };
+    }, [onClose]);
 
     useEffect(() => {
         if (!open) return;
@@ -106,6 +106,7 @@ export function Modal(props: ModalProps) {
     return createPortal(
         <>
             {/* Overlay */}
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div
                 className={cn(
                     styles['modal-overlay'],
@@ -115,6 +116,7 @@ export function Modal(props: ModalProps) {
             />
 
             {/* Container */}
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div
                 className={styles['modal-container']}
                 onClick={handleOverlayClick}

@@ -71,6 +71,20 @@ export function useDataTable<T = any>(
     } = props;
 
     // ========================================
+    // UTILITIES
+    // ========================================
+
+    const getCellValue = useCallback((row: T, column: Column<T>) => {
+        if (column.accessor) {
+            if (typeof column.accessor === 'function') {
+                return column.accessor(row);
+            }
+            return row[column.accessor];
+        }
+        return undefined;
+    }, []);
+
+    // ========================================
     // SORTING STATE
     // ========================================
     const [sortState, setSortState] = useState<SortingState>(
@@ -181,7 +195,7 @@ export function useDataTable<T = any>(
             }
             return 0;
         });
-    }, [data, sortState, sortingConfig, columns]); // getCellValue is stable, defined below
+    }, [data, sortState, sortingConfig, columns, getCellValue]);
 
     // Paginated data
     const paginatedRows = useMemo(() => {
@@ -250,19 +264,7 @@ export function useDataTable<T = any>(
         }
     }, [isAllSelected, selectableRowIds]);
 
-    // ========================================
-    // UTILITIES
-    // ========================================
 
-    const getCellValue = useCallback((row: T, column: Column<T>) => {
-        if (column.accessor) {
-            if (typeof column.accessor === 'function') {
-                return column.accessor(row);
-            }
-            return row[column.accessor];
-        }
-        return undefined;
-    }, []);
 
     return {
         // Data

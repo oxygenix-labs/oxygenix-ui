@@ -14,16 +14,14 @@ export function DataTable<T = any>(props: DataTableProps<T>) {
     const {
         data,
         columns,
-        sorting,
-        pagination,
-        selection,
+        sorting: sortingConfig,
+        pagination: paginationConfig,
+        selection: selectionConfig,
         onRowClick,
         rowClassName,
         slots,
         loading = false,
         error,
-        serverSide,
-        virtualization,
         getRowId = (row: any) => row.id || String(row),
         className,
         style,
@@ -34,9 +32,9 @@ export function DataTable<T = any>(props: DataTableProps<T>) {
     const table = useDataTable({
         data,
         columns,
-        ...(sorting && { sorting }),
-        ...(pagination && { pagination }),
-        ...(selection && { selection }),
+        ...(sortingConfig && { sorting: sortingConfig }),
+        ...(paginationConfig && { pagination: paginationConfig }),
+        ...(selectionConfig && { selection: selectionConfig }),
         getRowId,
     });
 
@@ -45,10 +43,16 @@ export function DataTable<T = any>(props: DataTableProps<T>) {
     // ========================================
 
     const renderHeader = (column: typeof columns[0]) => {
+        // Sorting State
+        const activeSort =
+            table.sortState.length > 0 ? table.sortState[0] : sortingConfig?.sortState?.[0];
+        const sortColumn = activeSort?.column;
+        const sortDirection = activeSort?.direction;
+
         const context: HeaderContext = {
             column,
-            isSorted: !!table.getSortDirection(column.id),
-            sortDirection: table.getSortDirection(column.id),
+            isSorted: sortColumn === column.id,
+            sortDirection: sortColumn === column.id ? sortDirection : undefined,
             isFiltered: false,
         };
 
@@ -56,7 +60,7 @@ export function DataTable<T = any>(props: DataTableProps<T>) {
             ? column.header(context)
             : column.header;
 
-        const isSortable = sorting?.enabled && column.sortable;
+        const isSortable = sortingConfig?.enabled && column.sortable;
 
         return (
             <th
@@ -132,7 +136,7 @@ export function DataTable<T = any>(props: DataTableProps<T>) {
     const renderRow = (row: T, index: number) => {
         const rowId = getRowId(row);
         const isSelected = table.isRowSelected(rowId);
-        const isClickable = !!onRowClick;
+        const isClickable = !!onRowClick || selectionConfig?.selectOnRowClick;
 
         return (
             <tr
@@ -144,7 +148,7 @@ export function DataTable<T = any>(props: DataTableProps<T>) {
                     rowClassName?.(row)
                 )}
                 onClick={(e) => {
-                    if (selection?.selectOnRowClick) {
+                    if (selectionConfig?.selectOnRowClick) {
                         table.toggleRowSelection(rowId);
                     }
                     onRowClick?.(row, e);
@@ -213,19 +217,20 @@ export function DataTable<T = any>(props: DataTableProps<T>) {
                 </tbody>
             </table>
 
-            {pagination?.enabled && (
-                <div className={styles.pagination}>
-                    <div className={styles['pagination-info']}>
-                        {pagination.showPageInfo && (
+            {paginationConfig && (
+                <div className={styles['datatable-pagination']}>
+                    <div className={styles['datatable-pagination-info']}>
+                        {paginationConfig.showPageInfo && (
                             <span>
-                                Page {table.currentPage} of {table.totalPages} ({data.length} total rows)
+                                Page {table.currentPage} of {table.totalPages} (
+                                {table.rows.length} items)
                             </span>
                         )}
                     </div>
 
-                    <div className={styles['pagination-controls']}>
+                    <div className={styles['datatable-pagination-controls']}>
                         <button
-                            className={styles['pagination-button']}
+                            className={styles['datatable-pagination-button']}
                             onClick={table.previousPage}
                             disabled={!table.canPreviousPage}
                             aria-label="Previous page"
@@ -233,12 +238,12 @@ export function DataTable<T = any>(props: DataTableProps<T>) {
                             Previous
                         </button>
 
-                        <span className={styles['pagination-info']}>
+                        <span className={styles['datatable-pagination-info']}>
                             {table.currentPage} / {table.totalPages}
                         </span>
 
                         <button
-                            className={styles['pagination-button']}
+                            className={styles['datatable-pagination-button']}
                             onClick={table.nextPage}
                             disabled={!table.canNextPage}
                             aria-label="Next page"
