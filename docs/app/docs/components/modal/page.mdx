@@ -1,0 +1,411 @@
+---
+title: "Modal"
+description: "Accessible, focus-trapped modal dialog with 5 sizes, portal rendering, and smooth animations"
+---
+
+# Modal
+
+Accessible, focus-trapped modal dialog component with 5 sizes, escape key to close, overlay click to close, portal rendering for proper z-index, and smooth animations. Fully composable with ModalBody and ModalFooter.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/ui
+```
+
+## Basic Usage
+
+```tsx
+import { Modal, ModalBody, ModalFooter } from '@oxygenix-ui/ui';
+import { useState } from 'react';
+
+function MyComponent() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Open Modal</Button>
+
+      <Modal open={open} onClose={() => setOpen(false)} title="My Modal">
+        <ModalBody>
+          <p>Modal content goes here</p>
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
+          <Button onClick={() => setOpen(false)}>Confirm</Button>
+        </ModalFooter>
+      </Modal>
+    </>
+  );
+}
+```
+
+## Sizes
+
+### Small
+
+```tsx
+<Modal open={open} onClose={onClose} size="sm" title="Small Modal">
+  <ModalBody>Compact modal for simple confirmations</ModalBody>
+</Modal>
+```
+
+### Medium (Default)
+
+```tsx
+<Modal open={open} onClose={onClose} size="md" title="Medium Modal">
+  <ModalBody>Standard modal size</ModalBody>
+</Modal>
+```
+
+### Large
+
+```tsx
+<Modal open={open} onClose={onClose} size="lg" title="Large Modal">
+  <ModalBody>Large modal for forms and detailed content</ModalBody>
+</Modal>
+```
+
+### Extra Large
+
+```tsx
+<Modal open={open} onClose={onClose} size="xl" title="Extra Large Modal">
+  <ModalBody>Extra large modal for complex content</ModalBody>
+</Modal>
+```
+
+### Full Screen
+
+```tsx
+<Modal open={open} onClose={onClose} size="full" title="Full Screen Modal">
+  <ModalBody>Full screen modal</ModalBody>
+</Modal>
+```
+
+## Features
+
+### Focus Trap
+
+Focus is automatically trapped inside the modal.
+
+```tsx
+<Modal open={open} onClose={onClose} title="Form Modal">
+  <ModalBody>
+    <input type="text" placeholder="First field (auto-focused)" />
+    <input type="text" placeholder="Second field" />
+  </ModalBody>
+  <ModalFooter>
+    <Button>Submit</Button>
+  </ModalFooter>
+</Modal>
+```
+
+### Escape Key to Close
+
+Press Escape to close the modal.
+
+```tsx
+<Modal
+  open={open}
+  onClose={onClose}
+  closeOnEscape={true} // Default
+  title="Closable Modal"
+>
+  <ModalBody>Press Escape to close</ModalBody>
+</Modal>
+```
+
+### Overlay Click to Close
+
+Click outside to close the modal.
+
+```tsx
+<Modal
+  open={open}
+  onClose={onClose}
+  closeOnOverlayClick={true} // Default
+  title="Closable Modal"
+>
+  <ModalBody>Click outside to close</ModalBody>
+</Modal>
+```
+
+### Prevent Close
+
+Disable escape and overlay close for critical actions.
+
+```tsx
+<Modal
+  open={open}
+  onClose={onClose}
+  closeOnEscape={false}
+  closeOnOverlayClick={false}
+  title="Critical Action"
+>
+  <ModalBody>
+    <Alert variant="warning" title="This action cannot be undone" />
+  </ModalBody>
+  <ModalFooter>
+    <Button variant="ghost" onClick={onClose}>Cancel</Button>
+    <Button variant="error" onClick={handleDelete}>Delete</Button>
+  </ModalFooter>
+</Modal>
+```
+
+## API Reference
+
+### Modal
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | Required | Open state |
+| `onClose` | `() => void` | Required | Close handler |
+| `title` | `string` | - | Modal title |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'md'` | Modal size |
+| `closeOnOverlayClick` | `boolean` | `true` | Close on overlay click |
+| `closeOnEscape` | `boolean` | `true` | Close on escape key |
+| `children` | `ReactNode` | Required | Modal content |
+| `className` | `string` | - | Additional CSS class |
+
+### ModalBody
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `children` | `ReactNode` | Body content |
+| `className` | `string` | Additional CSS class |
+
+### ModalFooter
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `children` | `ReactNode` | Footer content (typically buttons) |
+| `className` | `string` | Additional CSS class |
+
+## Examples
+
+### Confirmation Dialog
+
+```tsx
+function DeleteConfirmation({ user, onConfirm }) {
+  const [open, setOpen] = useState(false);
+
+  const handleConfirm = () => {
+    onConfirm();
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button variant="error" onClick={() => setOpen(true)}>Delete User</Button>
+
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        size="sm"
+        title="Delete User"
+      >
+        <ModalBody>
+          <p>Are you sure you want to delete {user.name}?</p>
+          <p>This action cannot be undone.</p>
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
+          <Button variant="error" onClick={handleConfirm}>Delete</Button>
+        </ModalFooter>
+      </Modal>
+    </>
+  );
+}
+```
+
+### Form Modal
+
+```tsx
+function AddUserModal() {
+  const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '' });
+
+  const handleSubmit = async () => {
+    await createUser(formData);
+    setOpen(false);
+    setFormData({ name: '', email: '' });
+  };
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Add User</Button>
+
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        size="lg"
+        title="Add New User"
+      >
+        <ModalBody>
+          <Stack gap={4}>
+            <FormField label="Name">
+              <Input
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              />
+            </FormField>
+            <FormField label="Email">
+              <Input
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              />
+            </FormField>
+          </Stack>
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
+          <Button onClick={handleSubmit}>Add User</Button>
+        </ModalFooter>
+      </Modal>
+    </>
+  );
+}
+```
+
+### Image Preview
+
+```tsx
+function ImagePreview({ imageUrl }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <img
+        src={imageUrl}
+        alt="Thumbnail"
+        onClick={() => setOpen(true)}
+        style={{ cursor: 'pointer' }}
+      />
+
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        size="xl"
+      >
+        <ModalBody>
+          <img src={imageUrl} alt="Full size" style={{ width: '100%' }} />
+        </ModalBody>
+      </Modal>
+    </>
+  );
+}
+```
+
+### Terms and Conditions
+
+```tsx
+function TermsModal() {
+  const [open, setOpen] = useState(false);
+  const [accepted, setAccepted] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>View Terms</Button>
+
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        size="lg"
+        title="Terms and Conditions"
+      >
+        <ModalBody>
+          <div style={{ maxHeight: '400px', overflow: 'auto' }}>
+            {/* Long terms content */}
+            <p>Terms and conditions content...</p>
+          </div>
+          <Checkbox
+            checked={accepted}
+            onChange={(e) => setAccepted(e.target.checked)}
+            label="I accept the terms and conditions"
+          />
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
+          <Button disabled={!accepted} onClick={() => setOpen(false)}>Accept</Button>
+        </ModalFooter>
+      </Modal>
+    </>
+  );
+}
+```
+
+## Accessibility
+
+The Modal component is fully accessible:
+
+- **ARIA**: `role="dialog"`, `aria-modal="true"`, `aria-labelledby`
+- **Focus Trap**: Focus is trapped inside modal
+- **Focus Management**: First focusable element is auto-focused
+- **Escape Key**: Closes modal (configurable)
+- **Body Scroll**: Prevents body scroll when open
+
+## Best Practices
+
+### 1. Provide Clear Actions
+
+```tsx
+// ✅ Good - clear actions
+<ModalFooter>
+  <Button variant="ghost" onClick={onClose}>Cancel</Button>
+  <Button onClick={onConfirm}>Confirm</Button>
+</ModalFooter>
+
+// ❌ Bad - unclear actions
+<ModalFooter>
+  <Button onClick={onClose}>No</Button>
+  <Button onClick={onConfirm}>Yes</Button>
+</ModalFooter>
+```
+
+### 2. Use Appropriate Sizes
+
+```tsx
+// ✅ Good - small for confirmations
+<Modal size="sm" title="Delete?">
+
+// ✅ Good - large for forms
+<Modal size="lg" title="Edit User">
+
+// ❌ Bad - full for simple confirmation
+<Modal size="full" title="Delete?">
+```
+
+### 3. Disable Close for Critical Actions
+
+```tsx
+// ✅ Good - prevents accidental close
+<Modal
+  closeOnEscape={false}
+  closeOnOverlayClick={false}
+  title="Delete Account"
+>
+
+// ❌ Bad - easy to accidentally close
+<Modal title="Delete Account">
+```
+
+## Use Cases
+
+### Perfect for:
+- ✅ Confirmations
+- ✅ Forms
+- ✅ Image previews
+- ✅ Terms and conditions
+- ✅ Detailed information
+
+### Not recommended for:
+- ❌ Notifications (use Toast)
+- ❌ Inline messages (use Alert)
+- ❌ Navigation (use proper routing)
+
+## Related Components
+
+- **Alert** - For inline notifications
+- **Toast** - For temporary notifications
+- **Button** - For modal actions

@@ -1,0 +1,370 @@
+/* ========================================
+   ALERT
+   ======================================== */
+.alert {
+    display: flex;
+    gap: var(--oxy-spacing-3);
+    padding: var(--oxy-spacing-4);
+    border-radius: var(--oxy-radius-base);
+    border: 1px solid;
+    font-size: var(--oxy-font-size-sm);
+    line-height: 1.5;
+}
+
+.alert-icon {
+    flex-shrink: 0;
+    font-size: 18px;
+}
+
+.alert-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.alert-title {
+    font-weight: var(--oxy-font-weight-semibold);
+    margin-bottom: var(--oxy-spacing-1);
+}
+
+.alert-description {
+    color: inherit;
+    opacity: 0.9;
+}
+
+.alert-close {
+    flex-shrink: 0;
+    padding: var(--oxy-spacing-1);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.7;
+    transition: opacity var(--oxy-transition-fast);
+}
+
+.alert-close:hover {
+    opacity: 1;
+}
+
+/* Alert variants */
+.alert-info {
+    background: #dbeafe;
+    border-color: #3b82f6;
+    color: #1e40af;
+}
+
+.alert-success {
+    background: #d1fae5;
+    border-color: #10b981;
+    color: #065f46;
+}
+
+.alert-warning {
+    background: #fef3c7;
+    border-color: #f59e0b;
+    color: #92400e;
+}
+
+.alert-error {
+    background: #fee2e2;
+    border-color: #ef4444;
+    color: #991b1b;
+}
+
+/* ========================================
+   TOAST
+   ======================================== */
+.toast-container {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.toast-container-top-right {
+    top: var(--oxy-spacing-4);
+    right: var(--oxy-spacing-4);
+}
+
+.toast-container-top-left {
+    top: var(--oxy-spacing-4);
+    left: var(--oxy-spacing-4);
+}
+
+.toast-container-bottom-right {
+    bottom: var(--oxy-spacing-4);
+    right: var(--oxy-spacing-4);
+}
+
+.toast-container-bottom-left {
+    bottom: var(--oxy-spacing-4);
+    left: var(--oxy-spacing-4);
+}
+
+.toast-container-top-center {
+    top: var(--oxy-spacing-4);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.toast-container-bottom-center {
+    bottom: var(--oxy-spacing-4);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.toast {
+    display: flex;
+    gap: var(--oxy-spacing-3);
+    padding: var(--oxy-spacing-4);
+    margin-bottom: var(--oxy-spacing-2);
+    background: var(--oxy-color-bg-primary);
+    border: 1px solid var(--oxy-color-border-default);
+    border-radius: var(--oxy-radius-base);
+    box-shadow: var(--oxy-shadow-lg);
+    min-width: 300px;
+    max-width: 400px;
+    pointer-events: auto;
+    animation: toast-slide-in 0.2s ease-out;
+}
+
+.toast-exit {
+    animation: toast-slide-out 0.2s ease-in forwards;
+}
+
+@keyframes toast-slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes toast-slide-out {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+.toast-icon {
+    flex-shrink: 0;
+    font-size: 20px;
+}
+
+.toast-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.toast-title {
+    font-weight: var(--oxy-font-weight-semibold);
+    font-size: var(--oxy-font-size-sm);
+    color: var(--oxy-color-text-primary);
+    margin-bottom: var(--oxy-spacing-1);
+}
+
+.toast-description {
+    font-size: var(--oxy-font-size-sm);
+    color: var(--oxy-color-text-secondary);
+}
+
+.toast-close {
+    flex-shrink: 0;
+    padding: var(--oxy-spacing-1);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--oxy-color-text-tertiary);
+    transition: color var(--oxy-transition-fast);
+}
+
+.toast-close:hover {
+    color: var(--oxy-color-text-primary);
+}
+
+/* Toast variants */
+.toast-info .toast-icon {
+    color: #3b82f6;
+}
+
+.toast-success .toast-icon {
+    color: #10b981;
+}
+
+.toast-warning .toast-icon {
+    color: #f59e0b;
+}
+
+.toast-error .toast-icon {
+    color: #ef4444;
+}
+
+/* ========================================
+   PROGRESS
+   ======================================== */
+.progress {
+    width: 100%;
+}
+
+.progress-track {
+    width: 100%;
+    height: 8px;
+    background: var(--oxy-color-bg-secondary);
+    border-radius: var(--oxy-radius-full);
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--oxy-primary-600);
+    border-radius: var(--oxy-radius-full);
+    transition: width 0.3s ease;
+}
+
+.progress-indeterminate .progress-bar {
+    width: 40%;
+    animation: progress-indeterminate 1.5s ease-in-out infinite;
+}
+
+@keyframes progress-indeterminate {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(350%);
+    }
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--oxy-spacing-2);
+    font-size: var(--oxy-font-size-sm);
+    color: var(--oxy-color-text-secondary);
+}
+
+.progress-label-text {
+    font-weight: var(--oxy-font-weight-medium);
+    color: var(--oxy-color-text-primary);
+}
+
+.progress-label-value {
+    font-weight: var(--oxy-font-weight-semibold);
+    color: var(--oxy-color-text-primary);
+}
+
+/* Progress sizes */
+.progress-sm .progress-track {
+    height: 4px;
+}
+
+.progress-md .progress-track {
+    height: 8px;
+}
+
+.progress-lg .progress-track {
+    height: 12px;
+}
+
+/* Progress variants */
+.progress-primary .progress-bar {
+    background: var(--oxy-primary-600);
+}
+
+.progress-success .progress-bar {
+    background: #10b981;
+}
+
+.progress-warning .progress-bar {
+    background: #f59e0b;
+}
+
+.progress-error .progress-bar {
+    background: #ef4444;
+}
+
+/* ========================================
+   BADGE
+   ======================================== */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--oxy-spacing-1);
+    padding: 2px 8px;
+    font-size: var(--oxy-font-size-xs);
+    font-weight: var(--oxy-font-weight-medium);
+    line-height: 1.5;
+    border-radius: var(--oxy-radius-full);
+    white-space: nowrap;
+}
+
+.badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+/* Badge variants */
+.badge-default {
+    background: var(--oxy-color-bg-secondary);
+    color: var(--oxy-color-text-primary);
+    border: 1px solid var(--oxy-color-border-default);
+}
+
+.badge-primary {
+    background: var(--oxy-primary-100);
+    color: var(--oxy-primary-700);
+    border: 1px solid var(--oxy-primary-200);
+}
+
+.badge-success {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #10b981;
+}
+
+.badge-warning {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #f59e0b;
+}
+
+.badge-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #ef4444;
+}
+
+.badge-info {
+    background: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #3b82f6;
+}
+
+/* Badge sizes */
+.badge-sm {
+    padding: 1px 6px;
+    font-size: 10px;
+}
+
+.badge-md {
+    padding: 2px 8px;
+    font-size: var(--oxy-font-size-xs);
+}
+
+.badge-lg {
+    padding: 4px 10px;
+    font-size: var(--oxy-font-size-sm);
+}

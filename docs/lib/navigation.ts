@@ -70,15 +70,18 @@ export const navigation: NavItem[] = [
             {
                 title: 'Navigation',
                 items: [
-                    { title: 'Tabs', href: '/docs/components/tabs' },
-                    { title: 'Breadcrumbs', href: '/docs/components/breadcrumbs' },
+                    { title: 'Tabs', href: '/docs/components/tabs', badge: 'New' },
+                    { title: 'Breadcrumbs', href: '/docs/components/breadcrumbs', badge: 'New' },
+                    { title: 'Pagination', href: '/docs/components/pagination', badge: 'New' },
                 ],
             },
             {
                 title: 'Feedback',
                 items: [
-                    { title: 'Toast', href: '/docs/components/toast' },
-                    { title: 'Alert', href: '/docs/components/alert' },
+                    { title: 'Alert', href: '/docs/components/alert', badge: 'New' },
+                    { title: 'Toast', href: '/docs/components/toast', badge: 'New' },
+                    { title: 'Progress', href: '/docs/components/progress', badge: 'New' },
+                    { title: 'Badge', href: '/docs/components/badge', badge: 'New' },
                 ],
             },
             {

@@ -1,0 +1,347 @@
+---
+title: "Progress"
+description: "Loading indicators with determinate/indeterminate modes, 4 variants, and 3 sizes"
+---
+
+# Progress
+
+Loading indicator component with determinate mode (0-100% with value display), indeterminate mode (animated loading), 4 variants, and 3 sizes.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/ui
+```
+
+## Basic Usage
+
+```tsx
+import { Progress } from '@oxygenix-ui/ui';
+
+function MyComponent() {
+  return <Progress value={60} />;
+}
+```
+
+## Modes
+
+### Determinate
+
+Show specific progress (0-100%).
+
+```tsx
+<Progress value={75} showValue />
+```
+
+### Indeterminate
+
+Show loading without specific progress.
+
+```tsx
+<Progress indeterminate />
+```
+
+## Variants
+
+### Primary (Default)
+
+```tsx
+<Progress value={60} variant="primary" />
+```
+
+### Success
+
+```tsx
+<Progress value={100} variant="success" />
+```
+
+### Warning
+
+```tsx
+<Progress value={75} variant="warning" />
+```
+
+### Error
+
+```tsx
+<Progress value={30} variant="error" />
+```
+
+## Sizes
+
+### Small
+
+```tsx
+<Progress value={60} size="sm" />
+```
+
+### Medium (Default)
+
+```tsx
+<Progress value={60} size="md" />
+```
+
+### Large
+
+```tsx
+<Progress value={60} size="lg" />
+```
+
+## Features
+
+### With Label
+
+```tsx
+<Progress value={60} label="Uploading..." showValue />
+```
+
+### Show Percentage
+
+```tsx
+<Progress value={75} showValue />
+```
+
+### Label + Percentage
+
+```tsx
+<Progress value={45} label="Processing" showValue />
+```
+
+## API Reference
+
+### Progress
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number` | `0` | Progress value (0-100) |
+| `variant` | `'primary' \| 'success' \| 'warning' \| 'error'` | `'primary'` | Progress variant |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Progress size |
+| `label` | `string` | - | Progress label |
+| `showValue` | `boolean` | `false` | Show percentage |
+| `indeterminate` | `boolean` | `false` | Indeterminate mode |
+| `className` | `string` | - | Additional CSS class |
+
+## Examples
+
+### File Upload
+
+```tsx
+function FileUpload() {
+  const [progress, setProgress] = useState(0);
+
+  const handleUpload = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    await axios.post('/upload', formData, {
+      onUploadProgress: (progressEvent) => {
+        const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        setProgress(percent);
+      },
+    });
+  };
+
+  return (
+    <div>
+      <input type="file" onChange={(e) => handleUpload(e.target.files[0])} />
+      {progress > 0 && (
+        <Progress
+          value={progress}
+          label="Uploading..."
+          showValue
+          variant={progress === 100 ? 'success' : 'primary'}
+        />
+      )}
+    </div>
+  );
+}
+```
+
+### Multi-Step Form
+
+```tsx
+function MultiStepForm() {
+  const [step, setStep] = useState(1);
+  const totalSteps = 4;
+  const progress = (step / totalSteps) * 100;
+
+  return (
+    <div>
+      <Progress
+        value={progress}
+        label={`Step ${step} of ${totalSteps}`}
+        showValue
+      />
+      {/* Form steps */}
+    </div>
+  );
+}
+```
+
+### Loading Data
+
+```tsx
+function DataLoader() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchData().finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return <Progress indeterminate label="Loading data..." />;
+  }
+
+  return <DataTable data={data} />;
+}
+```
+
+### Download Progress
+
+```tsx
+function DownloadProgress() {
+  const [progress, setProgress] = useState(0);
+
+  const handleDownload = async () => {
+    const response = await fetch('/download');
+    const reader = response.body.getReader();
+    const contentLength = +response.headers.get('Content-Length');
+
+    let receivedLength = 0;
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      receivedLength += value.length;
+      const percent = Math.round((receivedLength / contentLength) * 100);
+      setProgress(percent);
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={handleDownload}>Download</button>
+      {progress > 0 && (
+        <Progress
+          value={progress}
+          label="Downloading..."
+          showValue
+          variant={progress === 100 ? 'success' : 'primary'}
+        />
+      )}
+    </div>
+  );
+}
+```
+
+### Task Progress
+
+```tsx
+function TaskProgress({ completed, total }) {
+  const progress = (completed / total) * 100;
+  
+  let variant = 'primary';
+  if (progress === 100) variant = 'success';
+  else if (progress < 30) variant = 'error';
+  else if (progress < 70) variant = 'warning';
+
+  return (
+    <Progress
+      value={progress}
+      label={`${completed} of ${total} tasks completed`}
+      showValue
+      variant={variant}
+    />
+  );
+}
+```
+
+### Onboarding Progress
+
+```tsx
+function OnboardingProgress({ currentStep, steps }) {
+  const progress = ((currentStep + 1) / steps.length) * 100;
+
+  return (
+    <Progress
+      value={progress}
+      label={steps[currentStep].title}
+      showValue
+      size="lg"
+    />
+  );
+}
+```
+
+## Accessibility
+
+The Progress component is fully accessible:
+
+- **ARIA**: `role="progressbar"`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax`
+- **Labels**: `aria-label` for screen readers
+- **Indeterminate**: Proper ARIA for loading states
+
+## Best Practices
+
+### 1. Use Determinate When Possible
+
+```tsx
+// ✅ Good - shows actual progress
+<Progress value={progress} showValue />
+
+// ❌ Bad - indeterminate when progress is known
+<Progress indeterminate />
+```
+
+### 2. Provide Labels
+
+```tsx
+// ✅ Good - clear label
+<Progress value={60} label="Uploading file..." />
+
+// ❌ Bad - no context
+<Progress value={60} />
+```
+
+### 3. Use Appropriate Variants
+
+```tsx
+// ✅ Good - success when complete
+<Progress value={100} variant="success" />
+
+// ✅ Good - error for failed operations
+<Progress value={30} variant="error" label="Upload failed" />
+
+// ❌ Bad - wrong variant
+<Progress value={100} variant="error" />
+```
+
+### 4. Show Percentage for Long Operations
+
+```tsx
+// ✅ Good - percentage helps users estimate time
+<Progress value={45} label="Processing..." showValue />
+
+// ❌ Bad - no percentage for long operation
+<Progress value={45} label="Processing large file..." />
+```
+
+## Use Cases
+
+### Perfect for:
+- ✅ File uploads/downloads
+- ✅ Multi-step forms
+- ✅ Data loading
+- ✅ Task completion
+- ✅ Onboarding flows
+
+### Not recommended for:
+- ❌ Button loading states (use Button loading prop)
+- ❌ Page loading (use Skeleton)
+- ❌ Instant operations
+
+## Related Components
+
+- **Skeleton** - For content loading
+- **Button** - Has built-in loading state
+- **Toast** - For operation feedback

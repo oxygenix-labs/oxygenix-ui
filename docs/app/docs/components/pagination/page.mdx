@@ -1,0 +1,308 @@
+---
+title: "Pagination"
+description: "Smart table/list pagination with ellipsis, configurable siblings, and info text"
+---
+
+# Pagination
+
+Smart pagination component for tables and lists with intelligent ellipsis generation, configurable sibling count, optional info text, and proper ARIA labels.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/ui
+```
+
+## Basic Usage
+
+```tsx
+import { Pagination } from '@oxygenix-ui/ui';
+import { useState } from 'react';
+
+function MyTable() {
+  const [page, setPage] = useState(1);
+
+  return (
+    <>
+      <DataTable data={currentPageData} />
+      <Pagination
+        currentPage={page}
+        totalPages={10}
+        onPageChange={setPage}
+      />
+    </>
+  );
+}
+```
+
+## Features
+
+### Smart Ellipsis
+
+Automatically generates ellipsis for large page counts.
+
+```tsx
+// Shows: 1 ... 5 6 7 ... 20
+<Pagination currentPage={6} totalPages={20} onPageChange={setPage} />
+```
+
+### Configurable Sibling Count
+
+Control how many pages to show around current page.
+
+```tsx
+// siblingCount={1} (default): 1 ... 5 6 7 ... 20
+<Pagination currentPage={6} totalPages={20} siblingCount={1} onPageChange={setPage} />
+
+// siblingCount={2}: 1 ... 4 5 6 7 8 ... 20
+<Pagination currentPage={6} totalPages={20} siblingCount={2} onPageChange={setPage} />
+```
+
+### Info Text
+
+Show "Showing X-Y of Z" text.
+
+```tsx
+<Pagination
+  currentPage={page}
+  totalPages={10}
+  onPageChange={setPage}
+  showInfo
+  totalItems={100}
+  pageSize={10}
+/>
+// Displays: "Showing 11-20 of 100"
+```
+
+### Previous/Next Navigation
+
+Built-in prev/next buttons.
+
+```tsx
+<Pagination
+  currentPage={page}
+  totalPages={10}
+  onPageChange={setPage}
+/>
+// Shows: ← 1 2 3 ... 10 →
+```
+
+## API Reference
+
+### Pagination
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `currentPage` | `number` | Required | Current page (1-indexed) |
+| `totalPages` | `number` | Required | Total number of pages |
+| `onPageChange` | `(page: number) => void` | Required | Page change handler |
+| `siblingCount` | `number` | `1` | Number of page buttons to show |
+| `showInfo` | `boolean` | `false` | Show page info text |
+| `totalItems` | `number` | - | Total items (for info text) |
+| `pageSize` | `number` | - | Items per page (for info text) |
+| `className` | `string` | - | Additional CSS class |
+
+## Examples
+
+### Table Pagination
+
+```tsx
+function UserTable() {
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
+  const totalUsers = 250;
+  const totalPages = Math.ceil(totalUsers / pageSize);
+
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const currentPageData = users.slice(startIndex, endIndex);
+
+  return (
+    <>
+      <DataTable data={currentPageData} columns={columns} />
+      <Pagination
+        currentPage={page}
+        totalPages={totalPages}
+        onPageChange={setPage}
+        showInfo
+        totalItems={totalUsers}
+        pageSize={pageSize}
+      />
+    </>
+  );
+}
+```
+
+### Server-Side Pagination
+
+```tsx
+function ServerSideTable() {
+  const [page, setPage] = useState(1);
+  const [data, setData] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+
+  useEffect(() => {
+    fetchData(page).then(response => {
+      setData(response.data);
+      setTotalPages(response.totalPages);
+    });
+  }, [page]);
+
+  return (
+    <>
+      <DataTable data={data} columns={columns} />
+      <Pagination
+        currentPage={page}
+        totalPages={totalPages}
+        onPageChange={setPage}
+      />
+    </>
+  );
+}
+```
+
+### Product Listing
+
+```tsx
+function ProductListing() {
+  const [page, setPage] = useState(1);
+  const pageSize = 12;
+  const totalProducts = 144;
+  const totalPages = Math.ceil(totalProducts / pageSize);
+
+  return (
+    <>
+      <Grid cols={{ mobile: 1, tablet: 2, desktop: 3 }} gap={4}>
+        {currentProducts.map(product => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </Grid>
+
+      <Pagination
+        currentPage={page}
+        totalPages={totalPages}
+        onPageChange={setPage}
+        siblingCount={2}
+        showInfo
+        totalItems={totalProducts}
+        pageSize={pageSize}
+      />
+    </>
+  );
+}
+```
+
+### Search Results
+
+```tsx
+function SearchResults({ query }) {
+  const [page, setPage] = useState(1);
+  const { results, totalResults } = useSearch(query, page);
+  const pageSize = 20;
+  const totalPages = Math.ceil(totalResults / pageSize);
+
+  return (
+    <>
+      <h2>{totalResults} results for "{query}"</h2>
+      <ResultsList results={results} />
+      
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+          showInfo
+          totalItems={totalResults}
+          pageSize={pageSize}
+        />
+      )}
+    </>
+  );
+}
+```
+
+## Accessibility
+
+The Pagination component is fully accessible:
+
+- **ARIA Labels**: `aria-label` on all buttons
+- **Current Page**: `aria-current="page"` on active page
+- **Disabled State**: Proper disabled state for prev/next
+- **Keyboard**: Full keyboard navigation support
+
+## Best Practices
+
+### 1. Show Info for Large Datasets
+
+```tsx
+// ✅ Good - shows info for clarity
+<Pagination
+  currentPage={page}
+  totalPages={100}
+  onPageChange={setPage}
+  showInfo
+  totalItems={1000}
+  pageSize={10}
+/>
+
+// ❌ Bad - no info for large dataset
+<Pagination
+  currentPage={page}
+  totalPages={100}
+  onPageChange={setPage}
+/>
+```
+
+### 2. Use Appropriate Sibling Count
+
+```tsx
+// ✅ Good - siblingCount=1 for mobile
+<Pagination currentPage={page} totalPages={20} siblingCount={1} />
+
+// ✅ Good - siblingCount=2 for desktop
+<Pagination currentPage={page} totalPages={20} siblingCount={2} />
+
+// ❌ Bad - too many siblings
+<Pagination currentPage={page} totalPages={20} siblingCount={5} />
+```
+
+### 3. Reset Page on Filter Change
+
+```tsx
+// ✅ Good - resets to page 1
+function FilterableTable() {
+  const [page, setPage] = useState(1);
+  const [filter, setFilter] = useState('');
+
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
+    setPage(1); // Reset to first page
+  };
+
+  return (
+    <>
+      <input value={filter} onChange={(e) => handleFilterChange(e.target.value)} />
+      <DataTable data={filteredData} />
+      <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+    </>
+  );
+}
+```
+
+## Use Cases
+
+### Perfect for:
+- ✅ Data tables
+- ✅ Product listings
+- ✅ Search results
+- ✅ Blog posts
+- ✅ User lists
+
+### Not recommended for:
+- ❌ Infinite scroll (use different pattern)
+- ❌ Small datasets (< 20 items)
+
+## Related Components
+
+- **DataTable** - Use Pagination with DataTable
+- **Grid** - For product grids

@@ -1,0 +1,312 @@
+---
+title: "Tabs"
+description: "Lazy-loaded tab panels with Context API, keyboard navigation, and proper ARIA"
+---
+
+# Tabs
+
+Lazy-loaded tab panel component with Context API for state management, keyboard navigation support, and proper ARIA attributes. Fully composable with TabsList, TabsTrigger, and TabsContent.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/ui
+```
+
+## Basic Usage
+
+```tsx
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@oxygenix-ui/ui';
+
+function MyTabs() {
+  return (
+    <Tabs defaultValue="tab1">
+      <TabsList>
+        <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+        <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+        <TabsTrigger value="tab3">Tab 3</TabsTrigger>
+      </TabsList>
+
+      <TabsContent value="tab1">
+        <p>Content for Tab 1</p>
+      </TabsContent>
+      <TabsContent value="tab2">
+        <p>Content for Tab 2</p>
+      </TabsContent>
+      <TabsContent value="tab3">
+        <p>Content for Tab 3</p>
+      </TabsContent>
+    </Tabs>
+  );
+}
+```
+
+## Features
+
+### Lazy Loading
+
+Only renders active tab content (default behavior).
+
+```tsx
+<Tabs defaultValue="overview">
+  <TabsList>
+    <TabsTrigger value="overview">Overview</TabsTrigger>
+    <TabsTrigger value="analytics">Analytics</TabsTrigger>
+    <TabsTrigger value="reports">Reports</TabsTrigger>
+  </TabsList>
+
+  {/* Only the active tab content is rendered */}
+  <TabsContent value="overview" lazy>
+    <ExpensiveComponent />
+  </TabsContent>
+  <TabsContent value="analytics" lazy>
+    <HeavyDataTable />
+  </TabsContent>
+  <TabsContent value="reports" lazy>
+    <ComplexCharts />
+  </TabsContent>
+</Tabs>
+```
+
+### Controlled State
+
+Control tab state externally.
+
+```tsx
+function ControlledTabs() {
+  const [activeTab, setActiveTab] = useState('profile');
+
+  return (
+    <Tabs value={activeTab} onValueChange={setActiveTab}>
+      <TabsList>
+        <TabsTrigger value="profile">Profile</TabsTrigger>
+        <TabsTrigger value="settings">Settings</TabsTrigger>
+      </TabsList>
+
+      <TabsContent value="profile">Profile content</TabsContent>
+      <TabsContent value="settings">Settings content</TabsContent>
+    </Tabs>
+  );
+}
+```
+
+### Disabled Tabs
+
+Disable specific tabs.
+
+```tsx
+<TabsList>
+  <TabsTrigger value="public">Public</TabsTrigger>
+  <TabsTrigger value="private" disabled>Private (Premium)</TabsTrigger>
+</TabsList>
+```
+
+## API Reference
+
+### Tabs
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `defaultValue` | `string` | - | Default active tab |
+| `value` | `string` | - | Controlled active tab |
+| `onValueChange` | `(value: string) => void` | - | Change handler |
+| `children` | `ReactNode` | Required | Tab components |
+| `className` | `string` | - | Additional CSS class |
+
+### TabsList
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `children` | `ReactNode` | TabsTrigger components |
+| `className` | `string` | Additional CSS class |
+
+### TabsTrigger
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `value` | `string` | Tab value |
+| `children` | `ReactNode` | Trigger content |
+| `disabled` | `boolean` | Disable tab |
+| `className` | `string` | Additional CSS class |
+
+### TabsContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | Required | Tab value |
+| `children` | `ReactNode` | Required | Panel content |
+| `lazy` | `boolean` | `true` | Lazy load content |
+| `className` | `string` | - | Additional CSS class |
+
+## Examples
+
+### Settings Page
+
+```tsx
+function SettingsPage() {
+  return (
+    <Tabs defaultValue="general">
+      <TabsList>
+        <TabsTrigger value="general">General</TabsTrigger>
+        <TabsTrigger value="security">Security</TabsTrigger>
+        <TabsTrigger value="notifications">Notifications</TabsTrigger>
+        <TabsTrigger value="billing">Billing</TabsTrigger>
+      </TabsList>
+
+      <TabsContent value="general">
+        <GeneralSettings />
+      </TabsContent>
+      <TabsContent value="security">
+        <SecuritySettings />
+      </TabsContent>
+      <TabsContent value="notifications">
+        <NotificationSettings />
+      </TabsContent>
+      <TabsContent value="billing">
+        <BillingSettings />
+      </TabsContent>
+    </Tabs>
+  );
+}
+```
+
+### Product Details
+
+```tsx
+function ProductDetails({ product }) {
+  return (
+    <Tabs defaultValue="description">
+      <TabsList>
+        <TabsTrigger value="description">Description</TabsTrigger>
+        <TabsTrigger value="specs">Specifications</TabsTrigger>
+        <TabsTrigger value="reviews">Reviews ({product.reviewCount})</TabsTrigger>
+      </TabsList>
+
+      <TabsContent value="description">
+        <div dangerouslySetInnerHTML={{ __html: product.description }} />
+      </TabsContent>
+      <TabsContent value="specs">
+        <SpecsTable specs={product.specs} />
+      </TabsContent>
+      <TabsContent value="reviews">
+        <ReviewsList productId={product.id} />
+      </TabsContent>
+    </Tabs>
+  );
+}
+```
+
+### Dashboard with Lazy Loading
+
+```tsx
+function Dashboard() {
+  return (
+    <Tabs defaultValue="overview">
+      <TabsList>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="analytics">Analytics</TabsTrigger>
+        <TabsTrigger value="reports">Reports</TabsTrigger>
+      </TabsList>
+
+      {/* Only active tab is rendered */}
+      <TabsContent value="overview" lazy>
+        <OverviewCharts />
+      </TabsContent>
+      <TabsContent value="analytics" lazy>
+        <AnalyticsDashboard />
+      </TabsContent>
+      <TabsContent value="reports" lazy>
+        <ReportsTable />
+      </TabsContent>
+    </Tabs>
+  );
+}
+```
+
+### With Icons
+
+```tsx
+import { User, Settings, Bell } from 'lucide-react';
+
+<TabsList>
+  <TabsTrigger value="profile">
+    <User size={16} />
+    Profile
+  </TabsTrigger>
+  <TabsTrigger value="settings">
+    <Settings size={16} />
+    Settings
+  </TabsTrigger>
+  <TabsTrigger value="notifications">
+    <Bell size={16} />
+    Notifications
+  </TabsTrigger>
+</TabsList>
+```
+
+## Keyboard Accessibility
+
+The Tabs component is fully keyboard accessible:
+
+- **Tab**: Navigate between tab triggers
+- **Enter/Space**: Activate tab
+- **Arrow Keys**: Navigate between tabs (when focused)
+
+## Best Practices
+
+### 1. Use Lazy Loading for Heavy Content
+
+```tsx
+// ✅ Good - lazy loads heavy components
+<TabsContent value="analytics" lazy>
+  <HeavyDataTable />
+</TabsContent>
+
+// ❌ Bad - renders all content immediately
+<TabsContent value="analytics" lazy={false}>
+  <HeavyDataTable />
+</TabsContent>
+```
+
+### 2. Provide Clear Tab Labels
+
+```tsx
+// ✅ Good - clear labels
+<TabsTrigger value="profile">Profile</TabsTrigger>
+<TabsTrigger value="settings">Settings</TabsTrigger>
+
+// ❌ Bad - vague labels
+<TabsTrigger value="tab1">Tab 1</TabsTrigger>
+<TabsTrigger value="tab2">Tab 2</TabsTrigger>
+```
+
+### 3. Use Controlled State When Needed
+
+```tsx
+// ✅ Good - controlled for external logic
+const [tab, setTab] = useState('overview');
+
+<Tabs value={tab} onValueChange={setTab}>
+  {/* Tabs */}
+</Tabs>
+
+// ✅ Good - uncontrolled for simple cases
+<Tabs defaultValue="overview">
+  {/* Tabs */}
+</Tabs>
+```
+
+## Accessibility
+
+The Tabs component is fully accessible:
+
+- **ARIA**: `role="tablist"`, `role="tab"`, `role="tabpanel"`
+- **aria-selected**: Indicates active tab
+- **aria-controls**: Links tab to panel
+- **aria-labelledby**: Links panel to tab
+- **Keyboard**: Full keyboard navigation support
+
+## Related Components
+
+- **Breadcrumbs** - For hierarchical navigation
+- **Pagination** - For paginated content

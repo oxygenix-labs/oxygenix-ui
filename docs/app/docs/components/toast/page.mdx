@@ -1,0 +1,371 @@
+---
+title: "Toast"
+description: "Promise-aware toast notifications with auto-dismiss, 6 positions, and portal rendering"
+---
+
+# Toast
+
+Promise-aware toast notification component with auto-dismiss, configurable duration, 6 position options, portal rendering, and stacked animations.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/ui
+```
+
+## Basic Usage
+
+```tsx
+import { Toast, ToastContainer } from '@oxygenix-ui/ui';
+import { useState } from 'react';
+
+function MyApp() {
+  const [toasts, setToasts] = useState([]);
+
+  const showToast = () => {
+    setToasts([...toasts, {
+      id: Date.now(),
+      title: 'Success',
+      description: 'Operation completed',
+      variant: 'success',
+    }]);
+  };
+
+  return (
+    <>
+      <button onClick={showToast}>Show Toast</button>
+      
+      <ToastContainer position="top-right">
+        {toasts.map(toast => (
+          <Toast
+            key={toast.id}
+            {...toast}
+            onClose={() => setToasts(toasts.filter(t => t.id !== toast.id))}
+          />
+        ))}
+      </ToastContainer>
+    </>
+  );
+}
+```
+
+## Variants
+
+### Success
+
+```tsx
+<Toast
+  variant="success"
+  title="Success!"
+  description="Your changes have been saved"
+/>
+```
+
+### Error
+
+```tsx
+<Toast
+  variant="error"
+  title="Error"
+  description="Failed to save changes"
+/>
+```
+
+### Warning
+
+```tsx
+<Toast
+  variant="warning"
+  title="Warning"
+  description="Your session will expire soon"
+/>
+```
+
+### Info
+
+```tsx
+<Toast
+  variant="info"
+  title="New update available"
+  description="Version 2.0 is ready to install"
+/>
+```
+
+## Features
+
+### Auto-Dismiss
+
+Automatically dismiss after duration (default 5000ms).
+
+```tsx
+<Toast
+  title="Auto-dismiss"
+  description="This will disappear in 3 seconds"
+  duration={3000}
+/>
+```
+
+### No Auto-Dismiss
+
+Set duration to 0 for persistent toasts.
+
+```tsx
+<Toast
+  title="Important"
+  description="This requires your attention"
+  duration={0}
+/>
+```
+
+### 6 Position Options
+
+```tsx
+<ToastContainer position="top-right">     {/* Default */}
+<ToastContainer position="top-left">
+<ToastContainer position="top-center">
+<ToastContainer position="bottom-right">
+<ToastContainer position="bottom-left">
+<ToastContainer position="bottom-center">
+```
+
+### Custom Icon
+
+```tsx
+import { Download } from 'lucide-react';
+
+<Toast
+  variant="success"
+  title="Download complete"
+  description="Your file is ready"
+  icon={<Download />}
+/>
+```
+
+## API Reference
+
+### Toast
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | Toast variant |
+| `title` | `string` | Required | Toast title |
+| `description` | `string` | - | Toast description |
+| `icon` | `ReactNode` | - | Custom icon |
+| `duration` | `number` | `5000` | Auto-dismiss duration (ms, 0 = no auto-dismiss) |
+| `onClose` | `() => void` | - | Close handler |
+| `className` | `string` | - | Additional CSS class |
+
+### ToastContainer
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `position` | `'top-right' \| 'top-left' \| 'top-center' \| 'bottom-right' \| 'bottom-left' \| 'bottom-center'` | `'top-right'` | Toast position |
+| `children` | `ReactNode` | Required | Toast components |
+
+## Examples
+
+### Toast Manager Hook
+
+```tsx
+function useToast() {
+  const [toasts, setToasts] = useState([]);
+
+  const showToast = (toast) => {
+    const id = Date.now();
+    setToasts([...toasts, { ...toast, id }]);
+  };
+
+  const removeToast = (id) => {
+    setToasts(toasts.filter(t => t.id !== id));
+  };
+
+  return { toasts, showToast, removeToast };
+}
+
+function App() {
+  const { toasts, showToast, removeToast } = useToast();
+
+  return (
+    <>
+      <button onClick={() => showToast({
+        variant: 'success',
+        title: 'Success',
+        description: 'Operation completed',
+      })}>
+        Show Toast
+      </button>
+
+      <ToastContainer position="top-right">
+        {toasts.map(toast => (
+          <Toast
+            key={toast.id}
+            {...toast}
+            onClose={() => removeToast(toast.id)}
+          />
+        ))}
+      </ToastContainer>
+    </>
+  );
+}
+```
+
+### Promise-Aware Toast
+
+```tsx
+async function saveData() {
+  const toastId = Date.now();
+  
+  showToast({
+    id: toastId,
+    variant: 'info',
+    title: 'Saving...',
+    description: 'Please wait',
+    duration: 0,
+  });
+
+  try {
+    await api.save();
+    updateToast(toastId, {
+      variant: 'success',
+      title: 'Saved!',
+      description: 'Changes saved successfully',
+      duration: 3000,
+    });
+  } catch (error) {
+    updateToast(toastId, {
+      variant: 'error',
+      title: 'Error',
+      description: error.message,
+      duration: 5000,
+    });
+  }
+}
+```
+
+### Multiple Toasts
+
+```tsx
+function MultipleToasts() {
+  const { toasts, showToast, removeToast } = useToast();
+
+  const showMultiple = () => {
+    showToast({ variant: 'info', title: 'Processing...' });
+    setTimeout(() => {
+      showToast({ variant: 'success', title: 'Step 1 complete' });
+    }, 1000);
+    setTimeout(() => {
+      showToast({ variant: 'success', title: 'Step 2 complete' });
+    }, 2000);
+  };
+
+  return (
+    <>
+      <button onClick={showMultiple}>Process</button>
+      <ToastContainer position="top-right">
+        {toasts.map(toast => (
+          <Toast key={toast.id} {...toast} onClose={() => removeToast(toast.id)} />
+        ))}
+      </ToastContainer>
+    </>
+  );
+}
+```
+
+### Form Submission
+
+```tsx
+async function handleSubmit(data) {
+  try {
+    await api.submit(data);
+    showToast({
+      variant: 'success',
+      title: 'Form submitted',
+      description: 'We\'ll get back to you soon',
+    });
+  } catch (error) {
+    showToast({
+      variant: 'error',
+      title: 'Submission failed',
+      description: error.message,
+    });
+  }
+}
+```
+
+## Accessibility
+
+The Toast component is fully accessible:
+
+- **ARIA**: `role="alert"` and `aria-live="polite"`
+- **Keyboard**: Close button is keyboard accessible
+- **Portal**: Rendered at document.body for proper z-index
+- **Animations**: Smooth enter/exit animations
+
+## Best Practices
+
+### 1. Use Appropriate Durations
+
+```tsx
+// ✅ Good - longer for errors
+<Toast variant="error" title="Error" duration={7000} />
+
+// ✅ Good - shorter for success
+<Toast variant="success" title="Saved" duration={3000} />
+
+// ❌ Bad - too short for errors
+<Toast variant="error" title="Critical error" duration={1000} />
+```
+
+### 2. Provide Clear Titles
+
+```tsx
+// ✅ Good - specific
+<Toast variant="success" title="File uploaded" />
+
+// ❌ Bad - vague
+<Toast variant="success" title="Success" />
+```
+
+### 3. Use Descriptions for Details
+
+```tsx
+// ✅ Good - helpful details
+<Toast
+  variant="error"
+  title="Upload failed"
+  description="File size exceeds 10MB"
+/>
+
+// ❌ Bad - no context
+<Toast variant="error" title="Upload failed" />
+```
+
+### 4. Position Based on Context
+
+```tsx
+// ✅ Good - top-right for notifications
+<ToastContainer position="top-right" />
+
+// ✅ Good - bottom-center for actions
+<ToastContainer position="bottom-center" />
+```
+
+## Use Cases
+
+### Perfect for:
+- ✅ Success/error notifications
+- ✅ Background process updates
+- ✅ Form submission feedback
+- ✅ File upload status
+- ✅ Real-time notifications
+
+### Not recommended for:
+- ❌ Critical errors (use Alert or Modal)
+- ❌ Long messages (use Alert)
+- ❌ Permanent messages (use Alert)
+
+## Related Components
+
+- **Alert** - For inline notifications
+- **Progress** - For loading states
+- **Badge** - For status indicators

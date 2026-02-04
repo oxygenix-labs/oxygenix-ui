@@ -1,0 +1,307 @@
+---
+title: "Alert"
+description: "Inline notifications with 4 variants, optional title/description, and closable dismiss"
+---
+
+# Alert
+
+Inline alert component for displaying info, success, warning, and error messages with semantic colors and icons.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/ui
+```
+
+## Basic Usage
+
+```tsx
+import { Alert } from '@oxygenix-ui/ui';
+
+function MyComponent() {
+  return (
+    <Alert
+      variant="info"
+      title="Information"
+      description="This is an informational message"
+    />
+  );
+}
+```
+
+## Variants
+
+### Info
+
+```tsx
+<Alert
+  variant="info"
+  title="New features available"
+  description="Check out the latest updates to your dashboard"
+/>
+```
+
+### Success
+
+```tsx
+<Alert
+  variant="success"
+  title="Success!"
+  description="Your changes have been saved successfully"
+/>
+```
+
+### Warning
+
+```tsx
+<Alert
+  variant="warning"
+  title="Warning"
+  description="Your session will expire in 5 minutes"
+/>
+```
+
+### Error
+
+```tsx
+<Alert
+  variant="error"
+  title="Error"
+  description="Failed to save changes. Please try again"
+/>
+```
+
+## Features
+
+### Closable
+
+Add close button with smooth dismiss animation.
+
+```tsx
+<Alert
+  variant="info"
+  title="Dismissible alert"
+  description="Click the × to dismiss this alert"
+  closable
+  onClose={() => console.log('Alert closed')}
+/>
+```
+
+### Custom Icon
+
+Override default icon.
+
+```tsx
+import { Bell } from 'lucide-react';
+
+<Alert
+  variant="info"
+  title="New notification"
+  description="You have 3 unread messages"
+  icon={<Bell />}
+/>
+```
+
+### Title Only
+
+```tsx
+<Alert variant="success" title="Operation completed" />
+```
+
+### Description Only
+
+```tsx
+<Alert variant="warning" description="Low disk space" />
+```
+
+## API Reference
+
+### Alert
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | Alert variant |
+| `title` | `string` | - | Alert title |
+| `description` | `ReactNode` | - | Alert description |
+| `icon` | `ReactNode` | - | Custom icon |
+| `closable` | `boolean` | `false` | Show close button |
+| `onClose` | `() => void` | - | Close handler |
+| `className` | `string` | - | Additional CSS class |
+
+## Examples
+
+### Form Validation
+
+```tsx
+function FormWithValidation() {
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async () => {
+    try {
+      await saveData();
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  return (
+    <>
+      {error && (
+        <Alert
+          variant="error"
+          title="Validation Error"
+          description={error}
+          closable
+          onClose={() => setError(null)}
+        />
+      )}
+      <form onSubmit={handleSubmit}>
+        {/* Form fields */}
+      </form>
+    </>
+  );
+}
+```
+
+### System Status
+
+```tsx
+function SystemStatus({ status }) {
+  if (status === 'degraded') {
+    return (
+      <Alert
+        variant="warning"
+        title="System Performance Degraded"
+        description="We're experiencing higher than normal response times"
+      />
+    );
+  }
+
+  if (status === 'down') {
+    return (
+      <Alert
+        variant="error"
+        title="System Outage"
+        description="Our services are currently unavailable. We're working to restore them"
+      />
+    );
+  }
+
+  return null;
+}
+```
+
+### Onboarding Tips
+
+```tsx
+function OnboardingTip() {
+  const [dismissed, setDismissed] = useState(false);
+
+  if (dismissed) return null;
+
+  return (
+    <Alert
+      variant="info"
+      title="Pro Tip"
+      description="Use keyboard shortcuts to navigate faster. Press ? to see all shortcuts"
+      closable
+      onClose={() => setDismissed(true)}
+    />
+  );
+}
+```
+
+### Multiple Alerts
+
+```tsx
+<Stack gap={3}>
+  <Alert variant="error" title="2 errors" description="Fix these issues before continuing" />
+  <Alert variant="warning" title="3 warnings" description="Review these suggestions" />
+  <Alert variant="success" title="All tests passed" />
+</Stack>
+```
+
+## Accessibility
+
+The Alert component is fully accessible:
+
+- **ARIA**: `role="alert"` for screen readers
+- **Semantic Colors**: Color + icon for color-blind users
+- **Keyboard**: Close button is keyboard accessible
+- **Focus**: Proper focus management
+
+## Best Practices
+
+### 1. Use Appropriate Variants
+
+```tsx
+// ✅ Good - correct variant for context
+<Alert variant="error" title="Failed to save" />
+<Alert variant="success" title="Saved successfully" />
+
+// ❌ Bad - wrong variant
+<Alert variant="info" title="Critical error" />
+```
+
+### 2. Provide Clear Titles
+
+```tsx
+// ✅ Good - clear and concise
+<Alert variant="warning" title="Session expiring soon" />
+
+// ❌ Bad - vague
+<Alert variant="warning" title="Warning" />
+```
+
+### 3. Make Important Alerts Closable
+
+```tsx
+// ✅ Good - user can dismiss
+<Alert
+  variant="info"
+  title="Tip"
+  closable
+/>
+
+// ❌ Bad - blocks content permanently
+<Alert variant="info" title="Tip" />
+```
+
+### 4. Keep Descriptions Concise
+
+```tsx
+// ✅ Good - brief and actionable
+<Alert
+  variant="error"
+  title="Upload failed"
+  description="File size exceeds 10MB limit"
+/>
+
+// ❌ Bad - too verbose
+<Alert
+  variant="error"
+  title="Upload failed"
+  description="The file you are trying to upload is too large. The maximum file size allowed is 10 megabytes. Please reduce the file size and try again."
+/>
+```
+
+## Use Cases
+
+### Perfect for:
+- ✅ Form validation errors
+- ✅ System status messages
+- ✅ Onboarding tips
+- ✅ Feature announcements
+- ✅ Warning messages
+
+### Not recommended for:
+- ❌ Temporary notifications (use Toast instead)
+- ❌ Loading states (use Progress instead)
+- ❌ Status badges (use Badge instead)
+
+## Related Components
+
+- **Toast** - For temporary notifications
+- **Progress** - For loading states
+- **Badge** - For status indicators
