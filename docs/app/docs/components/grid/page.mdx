@@ -1,0 +1,239 @@
+---
+title: "Grid"
+description: "Responsive layout grid with 1-12 columns and simple gap spacing"
+---
+
+# Grid
+
+Responsive layout grid component with 1-12 column layouts, responsive breakpoints, and simple gap spacing. No CSS Grid wrapper complexity.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/layout
+```
+
+## Basic Usage
+
+```tsx
+import { Grid } from '@oxygenix-ui/layout';
+
+function MyComponent() {
+  return (
+    <Grid cols={3} gap={4}>
+      <Card>Item 1</Card>
+      <Card>Item 2</Card>
+      <Card>Item 3</Card>
+    </Grid>
+  );
+}
+```
+
+## Features
+
+### Column Layouts
+
+1-12 column layouts.
+
+```tsx
+<Grid cols={1}>  {/* Single column */}
+<Grid cols={2}>  {/* 2 columns */}
+<Grid cols={3}>  {/* 3 columns */}
+<Grid cols={4}>  {/* 4 columns */}
+<Grid cols={6}>  {/* 6 columns */}
+<Grid cols={12}> {/* 12 columns */}
+```
+
+### Responsive Breakpoints
+
+Different columns for mobile, tablet, and desktop.
+
+```tsx
+<Grid
+  cols={{ mobile: 1, tablet: 2, desktop: 4 }}
+  gap={4}
+>
+  <Card>Item 1</Card>
+  <Card>Item 2</Card>
+  <Card>Item 3</Card>
+  <Card>Item 4</Card>
+</Grid>
+```
+
+### Gap Spacing
+
+Simple gap spacing (same scale as Stack).
+
+```tsx
+<Grid cols={3} gap={4}>
+  {/* 16px gap between items */}
+</Grid>
+```
+
+## API Reference
+
+### Grid
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `cols` | `number \| ResponsiveCols` | `1` | Number of columns |
+| `gap` | `1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8` | `4` | Gap size |
+| `children` | `ReactNode` | Required | Grid items |
+| `className` | `string` | - | Additional CSS class |
+
+### ResponsiveCols
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `mobile` | `number` | Columns on mobile (< 768px) |
+| `tablet` | `number` | Columns on tablet (768px - 1024px) |
+| `desktop` | `number` | Columns on desktop (> 1024px) |
+
+## Examples
+
+### Product Grid
+
+```tsx
+function ProductGrid({ products }) {
+  return (
+    <Grid cols={{ mobile: 1, tablet: 2, desktop: 3 }} gap={4}>
+      {products.map(product => (
+        <ProductCard key={product.id} product={product} />
+      ))}
+    </Grid>
+  );
+}
+```
+
+### Dashboard Stats
+
+```tsx
+function DashboardStats() {
+  return (
+    <Grid cols={{ mobile: 1, tablet: 2, desktop: 4 }} gap={4}>
+      <StatCard title="Users" value="1,234" />
+      <StatCard title="Revenue" value="$45,678" />
+      <StatCard title="Orders" value="890" />
+      <StatCard title="Conversion" value="3.2%" />
+    </Grid>
+  );
+}
+```
+
+### Image Gallery
+
+```tsx
+function ImageGallery({ images }) {
+  return (
+    <Grid cols={{ mobile: 2, tablet: 3, desktop: 4 }} gap={2}>
+      {images.map(image => (
+        <img key={image.id} src={image.url} alt={image.alt} />
+      ))}
+    </Grid>
+  );
+}
+```
+
+### Feature List
+
+```tsx
+function FeatureList() {
+  return (
+    <Grid cols={{ mobile: 1, tablet: 2, desktop: 3 }} gap={6}>
+      <Feature
+        icon={<Zap />}
+        title="Fast"
+        description="Lightning-fast performance"
+      />
+      <Feature
+        icon={<Shield />}
+        title="Secure"
+        description="Enterprise-grade security"
+      />
+      <Feature
+        icon={<Users />}
+        title="Collaborative"
+        description="Built for teams"
+      />
+    </Grid>
+  );
+}
+```
+
+### Team Members
+
+```tsx
+function TeamGrid({ members }) {
+  return (
+    <Grid cols={{ mobile: 1, tablet: 2, desktop: 3 }} gap={4}>
+      {members.map(member => (
+        <div key={member.id}>
+          <Avatar src={member.avatar} />
+          <Heading level={3}>{member.name}</Heading>
+          <Text>{member.role}</Text>
+        </div>
+      ))}
+    </Grid>
+  );
+}
+```
+
+## Best Practices
+
+### 1. Use Responsive Columns
+
+```tsx
+// ✅ Good - responsive
+<Grid cols={{ mobile: 1, tablet: 2, desktop: 3 }} gap={4}>
+
+// ❌ Bad - fixed columns
+<Grid cols={3} gap={4}>
+```
+
+### 2. Choose Appropriate Column Count
+
+```tsx
+// ✅ Good - readable cards
+<Grid cols={{ mobile: 1, tablet: 2, desktop: 3 }}>
+
+// ❌ Bad - too many columns
+<Grid cols={{ mobile: 1, tablet: 6, desktop: 12 }}>
+```
+
+### 3. Use Consistent Gap
+
+```tsx
+// ✅ Good - consistent gap
+<Grid cols={3} gap={4}>
+
+// ❌ Bad - no gap
+<Grid cols={3} gap={0}>
+```
+
+## Common Patterns
+
+### 12-Column Layout
+
+```tsx
+<Grid cols={12} gap={4}>
+  <div style={{ gridColumn: 'span 8' }}>Main Content</div>
+  <div style={{ gridColumn: 'span 4' }}>Sidebar</div>
+</Grid>
+```
+
+### Auto-Fit Columns
+
+```tsx
+<Grid
+  cols={{ mobile: 1, tablet: 2, desktop: 3 }}
+  gap={4}
+  style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))' }}
+>
+  {/* Items will auto-fit based on available space */}
+</Grid>
+```
+
+## Related Components
+
+- **Stack** - For 1D layouts
+- **AppShell** - For app structure

@@ -38,27 +38,33 @@ export const navigation: NavItem[] = [
             {
                 title: 'Forms',
                 items: [
-                    { title: 'Form System', href: '/docs/components/form', badge: 'New' },
-                    { title: 'Input', href: '/docs/components/input' },
-                    { title: 'Select', href: '/docs/components/select' },
-                    { title: 'Checkbox', href: '/docs/components/checkbox' },
+                    { title: 'Form System', href: '/docs/components/form' },
+                    { title: 'Input', href: '/docs/components/input', badge: 'New' },
+                    { title: 'Textarea', href: '/docs/components/textarea', badge: 'New' },
+                    { title: 'Select', href: '/docs/components/select', badge: 'New' },
+                    { title: 'Checkbox', href: '/docs/components/checkbox', badge: 'New' },
+                    { title: 'RadioGroup', href: '/docs/components/radio-group', badge: 'New' },
+                    { title: 'FormField', href: '/docs/components/form-field', badge: 'New' },
+                    { title: 'FormGroup', href: '/docs/components/form-group', badge: 'New' },
                 ],
             },
             {
                 title: 'Data',
                 items: [
                     { title: 'DataTable', href: '/docs/components/data-table', badge: 'Popular' },
-                    { title: 'List', href: '/docs/components/list' },
-                    { title: 'Tree', href: '/docs/components/tree' },
+                    { title: 'TableToolbar', href: '/docs/components/table-toolbar', badge: 'New' },
+                    { title: 'EmptyState', href: '/docs/components/empty-state', badge: 'New' },
+                    { title: 'Skeleton', href: '/docs/components/skeleton', badge: 'New' },
                 ],
             },
             {
                 title: 'Layout',
                 items: [
                     { title: 'AppShell', href: '/docs/components/app-shell', badge: 'New' },
-                    { title: 'Container', href: '/docs/components/container' },
-                    { title: 'Grid', href: '/docs/components/grid' },
-                    { title: 'Stack', href: '/docs/components/stack' },
+                    { title: 'Sidebar', href: '/docs/components/sidebar', badge: 'New' },
+                    { title: 'PageHeader', href: '/docs/components/page-header', badge: 'New' },
+                    { title: 'Stack', href: '/docs/components/stack', badge: 'New' },
+                    { title: 'Grid', href: '/docs/components/grid', badge: 'New' },
                 ],
             },
             {
@@ -73,7 +79,6 @@ export const navigation: NavItem[] = [
                 items: [
                     { title: 'Toast', href: '/docs/components/toast' },
                     { title: 'Alert', href: '/docs/components/alert' },
-                    { title: 'Skeleton', href: '/docs/components/skeleton' },
                 ],
             },
             {

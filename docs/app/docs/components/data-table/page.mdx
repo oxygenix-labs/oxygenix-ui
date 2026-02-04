@@ -1,266 +1,400 @@
-import { Badge } from '@/components/ui/Badge'
-import { LivePreview } from '@/components/mdx/LivePreview'
-import { CodeTabs } from '@/components/mdx/CodeTabs'
-import { DataTableDemo } from '@/components/demos/DataTableDemo'
+---
+title: "DataTable"
+description: "Full-featured enterprise data table with sorting, pagination, selection, and custom rendering"
+---
 
 # DataTable
 
-<Badge variant="stable">Stable</Badge>
-
-Enterprise-grade data table component designed for large datasets and complex workflows. Built for performance, accessibility, and real-world business applications.
-
-## Live Demo
-
-<LivePreview
-  title="Interactive DataTable"
-  description="Click column headers to sort, select rows with checkboxes"
-  code={`import { DataTable } from '@oxygenix-ui/data'
-
-const columns = [
-  { id: 'name', header: 'Name', accessor: 'name', sortable: true },
-  { id: 'email', header: 'Email', accessor: 'email', sortable: true },
-  { id: 'role', header: 'Role', accessor: 'role' },
-]
-
-function UserTable() {
-  return <DataTable data={users} columns={columns} />
-}`}
->
-  <DataTableDemo />
-</LivePreview>
+Enterprise-grade data table component with sortable columns, pagination (client & server-side), row selection, custom cell rendering, and full keyboard accessibility.
 
 ## Installation
 
-<CodeTabs
-  tabs={[
-    { label: 'npm', code: 'npm install @oxygenix-ui/data', language: 'bash' },
-    { label: 'yarn', code: 'yarn add @oxygenix-ui/data', language: 'bash' },
-    { label: 'pnpm', code: 'pnpm add @oxygenix-ui/data', language: 'bash' },
-  ]}
-/>
+```bash
+npm install @oxygenix-ui/data
+```
 
 ## Basic Usage
 
-The DataTable component provides a flexible API for displaying tabular data with sorting, pagination, and selection.
-
 ```tsx
-import { DataTable } from '@oxygenix-ui/data'
+import { DataTable } from '@oxygenix-ui/data';
 
 const columns = [
   { id: 'name', header: 'Name', accessor: 'name', sortable: true },
   { id: 'email', header: 'Email', accessor: 'email', sortable: true },
   { id: 'role', header: 'Role', accessor: 'role' },
-]
+];
 
-const users = [
-  { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'Admin' },
-  { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'User' },
-  { id: 3, name: 'Carol White', email: 'carol@example.com', role: 'Editor' },
-]
+const data = [
+  { id: '1', name: 'John Doe', email: 'john@example.com', role: 'Admin' },
+  { id: '2', name: 'Jane Smith', email: 'jane@example.com', role: 'Editor' },
+];
 
 function UserTable() {
-  return (
-    <DataTable
-      data={users}
-      columns={columns}
-      sorting={{ enabled: true }}
-    />
-  )
+  return <DataTable data={data} columns={columns} />;
 }
 ```
 
 ## Features
 
-- **Sorting** - Client and server-side sorting with multi-column support
-- **Pagination** - Customizable page sizes with server-side support
-- **Row Selection** - Single and multi-select with keyboard navigation
-- **Virtualization** - Handles 10,000+ rows efficiently
-- **Inline Editing** - Edit cells directly in the table
-- **Bulk Actions** - Perform actions on multiple selected rows
-- **Accessible** - WCAG 2.2 AA compliant with full keyboard support
+### Sortable Columns
 
-## Pagination
-
-Enable pagination for large datasets:
+Click column headers to sort ascending/descending.
 
 ```tsx
 <DataTable
   data={users}
-  columns={columns}
-  pagination={{ 
-    enabled: true, 
-    pageSize: 20,
-    showPageInfo: true 
+  columns={[
+    { id: 'name', header: 'Name', accessor: 'name', sortable: true },
+    { id: 'email', header: 'Email', accessor: 'email', sortable: true },
+    { id: 'createdAt', header: 'Created', accessor: 'createdAt', sortable: true },
+  ]}
+  sorting={{
+    enabled: true,
+    mode: 'single', // or 'multi' for multiple columns
   }}
 />
 ```
 
-## Row Selection
+### Pagination
 
-Enable row selection with callbacks:
+Client-side and server-side pagination support.
+
+```tsx
+// Client-side pagination
+<DataTable
+  data={users}
+  columns={columns}
+  pagination={{
+    enabled: true,
+    pageSize: 10,
+    pageSizeOptions: [10, 25, 50, 100],
+    showPageSizeSelector: true,
+  }}
+/>
+
+// Server-side pagination
+<DataTable
+  data={currentPageData}
+  columns={columns}
+  pagination={{
+    enabled: true,
+    pageSize: 10,
+    currentPage: page,
+    onPageChange: setPage,
+  }}
+  serverSide={{
+    totalRows: totalCount,
+    onFetchData: async (params) => {
+      const result = await fetchUsers(params);
+      return { data: result.users, totalRows: result.total };
+    },
+  }}
+/>
+```
+
+### Row Selection
+
+Single or multi-row selection with select-all.
 
 ```tsx
 function SelectableTable() {
-  const [selected, setSelected] = useState<string[]>([])
+  const [selected, setSelected] = useState([]);
 
   return (
     <DataTable
       data={users}
       columns={columns}
-      selection={{ 
-        enabled: true,
+      selection={{
+        mode: 'multi', // or 'single'
         selectedRows: selected,
-        onSelectionChange: setSelected,
-        selectOnRowClick: true 
+        onSelectionChange: (ids, rows) => {
+          setSelected(ids);
+          console.log('Selected rows:', rows);
+        },
+        showSelectAll: true,
       }}
     />
-  )
+  );
 }
 ```
 
-## Custom Cell Rendering
+### Custom Cell Rendering
 
-Customize how cells are rendered using the `cell` function:
+Render custom content in cells (badges, buttons, etc.).
 
 ```tsx
-const columns = [
-  {
-    id: 'name',
-    header: 'Name',
-    accessor: 'name',
-    cell: ({ value, row }) => (
-      <div style={{ fontWeight: row.role === 'Admin' ? 'bold' : 'normal' }}>
-        {value}
-      </div>
-    ),
-  },
-  {
-    id: 'status',
-    header: 'Status',
-    accessor: 'status',
-    cell: ({ value }) => (
-      <span className={`status-${value}`}>
-        {value}
-      </span>
-    ),
-  },
-]
+<DataTable
+  data={users}
+  columns={[
+    { id: 'name', header: 'Name', accessor: 'name' },
+    {
+      id: 'status',
+      header: 'Status',
+      accessor: 'status',
+      cell: ({ value }) => (
+        <span className={`badge badge-${value}`}>
+          {value}
+        </span>
+      ),
+    },
+    {
+      id: 'actions',
+      header: 'Actions',
+      cell: ({ row }) => (
+        <div>
+          <button onClick={() => editUser(row.id)}>Edit</button>
+          <button onClick={() => deleteUser(row.id)}>Delete</button>
+        </div>
+      ),
+    },
+  ]}
+/>
 ```
 
-## Server-Side Data
+## API Reference
 
-For large datasets, use server-side pagination and sorting:
+### DataTable
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `data` | `T[]` | Required | Table data |
+| `columns` | `Column<T>[]` | Required | Column definitions |
+| `sorting` | `SortingConfig` | - | Sorting configuration |
+| `pagination` | `PaginationConfig` | - | Pagination configuration |
+| `selection` | `SelectionConfig<T>` | - | Selection configuration |
+| `serverSide` | `ServerSideConfig<T>` | - | Server-side mode |
+| `onRowClick` | `(row: T, event: MouseEvent) => void` | - | Row click handler |
+| `rowClassName` | `(row: T) => string` | - | Custom row class |
+| `slots` | `SlotsConfig<T>` | - | Custom slots |
+| `loading` | `boolean` | `false` | Loading state |
+| `error` | `Error` | - | Error state |
+| `getRowId` | `(row: T) => string` | - | Get row ID function |
+
+### Column
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `id` | `string` | Unique column ID |
+| `header` | `ReactNode \| (context) => ReactNode` | Column header |
+| `accessor` | `keyof T \| (row: T) => any` | Data accessor |
+| `cell` | `(context: CellContext<T>) => ReactNode` | Custom cell renderer |
+| `width` | `number \| string` | Column width |
+| `sortable` | `boolean` | Whether sortable |
+| `align` | `'left' \| 'center' \| 'right'` | Text alignment |
+
+### SortingConfig
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `enabled` | `boolean` | Enable sorting |
+| `mode` | `'single' \| 'multi'` | Sort mode |
+| `sortState` | `SortingState` | Current sort state |
+| `onSortChange` | `(state: SortingState) => void` | Sort change handler |
+
+### PaginationConfig
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `enabled` | `boolean` | Enable pagination |
+| `pageSize` | `number` | Page size |
+| `pageSizeOptions` | `number[]` | Page size options |
+| `currentPage` | `number` | Current page (1-indexed) |
+| `onPageChange` | `(page: number) => void` | Page change handler |
+| `showPageSizeSelector` | `boolean` | Show page size selector |
+
+### SelectionConfig
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `mode` | `'single' \| 'multi'` | Selection mode |
+| `selectedRows` | `string[]` | Selected row IDs |
+| `onSelectionChange` | `(ids: string[], rows: T[]) => void` | Selection handler |
+| `showSelectAll` | `boolean` | Show select all checkbox |
+| `isRowSelectable` | `(row: T) => boolean` | Row selectable check |
+
+## Examples
+
+### Complete User Table
+
+```tsx
+function UserManagementTable() {
+  const [users, setUsers] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const columns = [
+    {
+      id: 'name',
+      header: 'Name',
+      accessor: 'name',
+      sortable: true,
+    },
+    {
+      id: 'email',
+      header: 'Email',
+      accessor: 'email',
+      sortable: true,
+    },
+    {
+      id: 'role',
+      header: 'Role',
+      accessor: 'role',
+      cell: ({ value }) => (
+        <span className={`badge badge-${value.toLowerCase()}`}>
+          {value}
+        </span>
+      ),
+    },
+    {
+      id: 'status',
+      header: 'Status',
+      accessor: 'status',
+      cell: ({ value }) => (
+        <span className={value === 'active' ? 'text-green' : 'text-gray'}>
+          {value}
+        </span>
+      ),
+    },
+    {
+      id: 'actions',
+      header: 'Actions',
+      cell: ({ row }) => (
+        <div>
+          <IconButton icon={<Edit />} aria-label="Edit" onClick={() => editUser(row)} />
+          <IconButton icon={<Trash />} aria-label="Delete" onClick={() => deleteUser(row)} />
+        </div>
+      ),
+    },
+  ];
+
+  return (
+    <DataTable
+      data={users}
+      columns={columns}
+      sorting={{ enabled: true, mode: 'single' }}
+      pagination={{
+        enabled: true,
+        pageSize,
+        pageSizeOptions: [10, 25, 50],
+        currentPage: page,
+        onPageChange: setPage,
+        onPageSizeChange: setPageSize,
+        showPageSizeSelector: true,
+      }}
+      selection={{
+        mode: 'multi',
+        selectedRows: selected,
+        onSelectionChange: setSelected,
+        showSelectAll: true,
+      }}
+      onRowClick={(row) => viewUser(row)}
+    />
+  );
+}
+```
+
+### Server-Side Table
 
 ```tsx
 function ServerSideTable() {
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [pagination, setPagination] = useState({ page: 1, pageSize: 20 })
+  const [data, setData] = useState([]);
+  const [totalRows, setTotalRows] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    fetchData(pagination)
-  }, [pagination])
-
-  const fetchData = async (page) => {
-    setLoading(true)
-    const response = await api.getUsers({
-      page: page.page,
-      pageSize: page.pageSize,
-    })
-    setData(response.data)
-    setLoading(false)
-  }
+  const fetchData = async (params) => {
+    setLoading(true);
+    try {
+      const response = await api.getUsers({
+        page: params.page,
+        pageSize: params.pageSize,
+        sortBy: params.sorting?.[0]?.column,
+        sortDir: params.sorting?.[0]?.direction,
+      });
+      setData(response.data);
+      setTotalRows(response.total);
+      return { data: response.data, totalRows: response.total };
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <DataTable
       data={data}
       columns={columns}
       loading={loading}
+      serverSide={{
+        totalRows,
+        onFetchData: fetchData,
+      }}
       pagination={{
         enabled: true,
-        mode: 'server',
-        ...pagination,
-        onPageChange: setPagination,
+        pageSize: 25,
+      }}
+      sorting={{
+        enabled: true,
       }}
     />
-  )
+  );
 }
 ```
 
-## API Reference
+## Keyboard Accessibility
 
-### DataTable Props
+The DataTable is fully keyboard accessible:
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `data` | `T[]` | Required | Array of data objects to display |
-| `columns` | `Column<T>[]` | Required | Column definitions |
-| `sorting` | `SortingConfig` | `undefined` | Sorting configuration |
-| `pagination` | `PaginationConfig` | `undefined` | Pagination configuration |
-| `selection` | `SelectionConfig` | `undefined` | Row selection configuration |
-| `loading` | `boolean` | `false` | Show loading state |
-| `error` | `Error` | `undefined` | Error to display |
-| `onRowClick` | `(row: T) => void` | `undefined` | Row click handler |
+- **Tab**: Navigate between interactive elements
+- **Enter/Space**: Activate buttons and checkboxes
+- **Arrow Keys**: Navigate cells (when focused)
+- **Shift + Click**: Multi-select rows
 
-### Column Definition
+## Best Practices
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `id` | `string` | Unique column identifier |
-| `header` | `string \| (ctx) => ReactNode` | Column header content |
-| `accessor` | `string \| (row) => any` | How to access cell value |
-| `cell` | `(ctx) => ReactNode` | Custom cell renderer |
-| `sortable` | `boolean` | Enable sorting for this column |
-| `width` | `string \| number` | Column width |
-
-## Accessibility
-
-The DataTable component is fully accessible:
-
-- **Keyboard Navigation**: Use arrow keys to navigate cells, Tab to move between interactive elements
-- **Screen Readers**: Proper ARIA grid role with row and cell announcements
-- **Focus Management**: Clear focus indicators and logical tab order
-
-### Keyboard Shortcuts
-
-- `↑` `↓` - Navigate rows
-- `←` `→` - Navigate columns
-- `Space` - Select/deselect row
-- `Enter` - Activate row action
-- `Tab` - Move to next interactive element
-
-## Performance
-
-The DataTable is optimized for large datasets:
-
-- **Virtualization**: Only renders visible rows (handles 50,000+ rows)
-- **Memoization**: Columns and data are memoized to prevent unnecessary re-renders
-- **Efficient Sorting**: Uses optimized sorting algorithms
-- **Bundle Size**: 12kb gzipped (including dependencies)
-
-### Performance Tips
-
-1. **Memoize columns**: Use `useMemo` for column definitions
-2. **Use `getRowId`**: Provide a stable row identifier
-3. **Avoid inline functions**: Define cell renderers outside the component
-4. **Enable virtualization**: For datasets > 1000 rows
+### 1. Provide Unique Row IDs
 
 ```tsx
-const columns = useMemo(() => [
-  { id: 'name', header: 'Name', accessor: 'name' },
-  // ... other columns
-], [])
-
+// ✅ Good
 <DataTable
-  data={data}
+  data={users}
   columns={columns}
   getRowId={(row) => row.id}
-  virtualization={{ enabled: true }}
 />
+
+// ❌ Bad - relying on array index
+<DataTable data={users} columns={columns} />
+```
+
+### 2. Use Server-Side for Large Datasets
+
+```tsx
+// ✅ Good - server-side for 1000+ rows
+<DataTable
+  data={currentPage}
+  columns={columns}
+  serverSide={{ totalRows, onFetchData }}
+/>
+
+// ❌ Bad - client-side for large data
+<DataTable data={allThousandRows} columns={columns} />
+```
+
+### 3. Memoize Columns
+
+```tsx
+// ✅ Good
+const columns = useMemo(() => [
+  { id: 'name', header: 'Name', accessor: 'name' },
+], []);
+
+// ❌ Bad - recreates on every render
+const columns = [
+  { id: 'name', header: 'Name', accessor: 'name' },
+];
 ```
 
 ## Related Components
 
-- [List](/docs/components/list) - Simple list component for smaller datasets
-- [Tree](/docs/components/tree) - Hierarchical data display
-- [Form](/docs/components/form) - For editing table data
+- **TableToolbar** - Toolbar with search and bulk actions
+- **EmptyState** - For empty tables
+- **Skeleton** - For loading states

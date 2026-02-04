@@ -39,3 +39,32 @@ export type { FormFieldProps } from './FormField';
 
 export { FormGroup } from './FormGroup';
 export type { FormGroupProps } from './FormGroup';
+
+// Export Data & Table Components
+export { DataTable } from './DataTable';
+export type { DataTableProps, TableColumn, SortDirection } from './DataTable';
+
+export { TableToolbar } from './TableToolbar';
+export type { TableToolbarProps } from './TableToolbar';
+
+export { EmptyState } from './EmptyState';
+export type { EmptyStateProps } from './EmptyState';
+
+export { Skeleton } from './Skeleton';
+export type { SkeletonProps, SkeletonVariant } from './Skeleton';
+
+// Export Layout & Structure Components
+export { AppShell } from './AppShell';
+export type { AppShellProps } from './AppShell';
+
+export { Sidebar } from './Sidebar';
+export type { SidebarProps, SidebarNavItem } from './Sidebar';
+
+export { PageHeader } from './PageHeader';
+export type { PageHeaderProps, BreadcrumbItem } from './PageHeader';
+
+export { Stack } from './Stack';
+export type { StackProps, StackDirection, StackAlign, StackJustify, StackGap } from './Stack';
+
+export { Grid } from './Grid';
+export type { GridProps, GridColumns, GridGap } from './Grid';

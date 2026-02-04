@@ -1,0 +1,315 @@
+---
+title: "FormField"
+description: "Field wrapper component with label, error, hint, and control"
+---
+
+# FormField
+
+Wrapper component that combines label, error message, hint text, and form control into a cohesive field structure.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/forms
+```
+
+## Basic Usage
+
+The `Field` component is the FormField wrapper. It automatically handles labels, errors, hints, and accessibility.
+
+```tsx
+import { Form, Field } from '@oxygenix-ui/forms';
+
+function MyForm() {
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field
+        name="email"
+        label="Email Address"
+        type="email"
+        description="We'll never share your email"
+        required
+      />
+    </Form>
+  );
+}
+```
+
+## Structure
+
+The FormField (Field) component provides:
+
+1. **Label** - Accessible label for the input
+2. **Description** - Helper text below the label
+3. **Control** - The actual input/select/textarea
+4. **Error** - Validation error message
+
+```
+┌─────────────────────────────────┐
+│ Label *                         │ ← Label (with required indicator)
+│ Helper text here                │ ← Description
+│ ┌─────────────────────────────┐ │
+│ │ Input field                 │ │ ← Control
+│ └─────────────────────────────┘ │
+│ ⚠ Error message                 │ ← Error (when invalid)
+└─────────────────────────────────┘
+```
+
+## Features
+
+### Label
+
+Automatically associated with the control.
+
+```tsx
+<Field
+  name="username"
+  label="Username"
+  type="text"
+  required
+/>
+```
+
+### Description (Hint)
+
+Provide helpful context below the label.
+
+```tsx
+<Field
+  name="password"
+  label="Password"
+  type="password"
+  description="Must be at least 8 characters with uppercase, lowercase, and numbers"
+  required
+/>
+```
+
+### Error Messages
+
+Automatically displayed when validation fails.
+
+```tsx
+<Field
+  name="email"
+  label="Email"
+  type="email"
+  required
+  validate={async (value) => {
+    const exists = await checkEmail(value);
+    return exists ? 'Email already taken' : true;
+  }}
+/>
+```
+
+### Custom Error Rendering
+
+Customize how errors are displayed.
+
+```tsx
+<Field
+  name="username"
+  label="Username"
+  type="text"
+  validate={(value) => {
+    if (value.length < 3) return 'Too short';
+    if (value.length > 20) return 'Too long';
+    return true;
+  }}
+  renderError={(error) => (
+    <div style={{ color: 'red', fontWeight: 'bold' }}>
+      ❌ {error.message}
+    </div>
+  )}
+/>
+```
+
+## API Reference
+
+### Field (FormField)
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | Required | Field name |
+| `label` | `ReactNode` | - | Field label |
+| `description` | `string` | - | Helper text |
+| `type` | `FieldType` | `'text'` | Input type |
+| `required` | `boolean` | `false` | Whether field is required |
+| `validate` | `ValidationFunction \| ValidationFunction[]` | - | Validation function(s) |
+| `renderError` | `(error: FieldError) => ReactNode` | - | Custom error renderer |
+| `className` | `string` | - | Additional CSS class |
+
+## Examples
+
+### Complete Field
+
+```tsx
+<Field
+  name="email"
+  label="Email Address"
+  type="email"
+  placeholder="you@example.com"
+  description="We'll use this to send you updates"
+  required
+  validate={async (value) => {
+    if (!value.includes('@')) {
+      return 'Please enter a valid email';
+    }
+    const exists = await checkEmailExists(value);
+    if (exists) {
+      return 'This email is already registered';
+    }
+    return true;
+  }}
+/>
+```
+
+### Field with Custom Render
+
+```tsx
+<Field
+  name="bio"
+  label="Bio"
+  description="Tell us about yourself"
+  render={({ field, fieldState }) => (
+    <div>
+      <textarea
+        {...field}
+        placeholder="Your bio..."
+        maxLength={500}
+        style={{
+          width: '100%',
+          minHeight: '100px',
+          borderColor: fieldState.error ? 'red' : '#ccc'
+        }}
+      />
+      <div style={{ textAlign: 'right', fontSize: '12px' }}>
+        {field.value?.length || 0} / 500
+      </div>
+      {fieldState.error && (
+        <div style={{ color: 'red' }}>
+          {fieldState.error.message}
+        </div>
+      )}
+    </div>
+  )}
+/>
+```
+
+### Conditional Field
+
+```tsx
+<Field
+  name="otherReason"
+  label="Please specify"
+  type="text"
+  condition={(values) => values.reason === 'other'}
+  required
+  description="Tell us more about your reason"
+/>
+```
+
+## Accessibility
+
+The FormField component ensures:
+
+- **Label Association**: `htmlFor` links label to input
+- **ARIA Attributes**: 
+  - `aria-describedby` for description and errors
+  - `aria-invalid` when field has errors
+  - `aria-required` for required fields
+- **Error Announcements**: Errors have `role="alert"` for screen readers
+- **Focus Management**: Proper focus indicators
+
+## Best Practices
+
+### 1. Always Provide Labels
+
+```tsx
+// ✅ Good
+<Field name="email" label="Email" type="email" />
+
+// ❌ Bad
+<Field name="email" type="email" />
+```
+
+### 2. Use Descriptions for Context
+
+```tsx
+// ✅ Good
+<Field
+  name="apiKey"
+  label="API Key"
+  type="password"
+  description="Found in your account settings"
+/>
+
+// ❌ Bad - no context
+<Field name="apiKey" label="API Key" type="password" />
+```
+
+### 3. Provide Clear Error Messages
+
+```tsx
+// ✅ Good
+<Field
+  name="age"
+  label="Age"
+  type="number"
+  validate={(v) => v >= 18 || 'You must be 18 or older to register'}
+/>
+
+// ❌ Bad
+<Field
+  name="age"
+  label="Age"
+  type="number"
+  validate={(v) => v >= 18 || 'Invalid'}
+/>
+```
+
+### 4. Use Required Indicator
+
+```tsx
+// ✅ Good - required prop shows indicator
+<Field name="email" label="Email" type="email" required />
+
+// ❌ Bad - manual asterisk in label
+<Field name="email" label="Email *" type="email" />
+```
+
+## Styling
+
+The FormField uses CSS modules. Customize via className:
+
+```tsx
+<Field
+  name="email"
+  label="Email"
+  type="email"
+  className="custom-field"
+/>
+```
+
+```css
+.custom-field {
+  margin-bottom: 24px;
+}
+
+.custom-field label {
+  font-weight: 600;
+  color: #333;
+}
+
+.custom-field input {
+  border-radius: 8px;
+  padding: 12px;
+}
+```
+
+## Related Components
+
+- **Input** - Text input fields
+- **Select** - Dropdown fields
+- **Checkbox** - Boolean fields
+- **Textarea** - Multi-line text
+- **FieldGroup** - For grouping multiple fields

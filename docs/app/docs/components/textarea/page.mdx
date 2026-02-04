@@ -1,0 +1,292 @@
+---
+title: "Textarea"
+description: "Multi-line text input with auto-resize and max-length handling"
+---
+
+# Textarea
+
+Multi-line text input component with automatic resizing and character limit handling.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/forms
+```
+
+## Basic Usage
+
+```tsx
+import { Form, Field } from '@oxygenix-ui/forms';
+
+function CommentForm() {
+  return (
+    <Form onSubmit={(data) => console.log(data)}>
+      <Field
+        name="comment"
+        label="Comment"
+        type="textarea"
+        placeholder="Enter your comment..."
+        required
+      />
+      <button type="submit">Submit</button>
+    </Form>
+  );
+}
+```
+
+## Features
+
+### Auto-Resize
+
+The textarea automatically adjusts its height based on content (configured via CSS).
+
+```tsx
+<Field
+  name="description"
+  label="Description"
+  type="textarea"
+  placeholder="Enter a detailed description..."
+/>
+```
+
+### Max-Length Handling
+
+Set maximum character limits with validation.
+
+```tsx
+<Field
+  name="bio"
+  label="Bio"
+  type="textarea"
+  placeholder="Tell us about yourself..."
+  validate={(value) => {
+    if (value.length > 500) {
+      return `Bio must be 500 characters or less (currently ${value.length})`;
+    }
+    return true;
+  }}
+  description="Maximum 500 characters"
+/>
+```
+
+### Character Counter
+
+Create a character counter using custom render.
+
+```tsx
+function BioField() {
+  return (
+    <Field
+      name="bio"
+      label="Bio"
+      type="textarea"
+      render={({ field, fieldState }) => {
+        const maxLength = 500;
+        const remaining = maxLength - (field.value?.length || 0);
+        
+        return (
+          <div>
+            <textarea
+              {...field}
+              maxLength={maxLength}
+              placeholder="Tell us about yourself..."
+            />
+            <div style={{ textAlign: 'right', fontSize: '12px', color: '#666' }}>
+              {remaining} characters remaining
+            </div>
+            {fieldState.error && (
+              <div style={{ color: 'red' }}>{fieldState.error.message}</div>
+            )}
+          </div>
+        );
+      }}
+    />
+  );
+}
+```
+
+## API Reference
+
+### Field (Textarea)
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | Required | Field name |
+| `label` | `ReactNode` | - | Field label |
+| `type` | `'textarea'` | Required | Must be 'textarea' |
+| `placeholder` | `string` | - | Placeholder text |
+| `required` | `boolean` | `false` | Whether field is required |
+| `validate` | `ValidationFunction \| ValidationFunction[]` | - | Validation function(s) |
+| `disabled` | `boolean` | `false` | Whether field is disabled |
+| `readOnly` | `boolean` | `false` | Whether field is read-only |
+| `description` | `string` | - | Help text below the textarea |
+
+## Examples
+
+### Comment Form
+
+```tsx
+function CommentForm({ postId }) {
+  const handleSubmit = async (data) => {
+    await submitComment(postId, data.comment);
+  };
+
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field
+        name="comment"
+        label="Add a comment"
+        type="textarea"
+        required
+        placeholder="Share your thoughts..."
+        validate={(value) => {
+          if (value.length < 10) {
+            return 'Comment must be at least 10 characters';
+          }
+          if (value.length > 1000) {
+            return 'Comment must be 1000 characters or less';
+          }
+          return true;
+        }}
+        description="Minimum 10 characters, maximum 1000"
+      />
+      <button type="submit">Post Comment</button>
+    </Form>
+  );
+}
+```
+
+### Feedback Form
+
+```tsx
+function FeedbackForm() {
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field
+        name="feedback"
+        label="Your Feedback"
+        type="textarea"
+        required
+        placeholder="Tell us what you think..."
+        description="We appreciate your honest feedback"
+      />
+
+      <Field
+        name="suggestions"
+        label="Suggestions (Optional)"
+        type="textarea"
+        placeholder="Any suggestions for improvement?"
+      />
+
+      <button type="submit">Submit Feedback</button>
+    </Form>
+  );
+}
+```
+
+### Message Composer
+
+```tsx
+function MessageComposer() {
+  return (
+    <Form onSubmit={sendMessage}>
+      <Field
+        name="subject"
+        label="Subject"
+        type="text"
+        required
+      />
+
+      <Field
+        name="message"
+        label="Message"
+        type="textarea"
+        required
+        placeholder="Type your message..."
+        validate={(value) => {
+          if (value.length < 20) {
+            return 'Message must be at least 20 characters';
+          }
+          return true;
+        }}
+      />
+
+      <button type="submit">Send Message</button>
+    </Form>
+  );
+}
+```
+
+## Accessibility
+
+The Textarea component is fully accessible:
+
+- **Labels**: Properly associated with textarea
+- **ARIA**: Full ARIA attribute support
+- **Error Announcements**: Errors announced to screen readers
+- **Keyboard Navigation**: Standard textarea keyboard behavior
+- **Resize**: Users can resize if CSS allows
+
+## Best Practices
+
+### 1. Set Appropriate Sizes
+
+```tsx
+// ✅ Good - reasonable default size
+<Field 
+  name="description" 
+  type="textarea"
+  description="4-5 lines is a good default"
+/>
+
+// ❌ Bad - too small for expected content
+<Field name="essay" type="textarea" /> {/* Only 1 line */}
+```
+
+### 2. Provide Character Limits
+
+```tsx
+// ✅ Good - clear limits
+<Field
+  name="bio"
+  type="textarea"
+  validate={(v) => v.length <= 500 || 'Max 500 characters'}
+  description="Maximum 500 characters"
+/>
+
+// ❌ Bad - no guidance
+<Field name="bio" type="textarea" />
+```
+
+### 3. Use Helpful Placeholders
+
+```tsx
+// ✅ Good - shows expected format
+<Field
+  name="address"
+  type="textarea"
+  placeholder="123 Main St&#10;Apt 4B&#10;City, State 12345"
+/>
+
+// ❌ Bad - vague
+<Field name="address" type="textarea" placeholder="Address" />
+```
+
+## Styling
+
+The textarea inherits form field styles and can be customized:
+
+```css
+.field-textarea {
+  min-height: 100px;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.5;
+}
+```
+
+## Related Components
+
+- **Input** - For single-line text
+- **Form** - Parent form component
+- **FormField** - Custom field wrapper

@@ -1,0 +1,366 @@
+---
+title: "Select"
+description: "Dropdown select component with async loading, search, and keyboard navigation"
+---
+
+# Select
+
+Dropdown select component with support for async data loading, searchable options, and keyboard-first navigation.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/forms
+```
+
+## Basic Usage
+
+```tsx
+import { Form, Field } from '@oxygenix-ui/forms';
+
+function CountrySelector() {
+  return (
+    <Form onSubmit={(data) => console.log(data)}>
+      <Field
+        name="country"
+        label="Country"
+        type="select"
+        required
+        options={[
+          { value: 'us', label: 'United States' },
+          { value: 'ca', label: 'Canada' },
+          { value: 'mx', label: 'Mexico' },
+        ]}
+      />
+      <button type="submit">Submit</button>
+    </Form>
+  );
+}
+```
+
+## Features
+
+### Static Options
+
+Provide options directly as an array.
+
+```tsx
+<Field
+  name="role"
+  label="Role"
+  type="select"
+  required
+  options={[
+    { value: 'admin', label: 'Administrator' },
+    { value: 'editor', label: 'Editor' },
+    { value: 'viewer', label: 'Viewer' },
+  ]}
+/>
+```
+
+### Async Options
+
+Load options asynchronously (implement with custom render).
+
+```tsx
+function AsyncSelect() {
+  const [options, setOptions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadCountries().then((countries) => {
+      setOptions(countries.map(c => ({
+        value: c.code,
+        label: c.name
+      })));
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
+  return (
+    <Field
+      name="country"
+      label="Country"
+      type="select"
+      options={options}
+    />
+  );
+}
+```
+
+### Disabled Options
+
+Disable specific options.
+
+```tsx
+<Field
+  name="plan"
+  label="Subscription Plan"
+  type="select"
+  options={[
+    { value: 'free', label: 'Free' },
+    { value: 'pro', label: 'Pro - $10/month' },
+    { value: 'enterprise', label: 'Enterprise', disabled: true },
+  ]}
+/>
+```
+
+### Searchable Select
+
+Create a searchable select with custom render.
+
+```tsx
+function SearchableSelect({ options }) {
+  return (
+    <Field
+      name="country"
+      label="Country"
+      render={({ field }) => {
+        const [search, setSearch] = useState('');
+        const filtered = options.filter(opt =>
+          opt.label.toLowerCase().includes(search.toLowerCase())
+        );
+
+        return (
+          <div>
+            <input
+              type="text"
+              placeholder="Search..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <select {...field}>
+              <option value="">Select...</option>
+              {filtered.map(opt => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        );
+      }}
+    />
+  );
+}
+```
+
+## API Reference
+
+### Field (Select)
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | Required | Field name |
+| `label` | `ReactNode` | - | Field label |
+| `type` | `'select'` | Required | Must be 'select' |
+| `options` | `Option[]` | Required | Select options |
+| `required` | `boolean` | `false` | Whether field is required |
+| `validate` | `ValidationFunction \| ValidationFunction[]` | - | Validation function(s) |
+| `disabled` | `boolean` | `false` | Whether field is disabled |
+| `description` | `string` | - | Help text below the select |
+
+### Option
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `value` | `string \| number` | Option value |
+| `label` | `string` | Option label (displayed text) |
+| `disabled` | `boolean` | Whether option is disabled |
+
+## Examples
+
+### User Role Selector
+
+```tsx
+function UserRoleForm() {
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field
+        name="userId"
+        label="User"
+        type="select"
+        required
+        options={users.map(u => ({
+          value: u.id,
+          label: u.name
+        }))}
+      />
+
+      <Field
+        name="role"
+        label="Role"
+        type="select"
+        required
+        options={[
+          { value: 'admin', label: 'Administrator' },
+          { value: 'editor', label: 'Editor' },
+          { value: 'viewer', label: 'Viewer' },
+        ]}
+        description="Select the user's role"
+      />
+
+      <button type="submit">Assign Role</button>
+    </Form>
+  );
+}
+```
+
+### Category Selector
+
+```tsx
+function ProductForm() {
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field
+        name="category"
+        label="Category"
+        type="select"
+        required
+        options={[
+          { value: 'electronics', label: 'Electronics' },
+          { value: 'clothing', label: 'Clothing' },
+          { value: 'books', label: 'Books' },
+          { value: 'home', label: 'Home & Garden' },
+        ]}
+      />
+
+      <Field
+        name="subcategory"
+        label="Subcategory"
+        type="select"
+        condition={(values) => values.category === 'electronics'}
+        options={[
+          { value: 'phones', label: 'Phones' },
+          { value: 'laptops', label: 'Laptops' },
+          { value: 'tablets', label: 'Tablets' },
+        ]}
+      />
+
+      <button type="submit">Save Product</button>
+    </Form>
+  );
+}
+```
+
+### Priority Selector
+
+```tsx
+function TaskForm() {
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field
+        name="priority"
+        label="Priority"
+        type="select"
+        required
+        options={[
+          { value: 'low', label: '🟢 Low' },
+          { value: 'medium', label: '🟡 Medium' },
+          { value: 'high', label: '🟠 High' },
+          { value: 'urgent', label: '🔴 Urgent' },
+        ]}
+      />
+    </Form>
+  );
+}
+```
+
+## Keyboard Navigation
+
+The Select component supports full keyboard navigation:
+
+- **Tab**: Focus the select
+- **Enter/Space**: Open dropdown
+- **Arrow Up/Down**: Navigate options
+- **Home/End**: Jump to first/last option
+- **Type**: Jump to option starting with typed character
+- **Esc**: Close dropdown
+
+## Accessibility
+
+The Select component is fully accessible:
+
+- **Labels**: Properly associated with select
+- **ARIA**: Full ARIA attribute support
+- **Keyboard**: Complete keyboard navigation
+- **Screen Reader**: Options announced correctly
+- **Required**: Proper required field indication
+
+## Best Practices
+
+### 1. Provide Clear Labels
+
+```tsx
+// ✅ Good
+<Field 
+  name="country" 
+  label="Country of Residence"
+  type="select"
+  options={countries}
+/>
+
+// ❌ Bad
+<Field name="country" type="select" options={countries} />
+```
+
+### 2. Use Descriptive Option Labels
+
+```tsx
+// ✅ Good
+options={[
+  { value: 'us', label: 'United States' },
+  { value: 'ca', label: 'Canada' },
+]}
+
+// ❌ Bad
+options={[
+  { value: 'us', label: 'US' },
+  { value: 'ca', label: 'CA' },
+]}
+```
+
+### 3. Group Related Options
+
+For many options, consider using optgroups (via custom render):
+
+```tsx
+<Field
+  name="location"
+  label="Location"
+  render={({ field }) => (
+    <select {...field}>
+      <optgroup label="North America">
+        <option value="us">United States</option>
+        <option value="ca">Canada</option>
+      </optgroup>
+      <optgroup label="Europe">
+        <option value="uk">United Kingdom</option>
+        <option value="de">Germany</option>
+      </optgroup>
+    </select>
+  )}
+/>
+```
+
+### 4. Handle Empty State
+
+```tsx
+// ✅ Good - clear empty state
+<Field
+  name="category"
+  type="select"
+  options={categories.length > 0 ? categories : [
+    { value: '', label: 'No categories available', disabled: true }
+  ]}
+/>
+```
+
+## Related Components
+
+- **Input** - For text input
+- **RadioGroup** - For visible options
+- **Checkbox** - For multiple selections
+- **Form** - Parent form component

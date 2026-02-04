@@ -1,0 +1,300 @@
+---
+title: "PageHeader"
+description: "Page title section with breadcrumbs, title, subtitle, and action buttons"
+---
+
+# PageHeader
+
+Page header component with breadcrumb navigation, title, optional subtitle, and action buttons slot. Provides clean separation from page content.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/ui
+```
+
+## Basic Usage
+
+```tsx
+import { PageHeader } from '@oxygenix-ui/ui';
+
+function UsersPage() {
+  return (
+    <>
+      <PageHeader title="Users" />
+      <div>{/* Page content */}</div>
+    </>
+  );
+}
+```
+
+## Features
+
+### With Breadcrumbs
+
+Add breadcrumb navigation with proper ARIA.
+
+```tsx
+<PageHeader
+  breadcrumbs={[
+    { label: 'Home', href: '/' },
+    { label: 'Users', href: '/users' },
+    { label: 'John Doe' },
+  ]}
+  title="John Doe"
+/>
+```
+
+### With Subtitle
+
+Add descriptive subtitle.
+
+```tsx
+<PageHeader
+  title="User Management"
+  subtitle="Manage users, roles, and permissions"
+/>
+```
+
+### With Action Buttons
+
+Add action buttons on the right.
+
+```tsx
+<PageHeader
+  title="Products"
+  actions={
+    <div style={{ display: 'flex', gap: '8px' }}>
+      <Button variant="ghost" leftIcon={<Download />}>Export</Button>
+      <Button leftIcon={<Plus />}>Add Product</Button>
+    </div>
+  }
+/>
+```
+
+## API Reference
+
+### PageHeader
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | Required | Page title |
+| `subtitle` | `string` | - | Page subtitle |
+| `breadcrumbs` | `BreadcrumbItem[]` | `[]` | Breadcrumb items |
+| `actions` | `ReactNode` | - | Action buttons |
+| `className` | `string` | - | Additional CSS class |
+
+### BreadcrumbItem
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `label` | `string` | Breadcrumb label |
+| `href` | `string` | Breadcrumb URL |
+| `onClick` | `() => void` | Click handler |
+
+## Examples
+
+### User Detail Page
+
+```tsx
+function UserDetailPage({ user }) {
+  return (
+    <>
+      <PageHeader
+        breadcrumbs={[
+          { label: 'Home', href: '/' },
+          { label: 'Users', href: '/users' },
+          { label: user.name },
+        ]}
+        title={user.name}
+        subtitle={user.email}
+        actions={
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <Button variant="ghost" onClick={() => deleteUser(user.id)}>
+              Delete
+            </Button>
+            <Button onClick={() => editUser(user.id)}>
+              Edit
+            </Button>
+          </div>
+        }
+      />
+      <UserDetails user={user} />
+    </>
+  );
+}
+```
+
+### Product Listing Page
+
+```tsx
+function ProductsPage() {
+  return (
+    <>
+      <PageHeader
+        breadcrumbs={[
+          { label: 'Home', href: '/' },
+          { label: 'Products' },
+        ]}
+        title="Products"
+        subtitle={`${products.length} products in catalog`}
+        actions={
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <Button variant="ghost" leftIcon={<Download />}>
+              Export CSV
+            </Button>
+            <Button variant="ghost" leftIcon={<Upload />}>
+              Import
+            </Button>
+            <Button leftIcon={<Plus />}>
+              Add Product
+            </Button>
+          </div>
+        }
+      />
+      <ProductTable products={products} />
+    </>
+  );
+}
+```
+
+### Settings Page
+
+```tsx
+function SettingsPage() {
+  return (
+    <>
+      <PageHeader
+        breadcrumbs={[
+          { label: 'Home', href: '/' },
+          { label: 'Settings' },
+        ]}
+        title="Settings"
+        subtitle="Manage your account settings and preferences"
+      />
+      <SettingsForm />
+    </>
+  );
+}
+```
+
+### Dashboard Page
+
+```tsx
+function DashboardPage() {
+  return (
+    <>
+      <PageHeader
+        title="Dashboard"
+        subtitle={`Welcome back, ${user.name}`}
+        actions={
+          <Button leftIcon={<RefreshCw />} onClick={() => refreshData()}>
+            Refresh
+          </Button>
+        }
+      />
+      <DashboardCharts />
+    </>
+  );
+}
+```
+
+## Accessibility
+
+The PageHeader component is fully accessible:
+
+- **Breadcrumbs**: Proper `<nav>` with `aria-label="Breadcrumb"`
+- **Current Page**: Last breadcrumb has `aria-current="page"`
+- **Semantic HTML**: Uses `<h1>` for title
+- **Keyboard**: All links and buttons are keyboard accessible
+
+## Best Practices
+
+### 1. Always Provide Title
+
+```tsx
+// ✅ Good
+<PageHeader title="Users" />
+
+// ❌ Bad
+<PageHeader />
+```
+
+### 2. Use Breadcrumbs for Deep Pages
+
+```tsx
+// ✅ Good - shows navigation path
+<PageHeader
+  breadcrumbs={[
+    { label: 'Home', href: '/' },
+    { label: 'Products', href: '/products' },
+    { label: 'Electronics', href: '/products/electronics' },
+    { label: 'Laptop' },
+  ]}
+  title="Laptop Details"
+/>
+
+// ❌ Bad - no breadcrumbs on deep page
+<PageHeader title="Laptop Details" />
+```
+
+### 3. Group Related Actions
+
+```tsx
+// ✅ Good - related actions grouped
+actions={
+  <div style={{ display: 'flex', gap: '8px' }}>
+    <Button variant="ghost">Cancel</Button>
+    <Button>Save</Button>
+  </div>
+}
+
+// ❌ Bad - actions scattered
+actions={
+  <>
+    <Button>Save</Button>
+    <Button variant="ghost">Cancel</Button>
+  </>
+}
+```
+
+### 4. Keep Subtitles Concise
+
+```tsx
+// ✅ Good - concise subtitle
+<PageHeader
+  title="Products"
+  subtitle="Manage your product catalog"
+/>
+
+// ❌ Bad - too verbose
+<PageHeader
+  title="Products"
+  subtitle="This is the products page where you can view, edit, and manage all of your products in the catalog"
+/>
+```
+
+## Styling
+
+Customize PageHeader using className:
+
+```tsx
+<PageHeader
+  title="Users"
+  className="custom-page-header"
+/>
+```
+
+```css
+.custom-page-header {
+  background: #f5f5f5;
+  padding: 24px;
+  border-radius: 8px;
+}
+```
+
+## Related Components
+
+- **AppShell** - Use PageHeader inside AppShell content
+- **Sidebar** - For app-level navigation
+- **Button** - For action buttons

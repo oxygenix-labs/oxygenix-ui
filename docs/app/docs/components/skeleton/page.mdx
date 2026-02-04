@@ -1,0 +1,331 @@
+---
+title: "Skeleton"
+description: "Animated loading placeholders with 5 variants and smooth shimmer animation"
+---
+
+# Skeleton
+
+Layout-aware loading placeholder component with smooth shimmer animation. Available in 5 variants for different content types.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/ui
+```
+
+## Basic Usage
+
+```tsx
+import { Skeleton } from '@oxygenix-ui/ui';
+
+function LoadingCard() {
+  return (
+    <div>
+      <Skeleton variant="title" />
+      <Skeleton variant="text" count={3} />
+    </div>
+  );
+}
+```
+
+## Variants
+
+### Text
+
+For body text and paragraphs.
+
+```tsx
+<Skeleton variant="text" width="100%" />
+<Skeleton variant="text" width="80%" />
+<Skeleton variant="text" width="60%" />
+```
+
+### Title
+
+For headings and titles.
+
+```tsx
+<Skeleton variant="title" width="200px" />
+```
+
+### Avatar
+
+For circular profile pictures.
+
+```tsx
+<Skeleton variant="avatar" width={40} height={40} />
+```
+
+### Rectangle
+
+For images, cards, and rectangular content.
+
+```tsx
+<Skeleton variant="rect" width="100%" height={200} />
+```
+
+### Circle
+
+For circular elements like badges or icons.
+
+```tsx
+<Skeleton variant="circle" width={24} height={24} />
+```
+
+## API Reference
+
+### Skeleton
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'text' \| 'title' \| 'avatar' \| 'rect' \| 'circle'` | `'text'` | Skeleton variant |
+| `width` | `string \| number` | - | Width (px or %) |
+| `height` | `string \| number` | - | Height (px or %) |
+| `borderRadius` | `string \| number` | - | Border radius |
+| `count` | `number` | `1` | Number of skeleton lines |
+| `className` | `string` | - | Additional CSS class |
+| `style` | `CSSProperties` | - | Inline styles |
+
+## Examples
+
+### Loading Card
+
+```tsx
+function ProductCardSkeleton() {
+  return (
+    <div className="card">
+      <Skeleton variant="rect" width="100%" height={200} />
+      <div style={{ padding: '16px' }}>
+        <Skeleton variant="title" width="80%" />
+        <Skeleton variant="text" count={2} />
+        <Skeleton variant="text" width="40%" />
+      </div>
+    </div>
+  );
+}
+```
+
+### Loading User Profile
+
+```tsx
+function UserProfileSkeleton() {
+  return (
+    <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+      <Skeleton variant="avatar" width={64} height={64} />
+      <div style={{ flex: 1 }}>
+        <Skeleton variant="title" width="200px" />
+        <Skeleton variant="text" width="150px" />
+      </div>
+    </div>
+  );
+}
+```
+
+### Loading Table
+
+```tsx
+function TableSkeleton() {
+  return (
+    <table>
+      <thead>
+        <tr>
+          {[1, 2, 3, 4].map(i => (
+            <th key={i}>
+              <Skeleton variant="text" width="100px" />
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {[1, 2, 3, 4, 5].map(row => (
+          <tr key={row}>
+            {[1, 2, 3, 4].map(col => (
+              <td key={col}>
+                <Skeleton variant="text" />
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+```
+
+### Loading List
+
+```tsx
+function ListSkeleton() {
+  return (
+    <div>
+      {[1, 2, 3, 4, 5].map(i => (
+        <div key={i} style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
+          <Skeleton variant="avatar" width={40} height={40} />
+          <div style={{ flex: 1 }}>
+            <Skeleton variant="text" width="60%" />
+            <Skeleton variant="text" width="40%" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+### Loading Dashboard
+
+```tsx
+function DashboardSkeleton() {
+  return (
+    <div>
+      <Skeleton variant="title" width="300px" />
+      
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginTop: '24px' }}>
+        {[1, 2, 3].map(i => (
+          <div key={i} className="stat-card">
+            <Skeleton variant="text" width="100px" />
+            <Skeleton variant="title" width="80px" />
+          </div>
+        ))}
+      </div>
+
+      <div style={{ marginTop: '32px' }}>
+        <Skeleton variant="rect" width="100%" height={300} />
+      </div>
+    </div>
+  );
+}
+```
+
+### Loading Form
+
+```tsx
+function FormSkeleton() {
+  return (
+    <div>
+      {[1, 2, 3].map(i => (
+        <div key={i} style={{ marginBottom: '24px' }}>
+          <Skeleton variant="text" width="120px" />
+          <Skeleton variant="rect" width="100%" height={40} style={{ marginTop: '8px' }} />
+        </div>
+      ))}
+      <Skeleton variant="rect" width="120px" height={40} />
+    </div>
+  );
+}
+```
+
+## With DataTable
+
+Use Skeleton while loading table data.
+
+```tsx
+function UserTable() {
+  const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState([]);
+
+  if (loading) {
+    return <TableSkeleton />;
+  }
+
+  return <DataTable data={users} columns={columns} />;
+}
+```
+
+## Best Practices
+
+### 1. Match Content Layout
+
+```tsx
+// ✅ Good - skeleton matches actual content
+<Skeleton variant="avatar" width={48} height={48} />
+<Skeleton variant="title" width="200px" />
+<Skeleton variant="text" count={2} />
+
+// ❌ Bad - doesn't match layout
+<Skeleton variant="rect" width="100%" height={500} />
+```
+
+### 2. Use Appropriate Variants
+
+```tsx
+// ✅ Good - correct variants
+<Skeleton variant="avatar" /> // for profile pic
+<Skeleton variant="title" />  // for heading
+<Skeleton variant="text" />   // for paragraph
+
+// ❌ Bad - wrong variants
+<Skeleton variant="rect" />   // for text
+<Skeleton variant="text" />   // for image
+```
+
+### 3. Vary Text Widths
+
+```tsx
+// ✅ Good - natural text variation
+<Skeleton variant="text" width="100%" />
+<Skeleton variant="text" width="90%" />
+<Skeleton variant="text" width="75%" />
+
+// ❌ Bad - all same width
+<Skeleton variant="text" width="100%" />
+<Skeleton variant="text" width="100%" />
+<Skeleton variant="text" width="100%" />
+```
+
+### 4. Use Count for Repeated Content
+
+```tsx
+// ✅ Good - use count prop
+<Skeleton variant="text" count={5} />
+
+// ❌ Bad - manual repetition
+<Skeleton variant="text" />
+<Skeleton variant="text" />
+<Skeleton variant="text" />
+<Skeleton variant="text" />
+<Skeleton variant="text" />
+```
+
+## Animation
+
+The Skeleton component includes a smooth shimmer animation by default:
+
+- **Gradient**: Subtle light-to-dark gradient
+- **Duration**: 1.5s animation loop
+- **Direction**: Left to right shimmer
+- **Performance**: GPU-accelerated
+
+## Accessibility
+
+The Skeleton component is accessible:
+
+- **ARIA**: `aria-hidden="true"` to hide from screen readers
+- **Loading State**: Use with proper loading announcements
+- **Focus**: Not focusable (decorative only)
+
+## Styling
+
+Customize Skeleton using className or style:
+
+```tsx
+<Skeleton
+  variant="rect"
+  width="100%"
+  height={200}
+  className="custom-skeleton"
+  style={{ borderRadius: '12px' }}
+/>
+```
+
+```css
+.custom-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+}
+```
+
+## Related Components
+
+- **EmptyState** - For no-data states
+- **DataTable** - Use Skeleton for loading tables
+- **Button** - Can show loading state

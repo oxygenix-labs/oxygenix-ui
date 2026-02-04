@@ -1,0 +1,218 @@
+/* ========================================
+   DATA TABLE
+   ======================================== */
+.data-table-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--oxy-color-border-default);
+    border-radius: var(--oxy-radius-base);
+    background: var(--oxy-color-bg-primary);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--oxy-font-size-sm);
+}
+
+.data-table-header {
+    background: var(--oxy-color-bg-secondary);
+    border-bottom: 1px solid var(--oxy-color-border-default);
+}
+
+.data-table-header-cell {
+    padding: var(--oxy-spacing-3) var(--oxy-spacing-4);
+    text-align: left;
+    font-weight: var(--oxy-font-weight-semibold);
+    color: var(--oxy-color-text-primary);
+    white-space: nowrap;
+}
+
+.data-table-header-cell-sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: background var(--oxy-transition-fast);
+}
+
+.data-table-header-cell-sortable:hover {
+    background: var(--oxy-color-interactive-secondary-hover);
+}
+
+.data-table-sort-indicator {
+    display: inline-block;
+    margin-left: var(--oxy-spacing-1);
+    opacity: 0.5;
+}
+
+.data-table-sort-indicator-active {
+    opacity: 1;
+}
+
+.data-table-body-row {
+    border-bottom: 1px solid var(--oxy-color-border-default);
+    transition: background var(--oxy-transition-fast);
+}
+
+.data-table-body-row:hover {
+    background: var(--oxy-color-bg-secondary);
+}
+
+.data-table-body-row-selected {
+    background: var(--oxy-primary-50);
+}
+
+.data-table-body-row-selected:hover {
+    background: var(--oxy-primary-100);
+}
+
+.data-table-body-cell {
+    padding: var(--oxy-spacing-3) var(--oxy-spacing-4);
+    color: var(--oxy-color-text-primary);
+}
+
+.data-table-checkbox-cell {
+    width: 40px;
+    padding: var(--oxy-spacing-2);
+}
+
+.data-table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--oxy-spacing-3) var(--oxy-spacing-4);
+    border-top: 1px solid var(--oxy-color-border-default);
+    background: var(--oxy-color-bg-secondary);
+}
+
+.data-table-pagination {
+    display: flex;
+    align-items: center;
+    gap: var(--oxy-spacing-2);
+}
+
+.data-table-page-info {
+    font-size: var(--oxy-font-size-sm);
+    color: var(--oxy-color-text-secondary);
+}
+
+/* ========================================
+   TABLE TOOLBAR
+   ======================================== */
+.table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--oxy-spacing-3) var(--oxy-spacing-4);
+    background: var(--oxy-color-bg-secondary);
+    border: 1px solid var(--oxy-color-border-default);
+    border-bottom: none;
+    border-radius: var(--oxy-radius-base) var(--oxy-radius-base) 0 0;
+}
+
+.table-toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: var(--oxy-spacing-2);
+}
+
+.table-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: var(--oxy-spacing-2);
+}
+
+.table-toolbar-title {
+    font-size: var(--oxy-font-size-base);
+    font-weight: var(--oxy-font-weight-semibold);
+    color: var(--oxy-color-text-primary);
+}
+
+.table-toolbar-selection-info {
+    font-size: var(--oxy-font-size-sm);
+    color: var(--oxy-color-text-secondary);
+}
+
+/* ========================================
+   EMPTY STATE
+   ======================================== */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--oxy-spacing-12) var(--oxy-spacing-6);
+    text-align: center;
+}
+
+.empty-state-icon {
+    font-size: 48px;
+    margin-bottom: var(--oxy-spacing-4);
+    opacity: 0.5;
+}
+
+.empty-state-title {
+    margin-bottom: var(--oxy-spacing-2);
+    font-size: var(--oxy-font-size-lg);
+    font-weight: var(--oxy-font-weight-semibold);
+    color: var(--oxy-color-text-primary);
+}
+
+.empty-state-description {
+    margin-bottom: var(--oxy-spacing-4);
+    font-size: var(--oxy-font-size-sm);
+    color: var(--oxy-color-text-secondary);
+    max-width: 400px;
+}
+
+.empty-state-action {
+    margin-top: var(--oxy-spacing-2);
+}
+
+/* ========================================
+   SKELETON
+   ======================================== */
+.skeleton {
+    display: inline-block;
+    background: linear-gradient(90deg,
+            var(--oxy-color-bg-secondary) 0%,
+            var(--oxy-color-interactive-secondary-hover) 50%,
+            var(--oxy-color-bg-secondary) 100%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+    border-radius: var(--oxy-radius-sm);
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton-text {
+    height: 1em;
+    width: 100%;
+}
+
+.skeleton-title {
+    height: 1.5em;
+    width: 60%;
+}
+
+.skeleton-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.skeleton-rect {
+    width: 100%;
+    height: 100px;
+}
+
+.skeleton-circle {
+    border-radius: 50%;
+}

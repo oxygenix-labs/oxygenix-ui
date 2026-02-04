@@ -1,0 +1,318 @@
+---
+title: "EmptyState"
+description: "Beautiful no-data display with icon, title, description, and optional action"
+---
+
+# EmptyState
+
+Beautiful empty state component for displaying when no data is available in tables, lists, or dashboards.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/ui
+```
+
+## Basic Usage
+
+```tsx
+import { EmptyState } from '@oxygenix-ui/ui';
+
+function UserList() {
+  if (users.length === 0) {
+    return (
+      <EmptyState
+        title="No users found"
+        description="Get started by adding your first user"
+      />
+    );
+  }
+
+  return <UserTable users={users} />;
+}
+```
+
+## Features
+
+### With Icon
+
+Add an icon or illustration to make the empty state more engaging.
+
+```tsx
+import { Users } from 'lucide-react';
+
+<EmptyState
+  icon={<Users size={48} />}
+  title="No users yet"
+  description="Your user list is empty"
+/>
+```
+
+### With Action Button
+
+Provide a call-to-action to help users get started.
+
+```tsx
+<EmptyState
+  icon={<Inbox size={48} />}
+  title="No messages"
+  description="You don't have any messages yet"
+  action={
+    <Button onClick={() => composeMessage()}>
+      Compose Message
+    </Button>
+  }
+/>
+```
+
+## API Reference
+
+### EmptyState
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `icon` | `ReactNode` | - | Icon or illustration |
+| `title` | `string` | Required | Empty state title |
+| `description` | `string` | - | Description text |
+| `action` | `ReactNode` | - | Action button or link |
+| `className` | `string` | - | Additional CSS class |
+
+## Examples
+
+### Empty Table
+
+```tsx
+function ProductTable() {
+  if (products.length === 0) {
+    return (
+      <EmptyState
+        icon={<Package size={48} />}
+        title="No products found"
+        description="Start by adding your first product to the catalog"
+        action={
+          <Button leftIcon={<Plus />} onClick={() => addProduct()}>
+            Add Product
+          </Button>
+        }
+      />
+    );
+  }
+
+  return <DataTable data={products} columns={columns} />;
+}
+```
+
+### Empty Search Results
+
+```tsx
+function SearchResults({ query, results }) {
+  if (results.length === 0) {
+    return (
+      <EmptyState
+        icon={<Search size={48} />}
+        title={`No results for "${query}"`}
+        description="Try adjusting your search terms or filters"
+        action={
+          <Button variant="ghost" onClick={() => clearSearch()}>
+            Clear Search
+          </Button>
+        }
+      />
+    );
+  }
+
+  return <ResultsList results={results} />;
+}
+```
+
+### Empty Inbox
+
+```tsx
+function Inbox() {
+  if (messages.length === 0) {
+    return (
+      <EmptyState
+        icon={<Mail size={48} />}
+        title="Inbox Zero!"
+        description="You're all caught up. Great job!"
+      />
+    );
+  }
+
+  return <MessageList messages={messages} />;
+}
+```
+
+### Empty Dashboard
+
+```tsx
+function Dashboard() {
+  if (!hasData) {
+    return (
+      <EmptyState
+        icon={<BarChart size={48} />}
+        title="No data available"
+        description="Connect your data source to see analytics"
+        action={
+          <Button onClick={() => connectDataSource()}>
+            Connect Data Source
+          </Button>
+        }
+      />
+    );
+  }
+
+  return <DashboardCharts />;
+}
+```
+
+### Empty Cart
+
+```tsx
+function ShoppingCart() {
+  if (cart.items.length === 0) {
+    return (
+      <EmptyState
+        icon={<ShoppingCart size={48} />}
+        title="Your cart is empty"
+        description="Add some items to get started"
+        action={
+          <Button onClick={() => navigate('/products')}>
+            Browse Products
+          </Button>
+        }
+      />
+    );
+  }
+
+  return <CartItems items={cart.items} />;
+}
+```
+
+### Empty Favorites
+
+```tsx
+function Favorites() {
+  if (favorites.length === 0) {
+    return (
+      <EmptyState
+        icon={<Heart size={48} />}
+        title="No favorites yet"
+        description="Items you favorite will appear here"
+      />
+    );
+  }
+
+  return <FavoritesList items={favorites} />;
+}
+```
+
+## Best Practices
+
+### 1. Provide Clear Guidance
+
+```tsx
+// ✅ Good - explains what to do
+<EmptyState
+  title="No tasks"
+  description="Create your first task to get started"
+  action={<Button>Create Task</Button>}
+/>
+
+// ❌ Bad - no guidance
+<EmptyState title="Empty" />
+```
+
+### 2. Use Relevant Icons
+
+```tsx
+// ✅ Good - icon matches context
+<EmptyState
+  icon={<Users />}
+  title="No team members"
+/>
+
+// ❌ Bad - generic icon
+<EmptyState
+  icon={<Circle />}
+  title="No team members"
+/>
+```
+
+### 3. Offer Actions When Appropriate
+
+```tsx
+// ✅ Good - action helps user proceed
+<EmptyState
+  title="No projects"
+  action={<Button>Create Project</Button>}
+/>
+
+// ❌ Bad - no way to proceed
+<EmptyState title="No projects" />
+```
+
+### 4. Keep Text Concise
+
+```tsx
+// ✅ Good - concise and clear
+<EmptyState
+  title="No notifications"
+  description="You're all caught up"
+/>
+
+// ❌ Bad - too verbose
+<EmptyState
+  title="You currently have no notifications"
+  description="At this moment in time, there are no notifications available for you to view in your notification center"
+/>
+```
+
+## Use Cases
+
+### Perfect for:
+- ✅ Empty tables and lists
+- ✅ No search results
+- ✅ Empty dashboards
+- ✅ Uninitialized states
+- ✅ Cleared filters
+- ✅ Empty shopping carts
+
+### Not recommended for:
+- ❌ Loading states (use Skeleton instead)
+- ❌ Error states (use error messages)
+- ❌ Form validation (use field errors)
+
+## Accessibility
+
+The EmptyState component is accessible:
+
+- **Semantic HTML**: Uses proper heading hierarchy
+- **Screen Readers**: Title and description are readable
+- **Keyboard**: Action buttons are keyboard accessible
+- **Focus**: Proper focus management
+
+## Styling
+
+Customize EmptyState using className:
+
+```tsx
+<EmptyState
+  title="No data"
+  className="custom-empty-state"
+/>
+```
+
+```css
+.custom-empty-state {
+  padding: 64px 24px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+```
+
+## Related Components
+
+- **DataTable** - Use EmptyState when table has no data
+- **Skeleton** - For loading states
+- **Button** - For action buttons

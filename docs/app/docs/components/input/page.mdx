@@ -1,0 +1,401 @@
+---
+title: "Input"
+description: "Text input component for text, number, password, and search fields"
+---
+
+# Input
+
+Versatile input component supporting text, number, password, and search field types with built-in validation and accessibility.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/forms
+```
+
+## Basic Usage
+
+```tsx
+import { Form, Field } from '@oxygenix-ui/forms';
+
+function LoginForm() {
+  return (
+    <Form onSubmit={(data) => console.log(data)}>
+      <Field
+        name="email"
+        label="Email"
+        type="email"
+        required
+        placeholder="you@example.com"
+      />
+      <button type="submit">Submit</button>
+    </Form>
+  );
+}
+```
+
+## Input Types
+
+### Text Input
+
+Standard text input for general text entry.
+
+```tsx
+<Field
+  name="username"
+  label="Username"
+  type="text"
+  placeholder="Enter your username"
+  required
+/>
+```
+
+### Number Input
+
+Numeric input with automatic parsing.
+
+```tsx
+<Field
+  name="age"
+  label="Age"
+  type="number"
+  placeholder="Enter your age"
+  validate={(value) => {
+    if (value < 18) return 'Must be 18 or older';
+    if (value > 120) return 'Please enter a valid age';
+    return true;
+  }}
+/>
+```
+
+### Password Input
+
+Masked input for passwords.
+
+```tsx
+<Field
+  name="password"
+  label="Password"
+  type="password"
+  required
+  validate={(value) => {
+    if (value.length < 8) {
+      return 'Password must be at least 8 characters';
+    }
+    if (!/[A-Z]/.test(value)) {
+      return 'Password must contain an uppercase letter';
+    }
+    if (!/[0-9]/.test(value)) {
+      return 'Password must contain a number';
+    }
+    return true;
+  }}
+/>
+```
+
+### Email Input
+
+Email input with browser validation.
+
+```tsx
+<Field
+  name="email"
+  label="Email Address"
+  type="email"
+  required
+  placeholder="you@example.com"
+/>
+```
+
+### URL Input
+
+URL input with validation.
+
+```tsx
+<Field
+  name="website"
+  label="Website"
+  type="url"
+  placeholder="https://example.com"
+/>
+```
+
+### Tel Input
+
+Telephone number input.
+
+```tsx
+<Field
+  name="phone"
+  label="Phone Number"
+  type="tel"
+  placeholder="+1 (555) 123-4567"
+/>
+```
+
+### Search Input
+
+Search input with appropriate semantics.
+
+```tsx
+<Field
+  name="search"
+  label="Search"
+  type="text"
+  placeholder="Search..."
+/>
+```
+
+## API Reference
+
+### Field (Input)
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | Required | Field name |
+| `label` | `ReactNode` | - | Field label |
+| `type` | `'text' \| 'email' \| 'password' \| 'number' \| 'tel' \| 'url'` | `'text'` | Input type |
+| `placeholder` | `string` | - | Placeholder text |
+| `required` | `boolean` | `false` | Whether field is required |
+| `validate` | `ValidationFunction \| ValidationFunction[]` | - | Validation function(s) |
+| `disabled` | `boolean` | `false` | Whether field is disabled |
+| `readOnly` | `boolean` | `false` | Whether field is read-only |
+| `description` | `string` | - | Help text below the input |
+
+## Validation
+
+### Synchronous Validation
+
+```tsx
+<Field
+  name="username"
+  label="Username"
+  type="text"
+  validate={(value) => {
+    if (value.length < 3) {
+      return 'Username must be at least 3 characters';
+    }
+    if (!/^[a-zA-Z0-9_]+$/.test(value)) {
+      return 'Username can only contain letters, numbers, and underscores';
+    }
+    return true;
+  }}
+/>
+```
+
+### Asynchronous Validation
+
+```tsx
+<Field
+  name="email"
+  label="Email"
+  type="email"
+  validate={async (value) => {
+    const exists = await checkEmailExists(value);
+    if (exists) {
+      return 'Email already taken';
+    }
+    return true;
+  }}
+/>
+```
+
+### Multiple Validators
+
+```tsx
+<Field
+  name="password"
+  label="Password"
+  type="password"
+  validate={[
+    (value) => value.length >= 8 || 'Must be at least 8 characters',
+    (value) => /[A-Z]/.test(value) || 'Must contain uppercase letter',
+    (value) => /[0-9]/.test(value) || 'Must contain a number',
+  ]}
+/>
+```
+
+## Examples
+
+### Login Form
+
+```tsx
+function LoginForm() {
+  const handleSubmit = async (data) => {
+    await login(data.email, data.password);
+  };
+
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field
+        name="email"
+        label="Email"
+        type="email"
+        required
+        placeholder="you@example.com"
+      />
+
+      <Field
+        name="password"
+        label="Password"
+        type="password"
+        required
+        placeholder="••••••••"
+      />
+
+      <button type="submit">Sign In</button>
+    </Form>
+  );
+}
+```
+
+### Registration Form
+
+```tsx
+function RegistrationForm() {
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field
+        name="username"
+        label="Username"
+        type="text"
+        required
+        validate={async (value) => {
+          const available = await checkUsername(value);
+          return available || 'Username already taken';
+        }}
+      />
+
+      <Field
+        name="email"
+        label="Email"
+        type="email"
+        required
+      />
+
+      <Field
+        name="password"
+        label="Password"
+        type="password"
+        required
+        validate={[
+          (v) => v.length >= 8 || 'At least 8 characters',
+          (v) => /[A-Z]/.test(v) || 'Include uppercase letter',
+          (v) => /[0-9]/.test(v) || 'Include a number',
+        ]}
+      />
+
+      <Field
+        name="confirmPassword"
+        label="Confirm Password"
+        type="password"
+        required
+        validate={(value, formValues) => {
+          return value === formValues.password || 'Passwords must match';
+        }}
+      />
+
+      <button type="submit">Create Account</button>
+    </Form>
+  );
+}
+```
+
+### Search Form
+
+```tsx
+function SearchForm() {
+  return (
+    <Form onSubmit={(data) => search(data.query)}>
+      <Field
+        name="query"
+        label="Search"
+        type="text"
+        placeholder="Search products..."
+        description="Enter at least 3 characters"
+        validate={(value) => {
+          if (value.length > 0 && value.length < 3) {
+            return 'Search query must be at least 3 characters';
+          }
+          return true;
+        }}
+      />
+      <button type="submit">Search</button>
+    </Form>
+  );
+}
+```
+
+## Accessibility
+
+The Input component is fully accessible:
+
+- **Labels**: Properly associated with inputs via `htmlFor`
+- **ARIA**: `aria-label`, `aria-describedby`, `aria-invalid`, `aria-required`
+- **Error Announcements**: Errors announced to screen readers with `role="alert"`
+- **Keyboard Navigation**: Full keyboard support
+- **Focus Management**: Clear focus indicators
+
+## Best Practices
+
+### 1. Always Provide Labels
+
+```tsx
+// ✅ Good
+<Field name="email" label="Email" type="email" />
+
+// ❌ Bad
+<Field name="email" type="email" />
+```
+
+### 2. Use Appropriate Input Types
+
+```tsx
+// ✅ Good
+<Field name="email" type="email" />
+<Field name="phone" type="tel" />
+<Field name="age" type="number" />
+
+// ❌ Bad - using text for everything
+<Field name="email" type="text" />
+```
+
+### 3. Provide Helpful Placeholders
+
+```tsx
+// ✅ Good
+<Field 
+  name="phone" 
+  type="tel" 
+  placeholder="+1 (555) 123-4567"
+  description="Include country code"
+/>
+
+// ❌ Bad - vague placeholder
+<Field name="phone" type="tel" placeholder="Phone" />
+```
+
+### 4. Validate Appropriately
+
+```tsx
+// ✅ Good - clear error messages
+<Field
+  name="age"
+  type="number"
+  validate={(v) => v >= 18 || 'Must be 18 or older'}
+/>
+
+// ❌ Bad - vague error
+<Field
+  name="age"
+  type="number"
+  validate={(v) => v >= 18 || 'Invalid'}
+/>
+```
+
+## Related Components
+
+- **Textarea** - For multi-line text input
+- **Select** - For dropdown selections
+- **Form** - Parent form component
+- **FormField** - Custom field wrapper

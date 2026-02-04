@@ -1,0 +1,332 @@
+---
+title: "Sidebar"
+description: "Collapsible navigation sidebar with icon+label items, active states, and permission support"
+---
+
+# Sidebar
+
+Collapsible navigation sidebar with smooth animation, icon+label navigation items, active state highlighting, and optional footer slot.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/layout
+```
+
+## Basic Usage
+
+```tsx
+import { Sidebar } from '@oxygenix-ui/layout';
+import { Home, Users, Settings } from 'lucide-react';
+
+function AppSidebar() {
+  return (
+    <Sidebar
+      navItems={[
+        { id: 'home', label: 'Home', icon: <Home />, href: '/', active: true },
+        { id: 'users', label: 'Users', icon: <Users />, href: '/users' },
+        { id: 'settings', label: 'Settings', icon: <Settings />, href: '/settings' },
+      ]}
+    />
+  );
+}
+```
+
+## Features
+
+### Collapsible
+
+Expand/collapse with smooth animation and toggle button.
+
+```tsx
+function CollapsibleSidebar() {
+  const [collapsed, setCollapsed] = useState(false);
+
+  return (
+    <Sidebar
+      collapsed={collapsed}
+      onCollapsedChange={setCollapsed}
+      showToggle={true}
+      navItems={navItems}
+    />
+  );
+}
+```
+
+### Icon + Label Navigation
+
+Navigation items with icons and labels.
+
+```tsx
+<Sidebar
+  navItems={[
+    { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard />, href: '/dashboard' },
+    { id: 'analytics', label: 'Analytics', icon: <BarChart />, href: '/analytics' },
+    { id: 'reports', label: 'Reports', icon: <FileText />, href: '/reports' },
+    { id: 'team', label: 'Team', icon: <Users />, href: '/team' },
+  ]}
+/>
+```
+
+### Active State Highlighting
+
+Highlight the current page.
+
+```tsx
+<Sidebar
+  navItems={[
+    { id: 'home', label: 'Home', icon: <Home />, href: '/', active: true },
+    { id: 'about', label: 'About', icon: <Info />, href: '/about', active: false },
+  ]}
+/>
+```
+
+### With Header and Footer
+
+Add header and footer content.
+
+```tsx
+<Sidebar
+  header={
+    <div style={{ padding: '16px' }}>
+      <img src="/logo.png" alt="Logo" />
+      <h2>My App</h2>
+    </div>
+  }
+  navItems={navItems}
+  footer={
+    <div style={{ padding: '16px' }}>
+      <button>Logout</button>
+    </div>
+  }
+/>
+```
+
+### Permission-Aware
+
+Filter items based on user permissions.
+
+```tsx
+function PermissionAwareSidebar({ userPermissions }) {
+  const allNavItems = [
+    { id: 'home', label: 'Home', icon: <Home />, href: '/' },
+    { id: 'users', label: 'Users', icon: <Users />, href: '/users', permission: 'users.view' },
+    { id: 'settings', label: 'Settings', icon: <Settings />, href: '/settings', permission: 'settings.manage' },
+  ];
+
+  const visibleItems = allNavItems.filter(
+    item => !item.permission || userPermissions.includes(item.permission)
+  );
+
+  return <Sidebar navItems={visibleItems} />;
+}
+```
+
+## API Reference
+
+### Sidebar
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `header` | `ReactNode` | - | Sidebar header content |
+| `navItems` | `SidebarNavItem[]` | - | Navigation items |
+| `footer` | `ReactNode` | - | Sidebar footer content |
+| `children` | `ReactNode` | - | Custom content (overrides navItems) |
+| `collapsed` | `boolean` | - | Controlled collapsed state |
+| `defaultCollapsed` | `boolean` | `false` | Default collapsed state |
+| `onCollapsedChange` | `(collapsed: boolean) => void` | - | Collapse change handler |
+| `showToggle` | `boolean` | `true` | Show toggle button |
+| `className` | `string` | - | Additional CSS class |
+
+### SidebarNavItem
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `id` | `string` | Unique item ID |
+| `label` | `string` | Item label |
+| `icon` | `ReactNode` | Item icon |
+| `href` | `string` | Link href |
+| `onClick` | `() => void` | Click handler |
+| `active` | `boolean` | Whether item is active |
+| `disabled` | `boolean` | Whether item is disabled |
+
+## Examples
+
+### Admin Dashboard Sidebar
+
+```tsx
+function AdminSidebar() {
+  const location = useLocation();
+
+  const navItems = [
+    {
+      id: 'dashboard',
+      label: 'Dashboard',
+      icon: <LayoutDashboard />,
+      href: '/admin',
+      active: location.pathname === '/admin',
+    },
+    {
+      id: 'users',
+      label: 'Users',
+      icon: <Users />,
+      href: '/admin/users',
+      active: location.pathname.startsWith('/admin/users'),
+    },
+    {
+      id: 'products',
+      label: 'Products',
+      icon: <Package />,
+      href: '/admin/products',
+      active: location.pathname.startsWith('/admin/products'),
+    },
+    {
+      id: 'orders',
+      label: 'Orders',
+      icon: <ShoppingCart />,
+      href: '/admin/orders',
+      active: location.pathname.startsWith('/admin/orders'),
+    },
+    {
+      id: 'analytics',
+      label: 'Analytics',
+      icon: <BarChart />,
+      href: '/admin/analytics',
+      active: location.pathname.startsWith('/admin/analytics'),
+    },
+    {
+      id: 'settings',
+      label: 'Settings',
+      icon: <Settings />,
+      href: '/admin/settings',
+      active: location.pathname.startsWith('/admin/settings'),
+    },
+  ];
+
+  return (
+    <Sidebar
+      header={
+        <div style={{ padding: '24px 16px', borderBottom: '1px solid #e0e0e0' }}>
+          <h2 style={{ margin: 0, fontSize: '18px' }}>Admin Panel</h2>
+        </div>
+      }
+      navItems={navItems}
+      footer={
+        <div style={{ padding: '16px', borderTop: '1px solid #e0e0e0' }}>
+          <button onClick={() => logout()}>Logout</button>
+        </div>
+      }
+    />
+  );
+}
+```
+
+### Persistent Collapsed State
+
+```tsx
+function PersistentSidebar() {
+  const [collapsed, setCollapsed] = useState(() => {
+    return localStorage.getItem('sidebarCollapsed') === 'true';
+  });
+
+  const handleCollapsedChange = (newCollapsed) => {
+    setCollapsed(newCollapsed);
+    localStorage.setItem('sidebarCollapsed', String(newCollapsed));
+  };
+
+  return (
+    <Sidebar
+      collapsed={collapsed}
+      onCollapsedChange={handleCollapsedChange}
+      navItems={navItems}
+    />
+  );
+}
+```
+
+### With Custom Content
+
+```tsx
+<Sidebar>
+  <div style={{ padding: '16px' }}>
+    <h3>Custom Navigation</h3>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <details>
+        <summary>Products</summary>
+        <a href="/products/electronics">Electronics</a>
+        <a href="/products/clothing">Clothing</a>
+      </details>
+    </nav>
+  </div>
+</Sidebar>
+```
+
+## Keyboard Accessibility
+
+The Sidebar is fully keyboard accessible:
+
+- **Tab**: Navigate between items
+- **Enter/Space**: Activate links/buttons
+- **Arrow Keys**: Navigate items (when focused)
+
+## Best Practices
+
+### 1. Provide Icons for Visual Clarity
+
+```tsx
+// ✅ Good - icons help identify items
+<Sidebar
+  navItems={[
+    { id: 'home', label: 'Home', icon: <Home />, href: '/' },
+    { id: 'users', label: 'Users', icon: <Users />, href: '/users' },
+  ]}
+/>
+
+// ❌ Bad - no icons
+<Sidebar
+  navItems={[
+    { id: 'home', label: 'Home', href: '/' },
+    { id: 'users', label: 'Users', href: '/users' },
+  ]}
+/>
+```
+
+### 2. Highlight Active Page
+
+```tsx
+// ✅ Good - active state shows current page
+navItems={[
+  { id: 'home', label: 'Home', href: '/', active: pathname === '/' },
+]}
+
+// ❌ Bad - no active state
+navItems={[
+  { id: 'home', label: 'Home', href: '/' },
+]}
+```
+
+### 3. Use Semantic HTML
+
+The Sidebar uses proper semantic HTML (`<nav>`, `<a>`, `<button>`) for accessibility.
+
+## Styling
+
+Customize Sidebar using className:
+
+```tsx
+<Sidebar className="custom-sidebar" navItems={navItems} />
+```
+
+```css
+.custom-sidebar {
+  background: #1a1a1a;
+  color: white;
+}
+```
+
+## Related Components
+
+- **AppShell** - Use Sidebar with AppShell
+- **PageHeader** - For page-level navigation

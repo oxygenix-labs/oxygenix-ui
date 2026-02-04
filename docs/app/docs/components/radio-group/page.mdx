@@ -1,0 +1,369 @@
+---
+title: "RadioGroup"
+description: "Radio button group with controlled grouping and accessibility-first design"
+---
+
+# RadioGroup
+
+Radio button group component for mutually exclusive selections with proper grouping and accessibility.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/forms
+```
+
+## Basic Usage
+
+```tsx
+import { Form, Field } from '@oxygenix-ui/forms';
+
+function SurveyForm() {
+  return (
+    <Form onSubmit={(data) => console.log(data)}>
+      <Field
+        name="satisfaction"
+        label="How satisfied are you?"
+        type="radio"
+        required
+        options={[
+          { value: 'very-satisfied', label: 'Very Satisfied' },
+          { value: 'satisfied', label: 'Satisfied' },
+          { value: 'neutral', label: 'Neutral' },
+          { value: 'dissatisfied', label: 'Dissatisfied' },
+        ]}
+      />
+      <button type="submit">Submit</button>
+    </Form>
+  );
+}
+```
+
+## Features
+
+### Controlled Grouping
+
+Radio buttons are automatically grouped by the `name` prop.
+
+```tsx
+<Field
+  name="plan"
+  label="Select a plan"
+  type="radio"
+  required
+  options={[
+    { value: 'free', label: 'Free - $0/month' },
+    { value: 'pro', label: 'Pro - $10/month' },
+    { value: 'enterprise', label: 'Enterprise - Custom pricing' },
+  ]}
+/>
+```
+
+### Disabled Options
+
+Disable specific radio options.
+
+```tsx
+<Field
+  name="plan"
+  label="Select a plan"
+  type="radio"
+  options={[
+    { value: 'free', label: 'Free' },
+    { value: 'pro', label: 'Pro' },
+    { value: 'enterprise', label: 'Enterprise (Coming Soon)', disabled: true },
+  ]}
+/>
+```
+
+### With Descriptions
+
+Add descriptions to options using custom render.
+
+```tsx
+function PlanSelector() {
+  const plans = [
+    {
+      value: 'free',
+      label: 'Free',
+      description: 'Perfect for personal projects'
+    },
+    {
+      value: 'pro',
+      label: 'Pro',
+      description: 'For professional developers'
+    },
+    {
+      value: 'enterprise',
+      label: 'Enterprise',
+      description: 'For large teams and organizations'
+    },
+  ];
+
+  return (
+    <Field
+      name="plan"
+      label="Choose your plan"
+      render={({ field }) => (
+        <div>
+          {plans.map(plan => (
+            <label key={plan.value} style={{ display: 'block', marginBottom: '12px' }}>
+              <input
+                type="radio"
+                name={field.name}
+                value={plan.value}
+                checked={field.value === plan.value}
+                onChange={() => field.onChange(plan.value)}
+              />
+              <div>
+                <strong>{plan.label}</strong>
+                <p style={{ margin: 0, color: '#666' }}>{plan.description}</p>
+              </div>
+            </label>
+          ))}
+        </div>
+      )}
+    />
+  );
+}
+```
+
+## API Reference
+
+### Field (Radio)
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | Required | Field name (groups radio buttons) |
+| `label` | `ReactNode` | - | Group label |
+| `type` | `'radio'` | Required | Must be 'radio' |
+| `options` | `Option[]` | Required | Radio options |
+| `required` | `boolean` | `false` | Whether selection is required |
+| `validate` | `ValidationFunction \| ValidationFunction[]` | - | Validation function(s) |
+| `disabled` | `boolean` | `false` | Whether all options are disabled |
+| `description` | `string` | - | Help text below the radio group |
+
+### Option
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `value` | `string \| number` | Option value |
+| `label` | `string` | Option label |
+| `disabled` | `boolean` | Whether option is disabled |
+
+## Examples
+
+### Subscription Plan Selector
+
+```tsx
+function SubscriptionForm() {
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field
+        name="plan"
+        label="Choose your plan"
+        type="radio"
+        required
+        options={[
+          { value: 'free', label: 'Free - $0/month' },
+          { value: 'starter', label: 'Starter - $9/month' },
+          { value: 'pro', label: 'Pro - $29/month' },
+          { value: 'enterprise', label: 'Enterprise - Contact us' },
+        ]}
+        description="You can change your plan at any time"
+      />
+
+      <button type="submit">Continue</button>
+    </Form>
+  );
+}
+```
+
+### Shipping Method
+
+```tsx
+function CheckoutForm() {
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field
+        name="shipping"
+        label="Shipping method"
+        type="radio"
+        required
+        options={[
+          { value: 'standard', label: 'Standard (5-7 business days) - Free' },
+          { value: 'express', label: 'Express (2-3 business days) - $9.99' },
+          { value: 'overnight', label: 'Overnight - $24.99' },
+        ]}
+      />
+
+      <button type="submit">Place Order</button>
+    </Form>
+  );
+}
+```
+
+### Survey Question
+
+```tsx
+function FeedbackSurvey() {
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field
+        name="satisfaction"
+        label="How would you rate your experience?"
+        type="radio"
+        required
+        options={[
+          { value: '5', label: '⭐⭐⭐⭐⭐ Excellent' },
+          { value: '4', label: '⭐⭐⭐⭐ Good' },
+          { value: '3', label: '⭐⭐⭐ Average' },
+          { value: '2', label: '⭐⭐ Poor' },
+          { value: '1', label: '⭐ Very Poor' },
+        ]}
+      />
+
+      <Field
+        name="recommend"
+        label="Would you recommend us to a friend?"
+        type="radio"
+        required
+        options={[
+          { value: 'yes', label: 'Yes' },
+          { value: 'no', label: 'No' },
+          { value: 'maybe', label: 'Maybe' },
+        ]}
+      />
+
+      <button type="submit">Submit Feedback</button>
+    </Form>
+  );
+}
+```
+
+### Payment Method
+
+```tsx
+function PaymentForm() {
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field
+        name="paymentMethod"
+        label="Payment method"
+        type="radio"
+        required
+        options={[
+          { value: 'card', label: 'Credit/Debit Card' },
+          { value: 'paypal', label: 'PayPal' },
+          { value: 'bank', label: 'Bank Transfer' },
+        ]}
+      />
+
+      {/* Show different fields based on selection */}
+      <Field
+        name="cardNumber"
+        label="Card Number"
+        type="text"
+        condition={(values) => values.paymentMethod === 'card'}
+        required
+      />
+
+      <button type="submit">Continue</button>
+    </Form>
+  );
+}
+```
+
+## Keyboard Navigation
+
+The RadioGroup supports full keyboard navigation:
+
+- **Tab**: Move between radio groups
+- **Arrow Up/Down**: Select previous/next option
+- **Arrow Left/Right**: Select previous/next option
+- **Space**: Select focused option
+
+## Accessibility
+
+The RadioGroup component is fully accessible:
+
+- **Fieldset/Legend**: Proper grouping with semantic HTML
+- **ARIA**: Full ARIA attribute support
+- **Keyboard**: Complete arrow key navigation
+- **Screen Reader**: Group and options announced correctly
+- **Focus**: Clear focus indicator
+
+## Best Practices
+
+### 1. Use for Mutually Exclusive Choices
+
+```tsx
+// ✅ Good - one choice only
+<Field
+  name="gender"
+  label="Gender"
+  type="radio"
+  options={[
+    { value: 'male', label: 'Male' },
+    { value: 'female', label: 'Female' },
+    { value: 'other', label: 'Other' },
+  ]}
+/>
+
+// ❌ Bad - use checkboxes for multiple selections
+<Field name="interests" type="radio" options={interests} />
+```
+
+### 2. Provide Clear Labels
+
+```tsx
+// ✅ Good - descriptive labels
+<Field
+  name="plan"
+  label="Subscription Plan"
+  type="radio"
+  options={[
+    { value: 'free', label: 'Free - For personal use' },
+    { value: 'pro', label: 'Pro - For professionals' },
+  ]}
+/>
+
+// ❌ Bad - vague labels
+<Field
+  name="plan"
+  type="radio"
+  options={[
+    { value: 'free', label: 'Option 1' },
+    { value: 'pro', label: 'Option 2' },
+  ]}
+/>
+```
+
+### 3. Limit Number of Options
+
+```tsx
+// ✅ Good - reasonable number of options
+<Field name="size" type="radio" options={['S', 'M', 'L', 'XL']} />
+
+// ❌ Bad - too many options (use Select instead)
+<Field name="country" type="radio" options={allCountries} />
+```
+
+### 4. Use Select for Many Options
+
+If you have more than 5-7 options, consider using a Select instead:
+
+```tsx
+// ✅ Good - Select for many options
+<Field name="country" type="select" options={countries} />
+
+// ❌ Bad - Radio for many options
+<Field name="country" type="radio" options={countries} />
+```
+
+## Related Components
+
+- **Checkbox** - For multiple selections
+- **Select** - For dropdown selections
+- **FormField** - Custom field wrapper
+- **FieldGroup** - For grouping form fields

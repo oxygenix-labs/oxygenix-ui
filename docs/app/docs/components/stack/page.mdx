@@ -1,0 +1,203 @@
+---
+title: "Stack"
+description: "Radix-style spacing utility for vertical/horizontal layouts with gap control"
+---
+
+# Stack
+
+Radix-style spacing utility component for creating vertical or horizontal layouts with consistent gap spacing and alignment control.
+
+## Installation
+
+```bash
+npm install @oxygenix-ui/layout
+```
+
+## Basic Usage
+
+```tsx
+import { Stack } from '@oxygenix-ui/layout';
+
+function MyComponent() {
+  return (
+    <Stack gap={4}>
+      <div>Item 1</div>
+      <div>Item 2</div>
+      <div>Item 3</div>
+    </Stack>
+  );
+}
+```
+
+## Features
+
+### Vertical Direction (Default)
+
+Stack items vertically with gap spacing.
+
+```tsx
+<Stack gap={4} direction="vertical">
+  <Card>Card 1</Card>
+  <Card>Card 2</Card>
+  <Card>Card 3</Card>
+</Stack>
+```
+
+### Horizontal Direction
+
+Stack items horizontally.
+
+```tsx
+<Stack gap={2} direction="horizontal">
+  <Button>Cancel</Button>
+  <Button>Save</Button>
+</Stack>
+```
+
+### Gap Sizes
+
+7 gap sizes based on 8px spacing scale.
+
+```tsx
+<Stack gap={1}>  {/* 4px */}
+<Stack gap={2}>  {/* 8px */}
+<Stack gap={3}>  {/* 12px */}
+<Stack gap={4}>  {/* 16px */}
+<Stack gap={5}>  {/* 24px */}
+<Stack gap={6}>  {/* 32px */}
+<Stack gap={7}>  {/* 40px */}
+<Stack gap={8}>  {/* 48px */}
+```
+
+### Alignment Control
+
+Control cross-axis alignment.
+
+```tsx
+<Stack gap={4} align="start">    {/* flex-start */}
+<Stack gap={4} align="center">   {/* center */}
+<Stack gap={4} align="end">      {/* flex-end */}
+<Stack gap={4} align="stretch">  {/* stretch (default) */}
+```
+
+### Justify Options
+
+Control main-axis justification.
+
+```tsx
+<Stack gap={4} justify="start">    {/* flex-start */}
+<Stack gap={4} justify="center">   {/* center */}
+<Stack gap={4} justify="end">      {/* flex-end */}
+<Stack gap={4} justify="between">  {/* space-between */}
+```
+
+## API Reference
+
+### Stack
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `direction` | `'vertical' \| 'horizontal'` | `'vertical'` | Stack direction |
+| `gap` | `1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8` | `4` | Gap size (spacing scale) |
+| `align` | `'start' \| 'center' \| 'end' \| 'stretch'` | `'stretch'` | Cross-axis alignment |
+| `justify` | `'start' \| 'center' \| 'end' \| 'between'` | `'start'` | Main-axis justification |
+| `children` | `ReactNode` | Required | Stack content |
+| `className` | `string` | - | Additional CSS class |
+
+## Examples
+
+### Form Actions
+
+```tsx
+<Stack gap={2} direction="horizontal" justify="end">
+  <Button variant="ghost">Cancel</Button>
+  <Button>Submit</Button>
+</Stack>
+```
+
+### Card List
+
+```tsx
+<Stack gap={4}>
+  {users.map(user => (
+    <UserCard key={user.id} user={user} />
+  ))}
+</Stack>
+```
+
+### Toolbar
+
+```tsx
+<Stack gap={2} direction="horizontal" align="center">
+  <input type="search" placeholder="Search..." />
+  <Button variant="ghost">Filter</Button>
+  <Button>Export</Button>
+</Stack>
+```
+
+### Centered Content
+
+```tsx
+<Stack gap={4} align="center" justify="center" style={{ minHeight: '400px' }}>
+  <Icon size={48} />
+  <Heading level={2}>Welcome</Heading>
+  <Text>Get started by creating your first project</Text>
+  <Button>Create Project</Button>
+</Stack>
+```
+
+### Sidebar Navigation
+
+```tsx
+<Stack gap={1}>
+  <NavLink href="/" active>Dashboard</NavLink>
+  <NavLink href="/users">Users</NavLink>
+  <NavLink href="/settings">Settings</NavLink>
+</Stack>
+```
+
+## Best Practices
+
+### 1. Use Consistent Gap Sizes
+
+```tsx
+// ✅ Good - consistent spacing
+<Stack gap={4}>
+  <Section />
+  <Section />
+</Stack>
+
+// ❌ Bad - inconsistent spacing
+<div style={{ display: 'flex', flexDirection: 'column' }}>
+  <div style={{ marginBottom: '13px' }} />
+  <div style={{ marginBottom: '19px' }} />
+</div>
+```
+
+### 2. Choose Appropriate Direction
+
+```tsx
+// ✅ Good - horizontal for buttons
+<Stack gap={2} direction="horizontal">
+  <Button>Cancel</Button>
+  <Button>Save</Button>
+</Stack>
+
+// ❌ Bad - vertical for buttons
+<Stack gap={2} direction="vertical">
+  <Button>Cancel</Button>
+  <Button>Save</Button>
+</Stack>
+```
+
+### 3. Use Semantic Gap Sizes
+
+- `gap={1-2}` - Tight spacing (buttons, chips)
+- `gap={3-4}` - Normal spacing (form fields, list items)
+- `gap={5-6}` - Loose spacing (sections, cards)
+- `gap={7-8}` - Extra spacing (major sections)
+
+## Related Components
+
+- **Grid** - For 2D layouts
+- **AppShell** - For app structure
