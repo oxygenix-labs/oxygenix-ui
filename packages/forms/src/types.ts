@@ -167,7 +167,7 @@ export interface FieldRenderProps<T = any> {
         onBlur: () => void;
     };
     fieldState: {
-        error?: FieldError;
+        error: FieldError | undefined;
         isDirty: boolean;
         isTouched: boolean;
         isValidating: boolean;

@@ -86,7 +86,7 @@ export function Field(props: FieldProps) {
                 {render({
                     field,
                     fieldState: {
-                        error: error ? { type: error.type || 'validation', message: error.message || '' } : undefined,
+                        error: error ? { type: error.type || 'validation', message: error.message || '' } as FieldError : undefined,
                         isDirty,
                         isTouched,
                         isValidating: false,

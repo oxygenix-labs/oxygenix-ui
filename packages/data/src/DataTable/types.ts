@@ -2,7 +2,7 @@
  * DataTable Component Types
  */
 
-import { ReactNode, CSSProperties, HTMLAttributes } from 'react';
+import { ReactNode, HTMLAttributes } from 'react';
 
 /**
  * Column definition for DataTable
@@ -88,7 +88,7 @@ export interface HeaderContext {
     isSorted: boolean;
 
     /** Sort direction */
-    sortDirection?: 'asc' | 'desc';
+    sortDirection: 'asc' | 'desc' | undefined;
 
     /** Whether column is filtered */
     isFiltered: boolean;

@@ -5,7 +5,6 @@
  * Supports both client-side and server-side data management.
  */
 
-import React, { useMemo } from 'react';
 import { cn } from '@oxygenix-ui/core';
 import { useDataTable } from './useDataTable';
 import type { DataTableProps, CellContext, HeaderContext } from './types';
@@ -23,19 +22,21 @@ export function DataTable<T = any>(props: DataTableProps<T>) {
         slots,
         loading = false,
         error,
+        serverSide,
+        virtualization,
         getRowId = (row: any) => row.id || String(row),
         className,
         style,
         ...rest
     } = props;
 
-    // Use headless hook for state management
+    // Initialize table instance
     const table = useDataTable({
         data,
         columns,
-        sorting,
-        pagination,
-        selection,
+        ...(sorting && { sorting }),
+        ...(pagination && { pagination }),
+        ...(selection && { selection }),
         getRowId,
     });
 

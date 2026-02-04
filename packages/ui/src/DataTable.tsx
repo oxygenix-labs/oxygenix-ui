@@ -98,7 +98,7 @@ export function DataTable<T = any>(props: DataTableProps<T>) {
         sortColumn,
         sortDirection,
         onSortChange,
-        loading = false,
+        loading: _loading = false,
         className,
     } = props;
 
