@@ -56,6 +56,8 @@ export function isBrowser(): boolean {
 /**
  * Safely gets a value from an object using a path string
  * 
+ * @warning This function uses `any` for flexibility. Consider using typed alternatives.
+ * 
  * @example
  * ```tsx
  * const obj = { user: { name: 'John', address: { city: 'NYC' } } };

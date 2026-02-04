@@ -24,7 +24,7 @@ export interface TableColumn<T = any> {
     sortable?: boolean;
 
     /** Custom cell renderer */
-    render?: (value: any, row: T, index: number) => ReactNode;
+    render?: (value: T[keyof T], row: T, index: number) => ReactNode;
 
     /** Text alignment */
     align?: 'left' | 'center' | 'right';

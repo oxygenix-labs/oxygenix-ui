@@ -4,7 +4,7 @@
  * Enterprise-grade form with validation, multi-step support, and autosave
  */
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { FormContext } from './FormContext';
 import type { FormProps } from './types';
@@ -34,8 +34,8 @@ export function Form<TFieldValues extends Record<string, any> = Record<string, a
 
     // Initialize react-hook-form
     const form = useForm<TFieldValues>({
-        defaultValues,
-        values,
+        defaultValues: defaultValues as any,
+        values: values as any,
         mode,
         reValidateMode,
     });
@@ -85,7 +85,7 @@ export function Form<TFieldValues extends Record<string, any> = Record<string, a
     const handleFormSubmit = handleSubmit(
         async (data) => {
             try {
-                await onSubmit(data);
+                await onSubmit(data as TFieldValues);
             } catch (error) {
                 console.error('Form submission error:', error);
             }
@@ -98,7 +98,7 @@ export function Form<TFieldValues extends Record<string, any> = Record<string, a
     );
 
     // Context value
-    const contextValue = {
+    const contextValue: any = {
         form,
         currentStep,
         permissions,

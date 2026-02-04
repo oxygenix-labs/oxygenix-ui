@@ -3,7 +3,7 @@
  */
 
 import { ReactNode, HTMLAttributes } from 'react';
-import { FieldValues, UseFormReturn, FieldError as RHFFieldError } from 'react-hook-form';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 /**
  * Validation result

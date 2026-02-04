@@ -1,0 +1,18 @@
+{
+    "entry": [
+        "packages/*/src/index.ts",
+        "packages/*/src/index.tsx"
+    ],
+    "extensions": [
+        ".ts",
+        ".tsx"
+    ],
+    "ignorePatterns": [
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.stories.tsx",
+        "**/.next/**"
+    ]
+}

@@ -4,7 +4,7 @@
  * Groups related fields together with a legend
  */
 
-import React from 'react';
+
 import type { FieldGroupProps } from './types';
 import styles from './Form.module.css';
 

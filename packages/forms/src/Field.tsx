@@ -57,8 +57,8 @@ export function Field(props: FieldProps) {
         control,
         rules: {
             required: required ? 'This field is required' : false,
-            validate: validate
-                ? async (value) => {
+            ...(validate && {
+                validate: async (value: any) => {
                     const validators = Array.isArray(validate) ? validate : [validate];
 
                     for (const validator of validators) {
@@ -70,7 +70,7 @@ export function Field(props: FieldProps) {
 
                     return true;
                 }
-                : undefined,
+            }),
         },
     });
 
@@ -86,7 +86,7 @@ export function Field(props: FieldProps) {
                 {render({
                     field,
                     fieldState: {
-                        error: error as FieldError | undefined,
+                        error: error ? { type: error.type || 'validation', message: error.message || '' } : undefined,
                         isDirty,
                         isTouched,
                         isValidating: false,

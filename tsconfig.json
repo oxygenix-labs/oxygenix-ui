@@ -41,6 +41,9 @@
             ],
             "@oxygenix-ui/layout": [
                 "./packages/layout/src"
+            ],
+            "@oxygenix-ui/ui": [
+                "./packages/ui/src"
             ]
         }
     },
@@ -62,6 +65,9 @@
         },
         {
             "path": "./packages/layout"
+        },
+        {
+            "path": "./packages/ui"
         }
     ]
 }

@@ -4,7 +4,7 @@
  * Dynamic field array management for forms
  */
 
-import React from 'react';
+
 import { useFieldArray } from 'react-hook-form';
 import { useFormContext } from './FormContext';
 import type { RepeaterProps, RepeaterField, RepeaterActions } from './types';

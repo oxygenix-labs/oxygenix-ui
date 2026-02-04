@@ -22,7 +22,7 @@ export const FormContext = createContext<FormContextValue | null>(null);
  * }
  * ```
  */
-export function useFormContext<TFieldValues = any>(): FormContextValue<TFieldValues> {
+export function useFormContext<TFieldValues extends Record<string, any> = any>(): FormContextValue<TFieldValues> {
     const context = useContext(FormContext);
 
     if (!context) {
