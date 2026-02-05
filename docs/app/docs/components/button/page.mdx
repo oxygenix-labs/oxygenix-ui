@@ -1,391 +1,161 @@
----
-title: "Button"
-description: "Accessible button component with variants, sizes, loading state, and icon support"
----
-
 # Button
 
-Accessible button component with multiple variants, sizes, loading states, and icon support. Keyboard-safe and WCAG compliant.
+Trigger actions or navigate to new pages.
 
-## Installation
+## Overview
 
-```bash
-npm install @oxygenix-ui/ui
-```
+The Button component is used to trigger an action or event, such as submitting a form, opening a dialog, or canceling an action. It supports various styles, sizes, and states.
+
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex gap="4" align="center">
+            <Button variant="primary">Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="ghost">Ghost</Button>
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { Button, Flex } from '@oxygenix-ui/ui';
+
+export default function ButtonDemo() {
+  return (
+    <Flex gap="4" align="center">
+      <Button variant="primary">Primary</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="ghost">Ghost</Button>
+    </Flex>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
+
+## Import
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`import { Button } from '@oxygenix-ui/ui';`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Basic Usage
 
-```tsx
-import { Button } from '@oxygenix-ui/ui';
+Buttons come in different variants to indicate different levels of importance.
 
-function App() {
-  return (
-    <Button onClick={() => console.log('Clicked!')}>
-      Click me
-    </Button>
-  );
-}
-```
-
-## Variants
-
-The Button component supports four variants: `primary`, `secondary`, `ghost`, and `danger`.
-
-```tsx
-<Button variant="primary">Primary</Button>
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex gap="4" wrap="wrap">
+            <Button variant="primary">Primary</Button>
+            <Button variant="solid">Solid</Button>
+            <Button variant="soft">Soft</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="ghost">Ghost</Button>
+            <Button variant="danger">Danger</Button>
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`<Button variant="primary">Primary</Button>
+<Button variant="solid">Solid</Button>
+<Button variant="soft">Soft</Button>
 <Button variant="secondary">Secondary</Button>
 <Button variant="ghost">Ghost</Button>
-<Button variant="danger">Danger</Button>
-```
+<Button variant="danger">Danger</Button>`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-### Primary
+## Advanced Usage
 
-Use for the main call-to-action on a page.
+### Sizes
 
-```tsx
-<Button variant="primary">Save Changes</Button>
-```
+Use the `size` prop to control the dimensions of the button.
 
-### Secondary
-
-Use for secondary actions that are less prominent.
-
-```tsx
-<Button variant="secondary">Cancel</Button>
-```
-
-### Ghost
-
-Use for tertiary actions or when you need a subtle button.
-
-```tsx
-<Button variant="ghost">Learn More</Button>
-```
-
-### Danger
-
-Use for destructive actions like delete or remove.
-
-```tsx
-<Button variant="danger">Delete Account</Button>
-```
-
-## Sizes
-
-Three sizes are available: `sm`, `md` (default), and `lg`.
-
-```tsx
-<Button size="sm">Small</Button>
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex gap="4" align="center">
+            <Button size="sm">Small</Button>
+            <Button size="md">Medium</Button>
+            <Button size="lg">Large</Button>
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`<Button size="sm">Small</Button>
 <Button size="md">Medium</Button>
-<Button size="lg">Large</Button>
-```
+<Button size="lg">Large</Button>`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-## Loading State
+### With Icons
 
-Show a loading spinner when performing async operations.
+You can add icons to the left or right of the text using `leftIcon` and `rightIcon` props.
 
-```tsx
-function SubmitButton() {
-  const [loading, setLoading] = useState(false);
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex gap="4">
+            <Button leftIcon={<ArrowRightIcon />}>Previous</Button>
+            <Button rightIcon={<ArrowRightIcon />}>Next</Button>
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { Button, ArrowRightIcon } from '@oxygenix-ui/ui';
 
-  const handleSubmit = async () => {
-    setLoading(true);
-    await saveData();
-    setLoading(false);
-  };
-
+export default function IconExample() {
   return (
-    <Button loading={loading} onClick={handleSubmit}>
-      Submit
-    </Button>
+    <>
+      <Button leftIcon={<ArrowRightIcon />}>Previous</Button>
+      <Button rightIcon={<ArrowRightIcon />}>Next</Button>
+    </>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-When `loading` is true:
-- A spinner replaces the button content
-- The button is automatically disabled
-- `aria-busy="true"` is set for screen readers
+### Loading State
 
-## Icons
+Set the `loading` prop to `true` to show a spinner and disable the button. The width of the button is preserved to prevent layout shift.
 
-Add icons before or after the button text.
-
-```tsx
-import { Plus, ArrowRight, Download } from 'lucide-react';
-
-// Left icon
-<Button leftIcon={<Plus size={16} />}>
-  Add Item
-</Button>
-
-// Right icon
-<Button rightIcon={<ArrowRight size={16} />}>
-  Continue
-</Button>
-
-// Both icons
-<Button 
-  leftIcon={<Download size={16} />}
-  rightIcon={<ArrowRight size={16} />}
->
-  Download and Continue
-</Button>
-```
-
-## Disabled State
-
-Disable the button to prevent interaction.
-
-```tsx
-<Button disabled>Disabled Button</Button>
-```
-
-## Full Width
-
-Make the button span the full width of its container.
-
-```tsx
-<Button style={{ width: '100%' }}>
-  Full Width Button
-</Button>
-```
-
-## API Reference
-
-### Button
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'primary' \| 'secondary' \| 'ghost' \| 'danger'` | `'primary'` | Button variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Button size |
-| `loading` | `boolean` | `false` | Loading state |
-| `leftIcon` | `ReactNode` | - | Icon to display before text |
-| `rightIcon` | `ReactNode` | - | Icon to display after text |
-| `children` | `ReactNode` | - | Button content |
-| `disabled` | `boolean` | `false` | Disabled state |
-| `className` | `string` | - | Additional CSS class |
-| `onClick` | `(event: MouseEvent) => void` | - | Click handler |
-| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | Button type |
-
-All standard HTML button attributes are supported.
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex gap="4">
+            <Button loading>Loading</Button>
+            <Button loading variant="secondary">Saving...</Button>
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`<Button loading>Loading</Button>
+<Button loading variant="secondary">Saving...</Button>`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Accessibility
 
-The Button component is fully accessible:
+- Renders a native `<button>` element by default.
+- Supports keyboard navigation (Tab to focus, Enter/Space to activate).
+- When `loading` is true, the button is disabled and `aria-busy` is set to true.
+- Icons are automatically hidden from screen readers using \`aria-hidden\`.
 
-- **Keyboard Navigation**: Focusable and activatable with Enter/Space
-- **ARIA Attributes**: `aria-busy` set during loading state
-- **Focus Visible**: Clear focus indicator for keyboard users
-- **Screen Reader**: Icons are hidden from screen readers with `aria-hidden`
-- **Disabled State**: Properly disabled and not focusable when disabled
+## Props
 
-## Examples
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `variant` | `'primary' \| 'secondary' \| 'ghost' \| 'danger' \| 'solid' \| 'soft'` | `'primary'` | Visual style of the button |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the button |
+| `loading` | `boolean` | `false` | Shows loading spinner and disables interaction |
+| `disabled` | `boolean` | `false` | Disables the button |
+| `leftIcon` | `ReactNode` | - | Element to render before the children |
+| `rightIcon` | `ReactNode` | - | Element to render after the children |
+| `children` | `ReactNode` | - | Content of the button |
 
-### Form Submit Button
+## Common Mistakes
 
-```tsx
-function LoginForm() {
-  const [loading, setLoading] = useState(false);
+### Don't use Buttons for Links
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      await login();
-    } finally {
-      setLoading(false);
-    }
-  };
+If you need to navigate to another page, use a Link component or an anchor tag styled as a button, unless you are performing an action (like submission) before navigation.
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <input type="email" placeholder="Email" />
-      <input type="password" placeholder="Password" />
-      <Button type="submit" loading={loading}>
-        Sign In
-      </Button>
-    </form>
-  );
-}
-```
+### Don't mix too many variants
 
-### Button Group
-
-```tsx
-function ButtonGroup() {
-  return (
-    <div style={{ display: 'flex', gap: '8px' }}>
-      <Button variant="primary">Save</Button>
-      <Button variant="secondary">Cancel</Button>
-      <Button variant="ghost">Reset</Button>
-    </div>
-  );
-}
-```
-
-### Icon-Only Button
-
-For icon-only buttons, use the `IconButton` component instead for better accessibility.
-
-```tsx
-import { IconButton } from '@oxygenix-ui/ui';
-import { Settings } from 'lucide-react';
-
-<IconButton 
-  icon={<Settings size={16} />}
-  aria-label="Settings"
-/>
-```
-
-### Confirmation Dialog
-
-```tsx
-function DeleteConfirmation({ onConfirm, onCancel }) {
-  const [loading, setLoading] = useState(false);
-
-  const handleDelete = async () => {
-    setLoading(true);
-    await onConfirm();
-    setLoading(false);
-  };
-
-  return (
-    <div>
-      <p>Are you sure you want to delete this item?</p>
-      <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
-        <Button 
-          variant="danger" 
-          loading={loading}
-          onClick={handleDelete}
-        >
-          Delete
-        </Button>
-        <Button 
-          variant="secondary"
-          onClick={onCancel}
-          disabled={loading}
-        >
-          Cancel
-        </Button>
-      </div>
-    </div>
-  );
-}
-```
-
-### Action with Icon
-
-```tsx
-import { Download } from 'lucide-react';
-
-function DownloadButton() {
-  const [loading, setLoading] = useState(false);
-
-  const handleDownload = async () => {
-    setLoading(true);
-    await downloadFile();
-    setLoading(false);
-  };
-
-  return (
-    <Button
-      leftIcon={<Download size={16} />}
-      loading={loading}
-      onClick={handleDownload}
-    >
-      Download Report
-    </Button>
-  );
-}
-```
-
-## Best Practices
-
-### 1. Use Appropriate Variants
-
-- **Primary**: One primary action per screen
-- **Secondary**: Supporting actions
-- **Ghost**: Tertiary or less important actions
-- **Danger**: Destructive actions only
-
-### 2. Provide Loading Feedback
-
-Always show loading state for async operations:
-
-```tsx
-// ✅ Good
-<Button loading={isSubmitting} onClick={handleSubmit}>
-  Submit
-</Button>
-
-// ❌ Bad - no feedback
-<Button onClick={handleSubmit}>
-  Submit
-</Button>
-```
-
-### 3. Use Meaningful Labels
-
-Button text should clearly describe the action:
-
-```tsx
-// ✅ Good
-<Button>Save Changes</Button>
-<Button>Delete Account</Button>
-
-// ❌ Bad - vague
-<Button>OK</Button>
-<Button>Click Here</Button>
-```
-
-### 4. Icon Placement
-
-- **Left icon**: For actions (e.g., Add, Create, Download)
-- **Right icon**: For navigation (e.g., Next, Continue)
-
-```tsx
-// ✅ Good
-<Button leftIcon={<Plus />}>Add Item</Button>
-<Button rightIcon={<ArrowRight />}>Continue</Button>
-
-// ❌ Confusing
-<Button rightIcon={<Plus />}>Add Item</Button>
-```
-
-### 5. Disable During Loading
-
-The component automatically disables during loading, but you can also manually disable:
-
-```tsx
-<Button 
-  loading={isLoading}
-  disabled={!isValid || isLoading}
->
-  Submit
-</Button>
-```
-
-## Styling
-
-The Button component uses CSS modules. You can customize by:
-
-1. **Using className**:
-```tsx
-<Button className="my-custom-button">
-  Custom Button
-</Button>
-```
-
-2. **Overriding CSS variables**:
-```css
-.my-custom-button {
-  --button-padding: 12px 24px;
-  --button-border-radius: 8px;
-}
-```
-
-## Related Components
-
-- **IconButton** - For icon-only buttons in toolbars and tables
-- **Form** - Use with form submission
+Avoid using multiple primary buttons on a single view. Primary buttons should be reserved for the main action of the page.

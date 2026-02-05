@@ -5,12 +5,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Moon, Sun, Search, Github, Menu } from 'lucide-react';
 import { MobileMenu } from './MobileMenu';
+import { SearchDialog } from './SearchDialog';
 import styles from './Header.module.css';
 
 export function Header() {
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const pathname = usePathname();
 
   const handleMobileMenuClose = useCallback(() => {
@@ -26,6 +28,17 @@ export function Header() {
     const initialTheme = stored || systemPreference;
     setTheme(initialTheme);
     document.documentElement.setAttribute('data-theme', initialTheme);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setIsSearchOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const toggleTheme = () => {
@@ -85,7 +98,7 @@ export function Header() {
           <div className={styles.actions}>
             <button
               className={styles.searchTrigger}
-              onClick={() => console.log('Open search')}
+              onClick={() => setIsSearchOpen(true)}
               aria-label="Search documentation"
             >
               <Search size={14} />
@@ -116,6 +129,7 @@ export function Header() {
         </div>
       </header>
       <MobileMenu isOpen={isMobileMenuOpen} onClose={handleMobileMenuClose} />
+      <SearchDialog isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );
 }
