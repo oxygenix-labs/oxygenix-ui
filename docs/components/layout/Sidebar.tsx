@@ -81,6 +81,7 @@ export function Sidebar({ className }: SidebarProps) {
                     // Subsection with nested items
                     return (
                       <div key={item.title} className={styles.nested}>
+                        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
                         <div
                           className={styles.subsectionHeader}
                           onClick={() => toggleSection(`${section.title}-${item.title}`)}
