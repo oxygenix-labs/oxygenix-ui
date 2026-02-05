@@ -1,0 +1,73 @@
+# Configuration
+
+Customize Oxygenix UI to match your brand and design requirements.
+
+## Theme Configuration
+
+Oxygenix UI uses a pure CSS variable-based theming system. This provides maximum compatibility with Next.js App Router (Server Components) and zero runtime cost.
+
+### 1. Import Base Theme
+
+Your application should already have the base theme imported in your root layout:
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`import '@oxygenix-ui/tokens/themes/enterprise.css'`}
+        language="tsx"
+    />
+</LiveCodeBlock>
+
+### 2. Customizing Variables
+
+To customize the theme, simply override the CSS variables in your global CSS file (e.g., `globals.css`).
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`:root {
+  /* Brand Colors */
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* Typography */
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}`}
+        language="css"
+    />
+</LiveCodeBlock>
+
+### 3. Dark Mode
+
+The theme automatically supports dark mode via the `[data-theme='dark']` attribute. You can override dark mode specific variables as well:
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`[data-theme='dark'] {
+  --color-bg: #09090b;
+  --color-text: #fafafa;
+  --color-border: #27272a;
+}`}
+        language="css"
+    />
+</LiveCodeBlock>
+
+## Default Options
+
+The library comes with a set of sensible defaults optimized for enterprise applications:
+
+| Variable | Default Value | Description |
+| :--- | :--- | :--- |
+| `--accent` | `#0066ff` | Primary brand color |
+| `--radius-md` | `6px` | Default component roundness |
+| `--font-sans` | System Fonts | Application typefaces |
+
+## Provider Usage
+
+While Oxygenix UI is primarily CSS-based, some interactive components (like Tooltips or Toasts) may require a wrapping context in the future.
+
+Currently, no root `Provider` is required for the core component set.

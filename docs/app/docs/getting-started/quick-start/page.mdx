@@ -1,0 +1,40 @@
+# Quick Start
+
+Get your first Oxygenix UI component running in under 2 minutes.
+
+## 1. Import Components
+
+Bring in the components you need from the package.
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`import { Button, Input, Flex } from '@oxygenix-ui/ui'`}
+        language="tsx"
+    />
+</LiveCodeBlock>
+
+## 2. Render Components
+
+Compose them to build a simple interface.
+
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex gap="3" align="center">
+            <Input placeholder="Enter your email" style={{ width: '250px' }} />
+            <Button variant="solid">Subscribe</Button>
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`export default function Newsletter() {
+  return (
+    <Flex gap="3" align="center">
+      <Input placeholder="Enter your email" style={{ width: '250px' }} />
+      <Button variant="solid">Subscribe</Button>
+    </Flex>
+  )
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
+
+That's it! You've successfully built a subscription form using Oxygenix UI.

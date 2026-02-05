@@ -10,7 +10,7 @@ function slugify(text: string): string {
 
 import { CodeTabs } from '@/components/mdx/CodeTabs';
 import { LiveCodeBlock, LivePreview, LiveSource } from '@/components/mdx/LiveCodeBlock';
-import { Button, Flex, ArrowRightIcon } from '@oxygenix-ui/ui';
+import { Button, Flex, ArrowRightIcon, Input } from '@oxygenix-ui/ui';
 
 // Custom heading components with IDs
 const createHeading = (level: number) => {
@@ -48,6 +48,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     LiveSource,
     Button,
     Flex,
+    Input,
     ArrowRightIcon,
     ...components,
   };
