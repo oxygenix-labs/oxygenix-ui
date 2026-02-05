@@ -14,30 +14,12 @@ Before you begin, ensure you have the following installed:
 
 Install the UI package and the tokens package (for themes).
 
-<CodeTabs
-    tabs={[
-        {
-            label: 'npm',
-            code: 'npm install @oxygenix-ui/ui @oxygenix-ui/tokens',
-            language: 'bash',
-        },
-        {
-            label: 'pnpm',
-            code: 'pnpm add @oxygenix-ui/ui @oxygenix-ui/tokens',
-            language: 'bash',
-        },
-        {
-            label: 'yarn',
-            code: 'yarn add @oxygenix-ui/ui @oxygenix-ui/tokens',
-            language: 'bash',
-        },
-        {
-            label: 'bun',
-            code: 'bun add @oxygenix-ui/ui @oxygenix-ui/tokens',
-            language: 'bash',
-        },
-    ]}
-/>
+<LiveCodeBlock>
+    <LiveSource
+        code={`npm install @oxygenix-ui/ui @oxygenix-ui/tokens`}
+        language="bash"
+    />
+</LiveCodeBlock>
 
 ## Peer Dependencies
 
@@ -50,15 +32,9 @@ To verify that Oxygenix UI is correctly installed, try using the foundational co
 <LiveCodeBlock>
     <LivePreview>
         <Flex gap="3" align="center">
-            <Button variant="classic">
-                Get started <ArrowRightIcon />
-            </Button>
-            <Button variant="solid">
-                Get started <ArrowRightIcon />
-            </Button>
-            <Button variant="soft">
-                Get started <ArrowRightIcon />
-            </Button>
+            <Button variant="classic">Get started <ArrowRightIcon /></Button>
+            <Button variant="solid">Get started <ArrowRightIcon /></Button>
+            <Button variant="soft">Get started <ArrowRightIcon /></Button>
         </Flex>
     </LivePreview>
     <LiveSource
@@ -89,13 +65,16 @@ export default function App() {
 
 To load the design system, import the theme and component styles in your root layout file (e.g., `app/layout.tsx` or `src/main.tsx`).
 
-```tsx
-// 1. Import the theme (CSS Variables)
+<LiveCodeBlock>
+    <LiveSource
+        code={`// 1. Import the theme (CSS Variables)
 import '@oxygenix-ui/tokens/themes/enterprise.css'
 
 // 2. Import component styles
-import '@oxygenix-ui/ui/styles.css'
-```
+import '@oxygenix-ui/ui/styles.css'`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ### Common Issues
 

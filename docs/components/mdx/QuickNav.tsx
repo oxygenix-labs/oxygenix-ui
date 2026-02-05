@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import styles from './QuickNav.module.css';
 
 interface Heading {
@@ -12,6 +13,7 @@ interface Heading {
 export function QuickNav() {
   const [headings, setHeadings] = useState<Heading[]>([]);
   const [activeId, setActiveId] = useState<string>('');
+  const pathname = usePathname();
 
   useEffect(() => {
     // Extract all h2 and h3 headings from the page
@@ -41,7 +43,7 @@ export function QuickNav() {
     elements.forEach((element) => observer.observe(element));
 
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   if (headings.length === 0) return null;
 
