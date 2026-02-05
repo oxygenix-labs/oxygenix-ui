@@ -66,6 +66,9 @@ export type { PageHeaderProps, BreadcrumbItem } from './PageHeader';
 export { Stack } from './Stack';
 export type { StackProps, StackDirection, StackAlign, StackJustify, StackGap } from './Stack';
 
+export { Flex } from './Flex';
+export type { FlexProps, FlexAlign, FlexJustify, FlexGap } from './Flex';
+
 export { Grid } from './Grid';
 export type { GridProps, GridColumns, GridGap } from './Grid';
 
@@ -94,3 +97,5 @@ export type { PaginationProps } from './Pagination';
 
 export { Modal, ModalBody, ModalFooter } from './Modal';
 export type { ModalProps, ModalBodyProps, ModalFooterProps, ModalSize } from './Modal';
+
+export { ArrowRightIcon } from './ArrowRightIcon';

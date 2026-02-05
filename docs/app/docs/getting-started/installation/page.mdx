@@ -2,53 +2,105 @@
 
 Get started with Oxygenix UI in your React project.
 
-## Prerequisites
+## System Requirements
 
-- Node.js 18 or higher
-- React 18 or higher
-- TypeScript 5.0 or higher (recommended)
+Before you begin, ensure you have the following installed:
 
-## Package Manager
+-   **Node.js**: v18.0.0 or higher
+-   **React**: v18.0.0 or higher
+-   **TypeScript**: v5.0.0 or higher (recommended)
 
-Install Oxygenix UI using your preferred package manager:
+## Install Oxygenix UI
 
-```bash
-# npm
-npm install @oxygenix-ui/core @oxygenix-ui/data @oxygenix-ui/forms
+Install the UI package and the tokens package (for themes).
 
-# pnpm
-pnpm add @oxygenix-ui/core @oxygenix-ui/data @oxygenix-ui/forms
+<CodeTabs
+    tabs={[
+        {
+            label: 'npm',
+            code: 'npm install @oxygenix-ui/ui @oxygenix-ui/tokens',
+            language: 'bash',
+        },
+        {
+            label: 'pnpm',
+            code: 'pnpm add @oxygenix-ui/ui @oxygenix-ui/tokens',
+            language: 'bash',
+        },
+        {
+            label: 'yarn',
+            code: 'yarn add @oxygenix-ui/ui @oxygenix-ui/tokens',
+            language: 'bash',
+        },
+        {
+            label: 'bun',
+            code: 'bun add @oxygenix-ui/ui @oxygenix-ui/tokens',
+            language: 'bash',
+        },
+    ]}
+/>
 
-# yarn
-yarn add @oxygenix-ui/core @oxygenix-ui/data @oxygenix-ui/forms
-```
+## Peer Dependencies
 
-## Import Styles
+Oxygenix UI relies on `react` and `react-dom`.
 
-Import the base styles in your app's entry point:
+## Verifying Installation
+
+To verify that Oxygenix UI is correctly installed, try using the foundational components like `Button` and `Flex`.
+
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex gap="3" align="center">
+            <Button variant="classic">
+                Get started <ArrowRightIcon />
+            </Button>
+            <Button variant="solid">
+                Get started <ArrowRightIcon />
+            </Button>
+            <Button variant="soft">
+                Get started <ArrowRightIcon />
+            </Button>
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { Button, Flex, ArrowRightIcon } from '@oxygenix-ui/ui'
+
+export default function App() {
+  return (
+    <Flex gap="3" align="center">
+      <Button variant="classic">
+        Get started <ArrowRightIcon />
+      </Button>
+      <Button variant="solid">
+        Get started <ArrowRightIcon />
+      </Button>
+      <Button variant="soft">
+        Get started <ArrowRightIcon />
+      </Button>
+    </Flex>
+  )
+}`}
+    />
+</LiveCodeBlock>
+
+> [!NOTE]
+> The above example uses a native HTML button for demonstration purposes if the package is not fully linked in this doc environment. In your app, you will use the `Button` component import.
+
+## Setup Styles
+
+To load the design system, import the theme and component styles in your root layout file (e.g., `app/layout.tsx` or `src/main.tsx`).
 
 ```tsx
-// app.tsx or index.tsx
-import '@oxygenix-ui/core/styles'
+// 1. Import the theme (CSS Variables)
+import '@oxygenix-ui/tokens/themes/enterprise.css'
+
+// 2. Import component styles
+import '@oxygenix-ui/ui/styles.css'
 ```
 
-## TypeScript Configuration
+### Common Issues
 
-For the best development experience, update your `tsconfig.json`:
+### Styles not loading
+Make sure you have imported **BOTH** the theme (`enterprise.css`) and the component styles (`styles.css`). The component styles rely on variables defined in the theme.
 
-```json
-{
-  "compilerOptions": {
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "moduleResolution": "bundler"
-  }
-}
-```
-
-## Next Steps
-
-- [Quick Start](/docs/getting-started/quick-start) - Build your first component
-- [Configuration](/docs/getting-started/configuration) - Customize theme and defaults
-- [Components](/docs/components/data-table) - Explore the component library
+### TypeScript errors
+If you see type errors, ensure your `tsconfig.json` is configured with `"moduleResolution": "bundler"`.

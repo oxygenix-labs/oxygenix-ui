@@ -8,7 +8,14 @@ import { ReactNode, ButtonHTMLAttributes, forwardRef } from 'react';
 import { cn } from '@oxygenix-ui/core';
 import styles from './UI.module.css';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
+export type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'ghost'
+  | 'danger'
+  | 'classic'
+  | 'solid'
+  | 'soft';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {

@@ -8,6 +8,10 @@ function slugify(text: string): string {
     .replace(/(^-|-$)/g, '');
 }
 
+import { CodeTabs } from '@/components/mdx/CodeTabs';
+import { LiveCodeBlock, LivePreview, LiveSource } from '@/components/mdx/LiveCodeBlock';
+import { Button, Flex, ArrowRightIcon } from '@oxygenix-ui/ui';
+
 // Custom heading components with IDs
 const createHeading = (level: number) => {
   const HeadingComponent = ({ children, ...props }: any) => {
@@ -38,6 +42,13 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         <table {...props} />
       </div>
     ),
+    CodeTabs,
+    LiveCodeBlock,
+    LivePreview,
+    LiveSource,
+    Button,
+    Flex,
+    ArrowRightIcon,
     ...components,
   };
 }

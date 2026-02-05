@@ -1,0 +1,132 @@
+/* Main Container: No border, just structure */
+.container {
+    margin: var(--space-6) 0;
+}
+
+/* Preview Area: Light theme, needs border */
+.preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-8);
+    background-image: radial-gradient(var(--color-border) 1px, transparent 1px);
+    background-size: 20px 20px;
+    min-height: 200px;
+    border: 1px solid var(--color-border);
+    border-bottom: none;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    /* Only top corners */
+    background-color: var(--color-bg);
+}
+
+/* Source Code Area: Dark theme */
+.source {
+    position: relative;
+    background-color: #1e1e1e;
+    /* Match vsDark or similar */
+    border: 1px solid #333;
+    /* Dark border */
+    border-top: none;
+    /* Connected to preview */
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    /* Only bottom corners */
+    overflow: hidden;
+}
+
+.codeScroll {
+    padding: var(--space-4);
+    overflow-x: auto;
+    font-size: 13px;
+    font-family: var(--font-mono);
+    line-height: 1.5;
+}
+
+.codeScroll pre {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    border: none !important;
+    /* Override global pre border */
+    background: transparent !important;
+    /* Ensure no background conflict */
+}
+
+.copyButtonWrapper {
+    position: absolute;
+    top: 6px;
+    /* Slightly higher to center in 40px header */
+    right: 12px;
+    /* More padding from right */
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.copyButton {
+    background-color: #2b303b !important;
+    /* Dark button bg */
+    border: 1px solid #3b404b !important;
+    /* Subtle dark border */
+    color: #c9d1d9 !important;
+    height: 28px;
+    /* Compact height */
+    padding: 0 10px !important;
+    font-size: 12px !important;
+}
+
+.copyButton:hover {
+    background-color: #3b404b !important;
+    border-color: #4b505b !important;
+}
+
+.source:hover .copyButtonWrapper {
+    opacity: 1;
+}
+
+/* Header (Optional) */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid #30363d;
+    /* Darker border for header */
+    background-color: #161b22;
+    /* Dark header */
+    color: #8b949e;
+    min-height: 40px;
+    /* Ensure height even with empty content */
+}
+
+.windowControls {
+    display: flex;
+    gap: 6px;
+    margin-right: var(--space-4);
+}
+
+.redDot,
+.yellowDot,
+.greenDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.redDot {
+    background-color: #ff5f56;
+}
+
+.yellowDot {
+    background-color: #ffbd2e;
+}
+
+.greenDot {
+    background-color: #27c93f;
+}
+
+.filename {
+    font-size: 12px;
+    font-weight: 500;
+    margin-left: auto;
+    /* Push filename to right or center if needed, assuming user wants standard layout */
+}
