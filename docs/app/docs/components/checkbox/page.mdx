@@ -1,400 +1,130 @@
----
-title: "Checkbox"
-description: "Checkbox component with indeterminate state support"
----
-
 # Checkbox
 
-Checkbox component for boolean selections with support for indeterminate state and controlled grouping.
+A control element that allows the user to select one or more items from a set.
 
-## Installation
+## Overview
 
-```bash
-npm install @oxygenix-ui/forms
-```
+The Checkbox component is used for binary choices, or selecting multiple options from a list. It supports an indeterminate state for "select all" functionality.
+
+## Import
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`import { Checkbox } from '@oxygenix-ui/ui';`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Basic Usage
 
-```tsx
-import { Form, Field } from '@oxygenix-ui/forms';
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex gap="4">
+            <Checkbox label="Accept terms and conditions" />
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { Checkbox, Flex } from '@oxygenix-ui/ui';
 
-function TermsForm() {
+export default function BasicDemo() {
   return (
-    <Form onSubmit={(data) => console.log(data)}>
-      <Field
-        name="acceptTerms"
-        label="I accept the terms and conditions"
-        type="checkbox"
-        required
-      />
-      <button type="submit">Continue</button>
-    </Form>
+    <Flex gap="4">
+      <Checkbox label="Accept terms and conditions" />
+    </Flex>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-## Features
-
-### Single Checkbox
-
-Use for boolean yes/no selections.
-
-```tsx
-<Field
-  name="newsletter"
-  label="Subscribe to newsletter"
-  type="checkbox"
-/>
-```
-
-### Required Checkbox
-
-Require users to check a box.
-
-```tsx
-<Field
-  name="acceptTerms"
-  label="I accept the terms and conditions"
-  type="checkbox"
-  required
-  validate={(value) => {
-    return value === true || 'You must accept the terms';
-  }}
-/>
-```
+## Advanced Usage
 
 ### Indeterminate State
 
-Implement indeterminate state with custom render.
+Use the `indeterminate` prop to show a state that is neither checked nor unchecked, often used in a "Select All" checkbox.
 
-```tsx
-function SelectAllCheckbox({ items }) {
-  const [selected, setSelected] = useState([]);
-  
-  const allSelected = selected.length === items.length;
-  const someSelected = selected.length > 0 && selected.length < items.length;
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex direction="column" gap="4">
+            <Checkbox label="Select All (Indeterminate)" indeterminate />
+            <div className="pl-6 flex flex-col gap-2">
+                <Checkbox label="Option 1" checked />
+                <Checkbox label="Option 2" />
+            </div>
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { Checkbox, Flex } from '@oxygenix-ui/ui';
 
+export default function IndeterminateDemo() {
   return (
-    <div>
-      <Field
-        name="selectAll"
-        label="Select All"
-        render={({ field }) => (
-          <input
-            type="checkbox"
-            checked={allSelected}
-            ref={(el) => {
-              if (el) el.indeterminate = someSelected;
-            }}
-            onChange={(e) => {
-              if (e.target.checked) {
-                setSelected(items.map(i => i.id));
-              } else {
-                setSelected([]);
-              }
-            }}
-          />
-        )}
-      />
-      
-      {items.map(item => (
-        <Field
-          key={item.id}
-          name={`item-${item.id}`}
-          label={item.name}
-          type="checkbox"
-        />
-      ))}
-    </div>
+    <Flex direction="column" gap="4">
+      <Checkbox label="Select All (Indeterminate)" indeterminate />
+      <div className="pl-6 flex flex-col gap-2">
+        <Checkbox label="Option 1" checked />
+        <Checkbox label="Option 2" />
+      </div>
+    </Flex>
   );
-}
-```
-
-### Checkbox Group
-
-Group related checkboxes.
-
-```tsx
-function PreferencesForm() {
-  return (
-    <Form onSubmit={handleSubmit}>
-      <FieldGroup legend="Email Notifications">
-        <Field
-          name="emailComments"
-          label="New comments"
-          type="checkbox"
-        />
-        <Field
-          name="emailMessages"
-          label="Direct messages"
-          type="checkbox"
-        />
-        <Field
-          name="emailUpdates"
-          label="Product updates"
-          type="checkbox"
-        />
-      </FieldGroup>
-    </Form>
-  );
-}
-```
-
-## API Reference
-
-### Field (Checkbox)
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `string` | Required | Field name |
-| `label` | `ReactNode` | Required | Checkbox label |
-| `type` | `'checkbox'` | Required | Must be 'checkbox' |
-| `required` | `boolean` | `false` | Whether checkbox must be checked |
-| `validate` | `ValidationFunction \| ValidationFunction[]` | - | Validation function(s) |
-| `disabled` | `boolean` | `false` | Whether checkbox is disabled |
-| `description` | `string` | - | Help text below the checkbox |
-
-## Examples
-
-### Terms and Conditions
-
-```tsx
-function SignupForm() {
-  return (
-    <Form onSubmit={handleSubmit}>
-      <Field
-        name="email"
-        label="Email"
-        type="email"
-        required
-      />
-
-      <Field
-        name="password"
-        label="Password"
-        type="password"
-        required
-      />
-
-      <Field
-        name="acceptTerms"
-        label={
-          <>
-            I accept the{' '}
-            <a href="/terms" target="_blank">terms and conditions</a>
-          </>
-        }
-        type="checkbox"
-        required
-        validate={(value) => {
-          return value === true || 'You must accept the terms to continue';
-        }}
-      />
-
-      <Field
-        name="newsletter"
-        label="Send me product updates and news"
-        type="checkbox"
-      />
-
-      <button type="submit">Create Account</button>
-    </Form>
-  );
-}
-```
-
-### Notification Preferences
-
-```tsx
-function NotificationSettings() {
-  return (
-    <Form onSubmit={handleSubmit}>
-      <FieldGroup legend="Email Notifications">
-        <Field
-          name="emailComments"
-          label="Comments on your posts"
-          type="checkbox"
-          description="Get notified when someone comments"
-        />
-        <Field
-          name="emailMentions"
-          label="Mentions"
-          type="checkbox"
-          description="Get notified when someone mentions you"
-        />
-        <Field
-          name="emailMessages"
-          label="Direct messages"
-          type="checkbox"
-        />
-      </FieldGroup>
-
-      <FieldGroup legend="Push Notifications">
-        <Field
-          name="pushMessages"
-          label="Direct messages"
-          type="checkbox"
-        />
-        <Field
-          name="pushUpdates"
-          label="Product updates"
-          type="checkbox"
-        />
-      </FieldGroup>
-
-      <button type="submit">Save Preferences</button>
-    </Form>
-  );
-}
-```
-
-### Feature Toggles
-
-```tsx
-function FeatureFlags() {
-  return (
-    <Form onSubmit={handleSubmit}>
-      <FieldGroup legend="Beta Features">
-        <Field
-          name="newEditor"
-          label="New editor (Beta)"
-          type="checkbox"
-          description="Try our redesigned editor"
-        />
-        <Field
-          name="darkMode"
-          label="Dark mode"
-          type="checkbox"
-        />
-        <Field
-          name="advancedSearch"
-          label="Advanced search"
-          type="checkbox"
-          description="Enable advanced search filters"
-        />
-      </FieldGroup>
-
-      <button type="submit">Save Settings</button>
-    </Form>
-  );
-}
-```
-
-### Multi-Select List
-
-```tsx
-function PermissionsForm() {
-  return (
-    <Form onSubmit={handleSubmit}>
-      <FieldGroup legend="User Permissions">
-        <Field
-          name="canRead"
-          label="Read"
-          type="checkbox"
-          description="View content"
-        />
-        <Field
-          name="canWrite"
-          label="Write"
-          type="checkbox"
-          description="Create and edit content"
-        />
-        <Field
-          name="canDelete"
-          label="Delete"
-          type="checkbox"
-          description="Remove content"
-        />
-        <Field
-          name="canAdmin"
-          label="Admin"
-          type="checkbox"
-          description="Full administrative access"
-          validate={(value, formValues) => {
-            if (value && !formValues.canWrite) {
-              return 'Admin permission requires Write permission';
-            }
-            return true;
-          }}
-        />
-      </FieldGroup>
-
-      <button type="submit">Save Permissions</button>
-    </Form>
-  );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Accessibility
 
-The Checkbox component is fully accessible:
+- **Labels**: Always provide a `label` prop or use `aria-label` if no visible label is present. The component automatically associates the label with the input.
+- **Keyboard interaction**: Space bar toggles the state.
 
-- **Labels**: Properly associated with checkbox
-- **ARIA**: Full ARIA attribute support
-- **Keyboard**: Space to toggle, Tab to navigate
-- **Screen Reader**: State announced correctly
-- **Focus**: Clear focus indicator
+## Props
 
-## Best Practices
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `string` | - | The label text next to the checkbox |
+| `indeterminate` | `boolean` | `false` | Sets visual indeterminate state |
+| `checked` | `boolean` | - | Checked state (controlled) |
+| `onChange` | `(e) => void` | - | Change handler |
+| `className` | `string` | - | Additional CSS class |
+| ... | `InputHTMLAttributes` | - | Standard input attributes |
 
-### 1. Use Clear Labels
+## Examples
 
-```tsx
-// ✅ Good - clear action
-<Field 
-  name="newsletter" 
-  label="Send me weekly newsletters"
-  type="checkbox"
-/>
+### With Form Field
 
-// ❌ Bad - vague
-<Field name="newsletter" label="Newsletter" type="checkbox" />
-```
+<LiveCodeBlock>
+    <LivePreview>
+        <FormField 
+            label="Preferences" 
+            htmlFor="marketing-check" 
+            hint="Manage your email subscription"
+        >
+            <Checkbox id="marketing-check" label="Subscribe to newsletter" />
+        </FormField>
+    </LivePreview>
+    <LiveSource
+        code={`import { FormField, Checkbox } from '@oxygenix-ui/ui';
 
-### 2. Provide Context
+export default function FormDemo() {
+  return (
+    <FormField 
+        label="Preferences" 
+        htmlFor="marketing-check" 
+        hint="Manage your email subscription"
+    >
+        <Checkbox id="marketing-check" label="Subscribe to newsletter" />
+    </FormField>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-```tsx
-// ✅ Good - explains what happens
-<Field
-  name="publicProfile"
-  label="Make my profile public"
-  type="checkbox"
-  description="Others will be able to see your profile"
-/>
+## Common Mistakes
 
-// ❌ Bad - no context
-<Field name="publicProfile" label="Public" type="checkbox" />
-```
+### Missing Label
 
-### 3. Group Related Checkboxes
+Using a checkbox without a label (unlabeled) makes it hard to click and impossible for screen reader users to understand. Always provide a label.
 
-```tsx
-// ✅ Good - grouped logically
-<FieldGroup legend="Notifications">
-  <Field name="email" label="Email" type="checkbox" />
-  <Field name="sms" label="SMS" type="checkbox" />
-</FieldGroup>
+### Confusing Radio buttons and Checkboxes
 
-// ❌ Bad - ungrouped
-<Field name="email" label="Email notifications" type="checkbox" />
-<Field name="sms" label="SMS notifications" type="checkbox" />
-```
-
-### 4. Use Radio for Exclusive Choices
-
-```tsx
-// ✅ Good - checkboxes for multiple selections
-<Field name="interests" label="Interests" type="checkbox" />
-
-// ❌ Bad - checkboxes for exclusive choice
-<Field name="gender" label="Male" type="checkbox" />
-<Field name="gender" label="Female" type="checkbox" />
-// Should use radio buttons instead
-```
-
-## Related Components
-
-- **RadioGroup** - For exclusive selections
-- **Select** - For dropdown selections
-- **FormField** - Custom field wrapper
-- **FieldGroup** - For grouping checkboxes
+Use Checkboxes when users can select multiple items. Use Radio buttons when users must select exactly one item.

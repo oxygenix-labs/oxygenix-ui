@@ -23,6 +23,8 @@ import {
   FormGroup,
   Textarea,
   Select,
+  Checkbox,
+  RadioGroup,
 } from '@oxygenix-ui/ui';
 import {
   Search,
@@ -93,6 +95,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     FormGroup,
     Textarea,
     Select,
+    Checkbox,
+    RadioGroup,
     ...components,
   };
 }
