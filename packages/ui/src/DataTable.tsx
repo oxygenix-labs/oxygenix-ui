@@ -4,6 +4,8 @@
  * Advanced table with sorting, pagination, selection, and virtualization support
  */
 
+'use client';
+
 import { ReactNode, useState } from 'react';
 import { cn } from '@oxygenix-ui/core';
 import { Checkbox } from './Checkbox';

@@ -4,6 +4,8 @@
  * Multi-line text input with auto-resize and max-length handling
  */
 
+'use client';
+
 import { TextareaHTMLAttributes, forwardRef, useEffect, useRef } from 'react';
 import { cn } from '@oxygenix-ui/core';
 import styles from './Forms.module.css';

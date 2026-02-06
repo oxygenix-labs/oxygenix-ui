@@ -25,6 +25,7 @@ import {
   Select,
   Checkbox,
   RadioGroup,
+  DataTable,
 } from '@oxygenix-ui/ui';
 import {
   Search,
@@ -97,6 +98,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     Select,
     Checkbox,
     RadioGroup,
+    DataTable,
     ...components,
   };
 }

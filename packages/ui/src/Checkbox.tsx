@@ -4,6 +4,8 @@
  * Checkbox with indeterminate support
  */
 
+'use client';
+
 import { InputHTMLAttributes, forwardRef, useEffect, useRef } from 'react';
 import { cn } from '@oxygenix-ui/core';
 import styles from './Forms.module.css';
