@@ -1,292 +1,149 @@
----
-title: "Textarea"
-description: "Multi-line text input with auto-resize and max-length handling"
----
-
 # Textarea
 
-Multi-line text input component with automatic resizing and character limit handling.
+A multi-line text input component.
 
-## Installation
+## Overview
 
-```bash
-npm install @oxygenix-ui/forms
-```
+The Textarea component allows users to enter a significant amount of text. It supports auto-resizing and validation states.
+
+## Import
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`import { Textarea } from '@oxygenix-ui/ui';`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Basic Usage
 
-```tsx
-import { Form, Field } from '@oxygenix-ui/forms';
+<LiveCodeBlock>
+    <LivePreview>
+        <Textarea placeholder="Enter your comment..." />
+    </LivePreview>
+    <LiveSource
+        code={`import { Textarea } from '@oxygenix-ui/ui';
 
-function CommentForm() {
+export default function BasicDemo() {
   return (
-    <Form onSubmit={(data) => console.log(data)}>
-      <Field
-        name="comment"
-        label="Comment"
-        type="textarea"
-        placeholder="Enter your comment..."
-        required
-      />
-      <button type="submit">Submit</button>
-    </Form>
+    <Textarea placeholder="Enter your comment..." />
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-## Features
+## Advanced Usage
 
-### Auto-Resize
+### Auto Resize
 
-The textarea automatically adjusts its height based on content (configured via CSS).
+The `autoResize` prop allows the textarea to grow automatically as the user types.
 
-```tsx
-<Field
-  name="description"
-  label="Description"
-  type="textarea"
-  placeholder="Enter a detailed description..."
-/>
-```
+<LiveCodeBlock>
+    <LivePreview>
+        <Textarea 
+            autoResize 
+            placeholder="Type multiple lines to see me grow..." 
+            rows={2} 
+        />
+    </LivePreview>
+    <LiveSource
+        code={`import { Textarea } from '@oxygenix-ui/ui';
 
-### Max-Length Handling
-
-Set maximum character limits with validation.
-
-```tsx
-<Field
-  name="bio"
-  label="Bio"
-  type="textarea"
-  placeholder="Tell us about yourself..."
-  validate={(value) => {
-    if (value.length > 500) {
-      return `Bio must be 500 characters or less (currently ${value.length})`;
-    }
-    return true;
-  }}
-  description="Maximum 500 characters"
-/>
-```
-
-### Character Counter
-
-Create a character counter using custom render.
-
-```tsx
-function BioField() {
+export default function ResizeDemo() {
   return (
-    <Field
-      name="bio"
-      label="Bio"
-      type="textarea"
-      render={({ field, fieldState }) => {
-        const maxLength = 500;
-        const remaining = maxLength - (field.value?.length || 0);
-        
-        return (
-          <div>
-            <textarea
-              {...field}
-              maxLength={maxLength}
-              placeholder="Tell us about yourself..."
-            />
-            <div style={{ textAlign: 'right', fontSize: '12px', color: '#666' }}>
-              {remaining} characters remaining
-            </div>
-            {fieldState.error && (
-              <div style={{ color: 'red' }}>{fieldState.error.message}</div>
-            )}
-          </div>
-        );
-      }}
+    <Textarea 
+        autoResize 
+        placeholder="Type multiple lines to see me grow..." 
+        rows={2} 
     />
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-## API Reference
+### Error State
 
-### Field (Textarea)
+Visual indication of an error state.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `string` | Required | Field name |
-| `label` | `ReactNode` | - | Field label |
-| `type` | `'textarea'` | Required | Must be 'textarea' |
-| `placeholder` | `string` | - | Placeholder text |
-| `required` | `boolean` | `false` | Whether field is required |
-| `validate` | `ValidationFunction \| ValidationFunction[]` | - | Validation function(s) |
-| `disabled` | `boolean` | `false` | Whether field is disabled |
-| `readOnly` | `boolean` | `false` | Whether field is read-only |
-| `description` | `string` | - | Help text below the textarea |
+<LiveCodeBlock>
+    <LivePreview>
+        <Textarea 
+            error 
+            defaultValue="Invalid content" 
+            placeholder="Enter description" 
+        />
+    </LivePreview>
+    <LiveSource
+        code={`import { Textarea } from '@oxygenix-ui/ui';
 
-## Examples
-
-### Comment Form
-
-```tsx
-function CommentForm({ postId }) {
-  const handleSubmit = async (data) => {
-    await submitComment(postId, data.comment);
-  };
-
+export default function ErrorDemo() {
   return (
-    <Form onSubmit={handleSubmit}>
-      <Field
-        name="comment"
-        label="Add a comment"
-        type="textarea"
-        required
-        placeholder="Share your thoughts..."
-        validate={(value) => {
-          if (value.length < 10) {
-            return 'Comment must be at least 10 characters';
-          }
-          if (value.length > 1000) {
-            return 'Comment must be 1000 characters or less';
-          }
-          return true;
-        }}
-        description="Minimum 10 characters, maximum 1000"
-      />
-      <button type="submit">Post Comment</button>
-    </Form>
+    <Textarea 
+        error 
+        defaultValue="Invalid content" 
+        placeholder="Enter description" 
+    />
   );
-}
-```
-
-### Feedback Form
-
-```tsx
-function FeedbackForm() {
-  return (
-    <Form onSubmit={handleSubmit}>
-      <Field
-        name="feedback"
-        label="Your Feedback"
-        type="textarea"
-        required
-        placeholder="Tell us what you think..."
-        description="We appreciate your honest feedback"
-      />
-
-      <Field
-        name="suggestions"
-        label="Suggestions (Optional)"
-        type="textarea"
-        placeholder="Any suggestions for improvement?"
-      />
-
-      <button type="submit">Submit Feedback</button>
-    </Form>
-  );
-}
-```
-
-### Message Composer
-
-```tsx
-function MessageComposer() {
-  return (
-    <Form onSubmit={sendMessage}>
-      <Field
-        name="subject"
-        label="Subject"
-        type="text"
-        required
-      />
-
-      <Field
-        name="message"
-        label="Message"
-        type="textarea"
-        required
-        placeholder="Type your message..."
-        validate={(value) => {
-          if (value.length < 20) {
-            return 'Message must be at least 20 characters';
-          }
-          return true;
-        }}
-      />
-
-      <button type="submit">Send Message</button>
-    </Form>
-  );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Accessibility
 
-The Textarea component is fully accessible:
+- **Labeling**: Like inputs, textareas must be labeled. Use `FormField` or standard `<label>` elements.
+- **Keyboard Navigation**: Standard keyboard interaction is supported. Tab to focus, type to enter text.
 
-- **Labels**: Properly associated with textarea
-- **ARIA**: Full ARIA attribute support
-- **Error Announcements**: Errors announced to screen readers
-- **Keyboard Navigation**: Standard textarea keyboard behavior
-- **Resize**: Users can resize if CSS allows
+## Props
 
-## Best Practices
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `autoResize` | `boolean` | `false` | Automatically adjusts height based on content |
+| `error` | `boolean` | `false` | Applies error styling |
+| `rows` | `number` | - | Initial number of rows |
+| `className` | `string` | - | Additional CSS class |
+| ... | `TextareaHTMLAttributes` | - | Standard textarea attributes |
 
-### 1. Set Appropriate Sizes
+## Examples
 
-```tsx
-// ✅ Good - reasonable default size
-<Field 
-  name="description" 
-  type="textarea"
-  description="4-5 lines is a good default"
-/>
+### With Form Field
 
-// ❌ Bad - too small for expected content
-<Field name="essay" type="textarea" /> {/* Only 1 line */}
-```
+<LiveCodeBlock>
+    <LivePreview>
+        <FormField 
+            label="Bio" 
+            htmlFor="user-bio" 
+            hint="Tell us a little about yourself"
+        >
+            <Textarea id="user-bio" autoResize rows={4} />
+        </FormField>
+    </LivePreview>
+    <LiveSource
+        code={`import { FormField, Textarea } from '@oxygenix-ui/ui';
 
-### 2. Provide Character Limits
+export default function BioDemo() {
+  return (
+    <FormField 
+        label="Bio" 
+        htmlFor="user-bio" 
+        hint="Tell us a little about yourself"
+    >
+        <Textarea id="user-bio" autoResize rows={4} />
+    </FormField>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-```tsx
-// ✅ Good - clear limits
-<Field
-  name="bio"
-  type="textarea"
-  validate={(v) => v.length <= 500 || 'Max 500 characters'}
-  description="Maximum 500 characters"
-/>
+## Common Mistakes
 
-// ❌ Bad - no guidance
-<Field name="bio" type="textarea" />
-```
+### Controlled vs Uncontrolled
 
-### 3. Use Helpful Placeholders
+When using `autoResize` in a controlled component (with `value`), ensure you pass the `value` prop to the Textarea so the resize logic triggers on updates.
 
-```tsx
-// ✅ Good - shows expected format
-<Field
-  name="address"
-  type="textarea"
-  placeholder="123 Main St&#10;Apt 4B&#10;City, State 12345"
-/>
+### Fixed Height conflicts
 
-// ❌ Bad - vague
-<Field name="address" type="textarea" placeholder="Address" />
-```
-
-## Styling
-
-The textarea inherits form field styles and can be customized:
-
-```css
-.field-textarea {
-  min-height: 100px;
-  resize: vertical;
-  font-family: inherit;
-  line-height: 1.5;
-}
-```
-
-## Related Components
-
-- **Input** - For single-line text
-- **Form** - Parent form component
-- **FormField** - Custom field wrapper
+Avoid setting a fixed CSS `height` when using `autoResize`, as it will conflict with the JavaScript resizing logic. Use `min-height` or `max-height` instead.

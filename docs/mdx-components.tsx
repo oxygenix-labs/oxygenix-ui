@@ -21,6 +21,8 @@ import {
   Divider,
   FormField,
   FormGroup,
+  Textarea,
+  Select,
 } from '@oxygenix-ui/ui';
 import {
   Search,
@@ -89,6 +91,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     Divider,
     FormField,
     FormGroup,
+    Textarea,
+    Select,
     ...components,
   };
 }
