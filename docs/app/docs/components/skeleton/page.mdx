@@ -1,331 +1,153 @@
----
-title: "Skeleton"
-description: "Animated loading placeholders with 5 variants and smooth shimmer animation"
----
-
 # Skeleton
 
-Layout-aware loading placeholder component with smooth shimmer animation. Available in 5 variants for different content types.
+Display a placeholder preview of your content before the data gets loaded to reduce load-time frustration.
 
-## Installation
+## Overview
 
-```bash
-npm install @oxygenix-ui/ui
-```
+The Skeleton component provides a layout-aware loading state. It mimics the structure of the content that will be loaded, creating a smoother user experience than a blank screen or a spinner.
+
+## Import
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`import { Skeleton } from '@oxygenix-ui/ui';`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Basic Usage
 
-```tsx
-import { Skeleton } from '@oxygenix-ui/ui';
-
-function LoadingCard() {
-  return (
-    <div>
-      <Skeleton variant="title" />
-      <Skeleton variant="text" count={3} />
-    </div>
-  );
-}
-```
-
-## Variants
-
-### Text
-
-For body text and paragraphs.
-
-```tsx
-<Skeleton variant="text" width="100%" />
-<Skeleton variant="text" width="80%" />
-<Skeleton variant="text" width="60%" />
-```
-
-### Title
-
-For headings and titles.
-
-```tsx
-<Skeleton variant="title" width="200px" />
-```
-
-### Avatar
-
-For circular profile pictures.
-
-```tsx
-<Skeleton variant="avatar" width={40} height={40} />
-```
-
-### Rectangle
-
-For images, cards, and rectangular content.
-
-```tsx
-<Skeleton variant="rect" width="100%" height={200} />
-```
-
-### Circle
-
-For circular elements like badges or icons.
-
-```tsx
-<Skeleton variant="circle" width={24} height={24} />
-```
-
-## API Reference
-
-### Skeleton
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'text' \| 'title' \| 'avatar' \| 'rect' \| 'circle'` | `'text'` | Skeleton variant |
-| `width` | `string \| number` | - | Width (px or %) |
-| `height` | `string \| number` | - | Height (px or %) |
-| `borderRadius` | `string \| number` | - | Border radius |
-| `count` | `number` | `1` | Number of skeleton lines |
-| `className` | `string` | - | Additional CSS class |
-| `style` | `CSSProperties` | - | Inline styles |
-
-## Examples
-
-### Loading Card
-
-```tsx
-function ProductCardSkeleton() {
-  return (
-    <div className="card">
-      <Skeleton variant="rect" width="100%" height={200} />
-      <div style={{ padding: '16px' }}>
-        <Skeleton variant="title" width="80%" />
-        <Skeleton variant="text" count={2} />
-        <Skeleton variant="text" width="40%" />
-      </div>
-    </div>
-  );
-}
-```
-
-### Loading User Profile
-
-```tsx
-function UserProfileSkeleton() {
-  return (
-    <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-      <Skeleton variant="avatar" width={64} height={64} />
-      <div style={{ flex: 1 }}>
-        <Skeleton variant="title" width="200px" />
-        <Skeleton variant="text" width="150px" />
-      </div>
-    </div>
-  );
-}
-```
-
-### Loading Table
-
-```tsx
-function TableSkeleton() {
-  return (
-    <table>
-      <thead>
-        <tr>
-          {[1, 2, 3, 4].map(i => (
-            <th key={i}>
-              <Skeleton variant="text" width="100px" />
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {[1, 2, 3, 4, 5].map(row => (
-          <tr key={row}>
-            {[1, 2, 3, 4].map(col => (
-              <td key={col}>
-                <Skeleton variant="text" />
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-}
-```
-
-### Loading List
-
-```tsx
-function ListSkeleton() {
-  return (
-    <div>
-      {[1, 2, 3, 4, 5].map(i => (
-        <div key={i} style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
-          <Skeleton variant="avatar" width={40} height={40} />
-          <div style={{ flex: 1 }}>
-            <Skeleton variant="text" width="60%" />
-            <Skeleton variant="text" width="40%" />
-          </div>
+<LiveCodeBlock>
+    <LivePreview>
+        <div className="w-[300px]">
+             <Skeleton count={3} />
         </div>
-      ))}
+    </LivePreview>
+    <LiveSource
+        code={`import { Skeleton } from '@oxygenix-ui/ui';
+
+export default function BasicDemo() {
+  return (
+    <div className="w-[300px]">
+       <Skeleton count={3} />
     </div>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-### Loading Dashboard
+## Advanced Usage
 
-```tsx
-function DashboardSkeleton() {
+### Variants
+
+The `Skeleton` component comes with different variants to match standard UI elements: `text`, `title`, `avatar`, `rect`, and `circle`.
+
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex direction="column" gap="4">
+            <Flex align="center" gap="4">
+                <Skeleton variant="avatar" width={40} height={40} />
+                <div className="w-[200px]">
+                    <Skeleton variant="title" width="60%" />
+                    <Skeleton variant="text" />
+                </div>
+            </Flex>
+            <Skeleton variant="rect" height={100} />
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { Skeleton, Flex } from '@oxygenix-ui/ui';
+
+export default function VariantsDemo() {
   return (
-    <div>
-      <Skeleton variant="title" width="300px" />
-      
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginTop: '24px' }}>
-        {[1, 2, 3].map(i => (
-          <div key={i} className="stat-card">
-            <Skeleton variant="text" width="100px" />
-            <Skeleton variant="title" width="80px" />
-          </div>
-        ))}
-      </div>
-
-      <div style={{ marginTop: '32px' }}>
-        <Skeleton variant="rect" width="100%" height={300} />
-      </div>
-    </div>
-  );
-}
-```
-
-### Loading Form
-
-```tsx
-function FormSkeleton() {
-  return (
-    <div>
-      {[1, 2, 3].map(i => (
-        <div key={i} style={{ marginBottom: '24px' }}>
-          <Skeleton variant="text" width="120px" />
-          <Skeleton variant="rect" width="100%" height={40} style={{ marginTop: '8px' }} />
+    <Flex direction="column" gap="4">
+      {/* Profile Card Mockup */}
+      <Flex align="center" gap="4">
+        <Skeleton variant="avatar" width={40} height={40} />
+        <div className="w-[200px]">
+          <Skeleton variant="title" width="60%" />
+          <Skeleton variant="text" />
         </div>
-      ))}
-      <Skeleton variant="rect" width="120px" height={40} />
+      </Flex>
+
+      {/* Image Mockup */}
+      <Skeleton variant="rect" height={100} />
+    </Flex>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
+
+### Complex Layouts
+
+Combine multiple skeletons to create realistic loading states for cards or lists.
+
+<LiveCodeBlock>
+    <LivePreview>
+        <div className="border rounded-lg p-4 w-[300px] space-y-4">
+            <Skeleton variant="rect" height={150} />
+            <div className="space-y-2">
+                <Skeleton variant="title" width="80%" />
+                <Skeleton variant="text" count={2} />
+            </div>
+             <Flex gap="2">
+                <Skeleton variant="rect" width={80} height={32} />
+                <Skeleton variant="rect" width={80} height={32} />
+             </Flex>
+        </div>
+    </LivePreview>
+    <LiveSource
+        code={`import { Skeleton, Flex } from '@oxygenix-ui/ui';
+
+export default function CardDemo() {
+  return (
+     <div className="border rounded-lg p-4 w-[300px] space-y-4">
+        {/* Card Image */}
+        <Skeleton variant="rect" height={150} />
+        
+        {/* Card Content */}
+        <div className="space-y-2">
+            <Skeleton variant="title" width="80%" />
+            <Skeleton variant="text" count={2} />
+        </div>
+
+        {/* Card Actions */}
+         <Flex gap="2">
+            <Skeleton variant="rect" width={80} height={32} />
+            <Skeleton variant="rect" width={80} height={32} />
+         </Flex>
     </div>
   );
-}
-```
-
-## With DataTable
-
-Use Skeleton while loading table data.
-
-```tsx
-function UserTable() {
-  const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState([]);
-
-  if (loading) {
-    return <TableSkeleton />;
-  }
-
-  return <DataTable data={users} columns={columns} />;
-}
-```
-
-## Best Practices
-
-### 1. Match Content Layout
-
-```tsx
-// ✅ Good - skeleton matches actual content
-<Skeleton variant="avatar" width={48} height={48} />
-<Skeleton variant="title" width="200px" />
-<Skeleton variant="text" count={2} />
-
-// ❌ Bad - doesn't match layout
-<Skeleton variant="rect" width="100%" height={500} />
-```
-
-### 2. Use Appropriate Variants
-
-```tsx
-// ✅ Good - correct variants
-<Skeleton variant="avatar" /> // for profile pic
-<Skeleton variant="title" />  // for heading
-<Skeleton variant="text" />   // for paragraph
-
-// ❌ Bad - wrong variants
-<Skeleton variant="rect" />   // for text
-<Skeleton variant="text" />   // for image
-```
-
-### 3. Vary Text Widths
-
-```tsx
-// ✅ Good - natural text variation
-<Skeleton variant="text" width="100%" />
-<Skeleton variant="text" width="90%" />
-<Skeleton variant="text" width="75%" />
-
-// ❌ Bad - all same width
-<Skeleton variant="text" width="100%" />
-<Skeleton variant="text" width="100%" />
-<Skeleton variant="text" width="100%" />
-```
-
-### 4. Use Count for Repeated Content
-
-```tsx
-// ✅ Good - use count prop
-<Skeleton variant="text" count={5} />
-
-// ❌ Bad - manual repetition
-<Skeleton variant="text" />
-<Skeleton variant="text" />
-<Skeleton variant="text" />
-<Skeleton variant="text" />
-<Skeleton variant="text" />
-```
-
-## Animation
-
-The Skeleton component includes a smooth shimmer animation by default:
-
-- **Gradient**: Subtle light-to-dark gradient
-- **Duration**: 1.5s animation loop
-- **Direction**: Left to right shimmer
-- **Performance**: GPU-accelerated
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Accessibility
 
-The Skeleton component is accessible:
+- **ARIA**: Automatically includes `aria-hidden="true"` since skeletons are decorative placeholders.
+- **Focus**: Elements are not focusable.
 
-- **ARIA**: `aria-hidden="true"` to hide from screen readers
-- **Loading State**: Use with proper loading announcements
-- **Focus**: Not focusable (decorative only)
+## Props
 
-## Styling
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `variant` | `'text' \| 'title' \| 'avatar' \| 'rect' \| 'circle'` | `'text'` | Visual style of the skeleton |
+| `width` | `string \| number` | - | Width of the skeleton |
+| `height` | `string \| number` | - | Height of the skeleton |
+| `borderRadius` | `string \| number` | - | Custom border radius |
+| `count` | `number` | `1` | Number of lines (useful for text variants) |
+| `style` | `CSSProperties` | - | Inline styles |
+| `className` | `string` | - | Additional CSS class |
 
-Customize Skeleton using className or style:
+## Common Mistakes
 
-```tsx
-<Skeleton
-  variant="rect"
-  width="100%"
-  height={200}
-  className="custom-skeleton"
-  style={{ borderRadius: '12px' }}
-/>
-```
+### Mismatched Dimensions
 
-```css
-.custom-skeleton {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-}
-```
+Ensure the `width` and `height` of your `Skeleton` roughly match the content it is replacing. This prevents "layout shift" when the real content loads.
 
-## Related Components
+### Overusing Animations
 
-- **EmptyState** - For no-data states
-- **DataTable** - Use Skeleton for loading tables
-- **Button** - Can show loading state
+If you have many skeletons on a page, the pulsing animation can be distracting. Consider a static background color for very dense grids.

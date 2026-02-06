@@ -28,6 +28,7 @@ import {
   DataTable,
   TableToolbar,
   EmptyState,
+  Skeleton,
 } from '@oxygenix-ui/ui';
 import {
   Search,
@@ -103,6 +104,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     DataTable,
     TableToolbar,
     EmptyState,
+    Skeleton,
     ...components,
   };
 }
