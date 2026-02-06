@@ -10,7 +10,18 @@ function slugify(text: string): string {
 
 import { CodeTabs } from '@/components/mdx/CodeTabs';
 import { LiveCodeBlock, LivePreview, LiveSource } from '@/components/mdx/LiveCodeBlock';
-import { Button, Flex, ArrowRightIcon, Input, IconButton, Text, Heading } from '@oxygenix-ui/ui';
+import {
+  Button,
+  Flex,
+  ArrowRightIcon,
+  Input,
+  IconButton,
+  Text,
+  Heading,
+  Divider,
+  FormField,
+  FormGroup,
+} from '@oxygenix-ui/ui';
 import {
   Search,
   Plus,
@@ -75,6 +86,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     AlignRight,
     Text,
     Heading,
+    Divider,
+    FormField,
+    FormGroup,
     ...components,
   };
 }

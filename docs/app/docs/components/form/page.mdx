@@ -1,439 +1,219 @@
----
-title: "Form System"
-description: "Enterprise-grade form components with validation, multi-step support, and autosave"
----
+# Form System
 
-import { Badge } from '@/components/ui/Badge'
-import { LivePreview } from '@/components/mdx/LivePreview'
-import { CodeTabs } from '@/components/mdx/CodeTabs'
+A set of components to build accessible and consistent forms.
 
-# Form System <Badge variant="stable">Stable</Badge>
+## Overview
 
-Enterprise-grade form components built for complex business applications. Supports validation, field arrays, multi-step forms, autosave, and permissions.
+The Form System consists of `FormField` and `FormGroup` components. `FormField` wraps an input with a label, helper text, and error message. `FormGroup` groups related fields together.
 
-## Installation
+## Import
 
-<CodeTabs
-  tabs={[
-    { label: 'npm', code: 'npm install @oxygenix-ui/forms', language: 'bash' },
-    { label: 'yarn', code: 'yarn add @oxygenix-ui/forms', language: 'bash' },
-    { label: 'pnpm', code: 'pnpm add @oxygenix-ui/forms', language: 'bash' },
-  ]}
-/>
+<LiveCodeBlock>
+    <LiveSource
+        code={`import { FormField, FormGroup } from '@oxygenix-ui/ui';`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Basic Usage
 
-```tsx
-import { Form, Field, FieldGroup } from '@oxygenix-ui/forms';
+### FormField
 
-function UserForm() {
-  const handleSubmit = async (data) => {
-    console.log('Form data:', data);
-  };
+Wrap an `Input` (or any control) with `FormField` to add a label.
 
+<LiveCodeBlock>
+    <LivePreview>
+        <FormField label="Username" htmlFor="username">
+            <Input id="username" placeholder="johndoe" />
+        </FormField>
+    </LivePreview>
+    <LiveSource
+        code={`import { FormField, Input } from '@oxygenix-ui/ui';
+
+export default function FormFieldDemo() {
   return (
-    <Form
-      defaultValues={{ name: '', email: '' }}
-      onSubmit={handleSubmit}
-    >
-      <FieldGroup legend="User Information">
-        <Field
-          name="name"
-          label="Full Name"
-          type="text"
-          required
-        />
-
-        <Field
-          name="email"
-          label="Email"
-          type="email"
-          required
-        />
-      </FieldGroup>
-
-      <button type="submit">Submit</button>
-    </Form>
+    <FormField label="Username" htmlFor="username">
+      <Input id="username" placeholder="johndoe" />
+    </FormField>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-## Features
+## Advanced Usage
 
-### Validation
+### Validation and Hints
 
-The Form system supports synchronous and asynchronous validation with custom error messages.
+`FormField` allows you to easily display validation errors and hints.
 
-```tsx
-<Field
-  name="email"
-  label="Email"
-  type="email"
-  required
-  validate={async (value) => {
-    if (!value.includes('@')) {
-      return 'Invalid email address';
-    }
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex direction="column" gap="4">
+            <FormField 
+                label="Email" 
+                htmlFor="email" 
+                hint="We'll never share your email."
+            >
+                <Input id="email" type="email" placeholder="john@example.com" />
+            </FormField>
 
-    // Async validation (e.g., check if email exists)
-    const exists = await checkEmailExists(value);
-    if (exists) {
-      return 'Email already taken';
-    }
+            <FormField 
+                label="Password" 
+                htmlFor="password" 
+                error="Password must be at least 8 characters"
+                required
+            >
+                <Input id="password" type="password" error />
+            </FormField>
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { FormField, Input, Flex } from '@oxygenix-ui/ui';
 
-    return true;
-  }}
-/>
-```
+export default function ValidationDemo() {
+  return (
+    <Flex direction="column" gap="4">
+      <FormField 
+          label="Email" 
+          htmlFor="email" 
+          hint="We'll never share your email."
+      >
+          <Input id="email" type="email" placeholder="john@example.com" />
+      </FormField>
 
-### Field Arrays (Repeater)
+      <FormField 
+          label="Password" 
+          htmlFor="password" 
+          error="Password must be at least 8 characters"
+          required
+      >
+          <Input id="password" type="password" error />
+      </FormField>
+    </Flex>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-Use the `Repeater` component to handle dynamic lists of fields.
+### FormGroup
 
-```tsx
-<Repeater
-  name="addresses"
-  minItems={1}
-  maxItems={5}
-  defaultItem={{ street: '', city: '', zip: '' }}
->
-  {(fields, { append, remove }) => (
-    <>
-      {fields.map((field, index) => (
-        <div key={field.id}>
-          <Field
-            name={`addresses.${index}.street`}
-            label="Street"
-            type="text"
-            required
-          />
-          <Field
-            name={`addresses.${index}.city`}
-            label="City"
-            type="text"
-            required
-          />
-          <Field
-            name={`addresses.${index}.zip`}
-            label="ZIP Code"
-            type="text"
-            required
-          />
-          <button onClick={() => remove(index)}>Remove</button>
-        </div>
-      ))}
-      <button onClick={() => append()}>Add Address</button>
-    </>
-  )}
-</Repeater>
-```
+Use `FormGroup` to organize multiple related fields.
 
-### Multi-Step Forms
+<LiveCodeBlock>
+    <LivePreview>
+        <FormGroup legend="Personal Information" description="Enter your contact details below.">
+            <Flex direction="column" gap="4">
+                <FormField label="Full Name" htmlFor="full-name" required>
+                    <Input id="full-name" />
+                </FormField>
+                <FormField label="Email" htmlFor="contact-email" required>
+                    <Input id="contact-email" type="email" />
+                </FormField>
+            </Flex>
+        </FormGroup>
+    </LivePreview>
+    <LiveSource
+        code={`import { FormGroup, FormField, Input, Flex } from '@oxygenix-ui/ui';
 
-Create wizard-style forms with step validation.
-
-```tsx
-const steps = [
-  {
-    id: 'personal',
-    label: 'Personal Info',
-    fields: ['name', 'email'],
-    validate: true,
-  },
-  {
-    id: 'address',
-    label: 'Address',
-    fields: ['street', 'city', 'zip'],
-    validate: true,
-  },
-];
-
-<Form
-  steps={steps}
-  currentStep={currentStep}
-  onStepChange={setCurrentStep}
-  onSubmit={handleSubmit}
->
-  {/* Fields */}
-</Form>
-```
-
-### Autosave
-
-Automatically save form data at regular intervals.
-
-```tsx
-<Form
-  autosave={{
-    enabled: true,
-    interval: 30000, // 30 seconds
-    onSave: async (data) => {
-      await saveToLocalStorage(data);
-    },
-    onRestore: async () => {
-      return await loadFromLocalStorage();
-    },
-  }}
-  onSubmit={handleSubmit}
->
-  {/* Fields */}
-</Form>
-```
-
-### Permissions
-
-Control field visibility and editability based on user permissions.
-
-```tsx
-<Form
-  permissions={{
-    canEdit: (fieldName) => {
-      return user.role === 'admin' || fieldName !== 'role';
-    },
-    canView: (fieldName) => {
-      return user.role === 'admin' || fieldName !== 'salary';
-    },
-  }}
-  onSubmit={handleSubmit}
->
-  {/* Fields */}
-</Form>
-```
-
-## API Reference
-
-### Form
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `onSubmit` | `(data: T) => void \| Promise<void>` | Required | Form submission handler |
-| `onError` | `(errors: FormErrors<T>) => void` | - | Error handler |
-| `defaultValues` | `Partial<T>` | - | Default form values |
-| `values` | `Partial<T>` | - | Controlled form values |
-| `onValuesChange` | `(values: Partial<T>) => void` | - | Values change handler |
-| `steps` | `FormStep[]` | - | Multi-step configuration |
-| `currentStep` | `number` | - | Current step index |
-| `onStepChange` | `(step: number) => void` | - | Step change handler |
-| `autosave` | `AutosaveConfig` | - | Autosave configuration |
-| `permissions` | `PermissionsConfig` | - | Permissions configuration |
-| `mode` | `'onSubmit' \| 'onBlur' \| 'onChange' \| 'all'` | `'onSubmit'` | Validation mode |
-| `reValidateMode` | `'onSubmit' \| 'onBlur' \| 'onChange'` | `'onChange'` | Revalidation mode |
-| `debug` | `boolean` | `false` | Show debug panel (dev only) |
-
-### Field
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `string` | Required | Field name (path in form data) |
-| `label` | `ReactNode` | - | Field label |
-| `description` | `string` | - | Field description |
-| `placeholder` | `string` | - | Placeholder text |
-| `type` | `FieldType` | `'text'` | Field type |
-| `required` | `boolean` | `false` | Whether field is required |
-| `validate` | `ValidationFunction \| ValidationFunction[]` | - | Validation function(s) |
-| `options` | `Option[]` | - | Options for select/radio/checkbox |
-| `condition` | `(formValues: any) => boolean` | - | Conditional rendering |
-| `disabled` | `boolean` | `false` | Whether field is disabled |
-| `readOnly` | `boolean` | `false` | Whether field is read-only |
-| `render` | `(props: FieldRenderProps) => ReactNode` | - | Custom render function |
-
-### FieldGroup
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `legend` | `ReactNode` | - | Group legend |
-| `description` | `string` | - | Group description |
-| `children` | `ReactNode` | Required | Child fields |
-
-### Repeater
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `string` | Required | Field name |
-| `minItems` | `number` | - | Minimum items |
-| `maxItems` | `number` | - | Maximum items |
-| `defaultItem` | `T` | Required | Default item value |
-| `children` | `(fields, actions) => ReactNode` | Required | Render function |
-
-## Field Types
-
-The Form system supports the following field types:
-
-- `text` - Text input
-- `email` - Email input
-- `password` - Password input
-- `number` - Number input
-- `tel` - Telephone input
-- `url` - URL input
-- `date` - Date picker
-- `datetime-local` - Date and time picker
-- `time` - Time picker
-- `select` - Dropdown select
-- `multiselect` - Multiple selection
-- `checkbox` - Checkbox
-- `radio` - Radio buttons
-- `textarea` - Multi-line text
-- `file` - File upload
-- `custom` - Custom field (use `render` prop)
+export default function GroupDemo() {
+  return (
+    <FormGroup legend="Personal Information" description="Enter your contact details below.">
+      <Flex direction="column" gap="4">
+        <FormField label="Full Name" htmlFor="full-name" required>
+          <Input id="full-name" />
+        </FormField>
+        <FormField label="Email" htmlFor="contact-email" required>
+          <Input id="contact-email" type="email" />
+        </FormField>
+      </Flex>
+    </FormGroup>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Accessibility
 
-All form components are WCAG 2.2 AA compliant:
+- **Label Association**: `FormField` handles associating the label with the input via `htmlFor`. **You must provide `htmlFor` on FormField and `id` on the input**.
+- **Error Association**: Error messages are automatically linked to inputs via context or aria-describedby (in advanced implementations, simply rendering it below helps, but strict ARIA linkage requires ID referencing).
+- **Group Labeling**: `FormGroup` renders a `<fieldset>` with a `<legend>` to accessible group related controls.
 
-- Proper ARIA labels and descriptions
-- Keyboard navigation support
-- Screen reader announcements for errors
-- Focus management
-- Required field indicators
+## Props
 
-## Performance
+### FormField
 
-The Form system is optimized for large forms:
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `string` | - | Label text |
+| `htmlFor` | `string` | - | ID of the input to associate with |
+| `hint` | `string` | - | Helper text below input |
+| `error` | `string` | - | Error message |
+| `required` | `boolean` | `false` | Shows required indicator |
+| `children` | `ReactNode` | - | The input component |
 
-- Efficient re-renders with React Hook Form
-- Debounced validation
-- Lazy validation (only validates touched fields)
-- Memoized field components
+### FormGroup
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `legend` | `string` | - | Group title (legend) |
+| `description` | `string` | - | Helper text for the group |
+| `children` | `ReactNode` | - | The form fields |
 
 ## Examples
 
-### Complete User Profile Form
+### Login Form
 
-```tsx
-import { Form, Field, FieldGroup, Repeater } from '@oxygenix-ui/forms';
+<LiveCodeBlock>
+    <LivePreview>
+        <div className="border p-6 rounded-lg max-w-sm mx-auto">
+            <Heading level="h2" className="mb-4">Login</Heading>
+            <Flex direction="column" gap="4">
+                <FormField label="Email" htmlFor="login-email">
+                    <Input id="login-email" type="email" />
+                </FormField>
+                <FormField label="Password" htmlFor="login-pass">
+                    <Input id="login-pass" type="password" />
+                </FormField>
+                <Button className="w-full">Sign In</Button>
+            </Flex>
+        </div>
+    </LivePreview>
+    <LiveSource
+        code={`import { Button, FormField, Input, Heading, Flex } from '@oxygenix-ui/ui';
 
-interface UserProfile {
-  name: string;
-  email: string;
-  role: 'admin' | 'editor' | 'viewer';
-  bio?: string;
-  newsletter: boolean;
-  addresses: Array<{
-    street: string;
-    city: string;
-    zip: string;
-  }>;
-}
-
-export function UserProfileForm() {
-  const handleSubmit = async (data: UserProfile) => {
-    await saveUserProfile(data);
-  };
-
+export default function LoginDemo() {
   return (
-    <Form<UserProfile>
-      defaultValues={{
-        name: '',
-        email: '',
-        role: 'viewer',
-        bio: '',
-        newsletter: false,
-        addresses: [{ street: '', city: '', zip: '' }],
-      }}
-      onSubmit={handleSubmit}
-    >
-      <FieldGroup legend="Basic Information">
-        <Field
-          name="name"
-          label="Full Name"
-          type="text"
-          required
-          validate={(value) => {
-            if (value.length < 2) {
-              return 'Name must be at least 2 characters';
-            }
-            return true;
-          }}
-        />
-
-        <Field
-          name="email"
-          label="Email"
-          type="email"
-          required
-        />
-
-        <Field
-          name="role"
-          label="Role"
-          type="select"
-          required
-          options={[
-            { value: 'admin', label: 'Administrator' },
-            { value: 'editor', label: 'Editor' },
-            { value: 'viewer', label: 'Viewer' },
-          ]}
-        />
-
-        <Field
-          name="bio"
-          label="Bio"
-          type="textarea"
-          placeholder="Tell us about yourself..."
-        />
-      </FieldGroup>
-
-      <FieldGroup legend="Preferences">
-        <Field
-          name="newsletter"
-          label="Subscribe to newsletter"
-          type="checkbox"
-        />
-      </FieldGroup>
-
-      <FieldGroup legend="Addresses">
-        <Repeater
-          name="addresses"
-          minItems={1}
-          maxItems={3}
-          defaultItem={{ street: '', city: '', zip: '' }}
-        >
-          {(fields, { append, remove }) => (
-            <>
-              {fields.map((field, index) => (
-                <div key={field.id}>
-                  <h4>Address {index + 1}</h4>
-                  <Field
-                    name={`addresses.${index}.street`}
-                    label="Street"
-                    type="text"
-                    required
-                  />
-                  <Field
-                    name={`addresses.${index}.city`}
-                    label="City"
-                    type="text"
-                    required
-                  />
-                  <Field
-                    name={`addresses.${index}.zip`}
-                    label="ZIP Code"
-                    type="text"
-                    required
-                    validate={(value) => {
-                      if (!/^\d{5}$/.test(value)) {
-                        return 'ZIP code must be 5 digits';
-                      }
-                      return true;
-                    }}
-                  />
-                  {fields.length > 1 && (
-                    <button onClick={() => remove(index)}>
-                      Remove Address
-                    </button>
-                  )}
-                </div>
-              ))}
-              {fields.length < 3 && (
-                <button onClick={() => append()}>Add Address</button>
-              )}
-            </>
-          )}
-        </Repeater>
-      </FieldGroup>
-
-      <button type="submit">Submit</button>
-    </Form>
+    <div className="border p-6 rounded-lg max-w-sm mx-auto">
+      <Heading level="h2" className="mb-4">Login</Heading>
+      <Flex direction="column" gap="4">
+        <FormField label="Email" htmlFor="login-email">
+          <Input id="login-email" type="email" />
+        </FormField>
+        <FormField label="Password" htmlFor="login-pass">
+          <Input id="login-pass" type="password" />
+        </FormField>
+        <Button className="w-full">Sign In</Button>
+      </Flex>
+    </div>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
+
+## Common Mistakes
+
+### Mismatched IDs
+
+The `htmlFor` on `FormField` MUST match the `id` on the `Input`. If they don't match, clicking the label won't focus the input and screen readers won't announce the label.
+
+### Using placeholders as labels
+
+Never rely on placeholders alone. They disappear when the user types and are often not accessible. Always use a visible label.
+
+### Improper Grouping
+
+Use `FormGroup` (fieldset) when you have a collection of related inputs (like a shipping address). Do not use `div`s if the fields are logically connected as a single entity.

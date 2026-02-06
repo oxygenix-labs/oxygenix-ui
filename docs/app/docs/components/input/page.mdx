@@ -1,401 +1,170 @@
----
-title: "Input"
-description: "Text input component for text, number, password, and search fields"
----
-
 # Input
 
-Versatile input component supporting text, number, password, and search field types with built-in validation and accessibility.
+A fundamental component for accepting user text input.
 
-## Installation
+## Overview
 
-```bash
-npm install @oxygenix-ui/forms
-```
+The Input component is used to get user input in a text field. It supports various types including text, password, number, and more, along with validation states.
+
+## Import
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`import { Input } from '@oxygenix-ui/ui';`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Basic Usage
 
-```tsx
-import { Form, Field } from '@oxygenix-ui/forms';
+<LiveCodeBlock>
+    <LivePreview>
+        <Input placeholder="Enter your name" />
+    </LivePreview>
+    <LiveSource
+        code={`import { Input } from '@oxygenix-ui/ui';
 
-function LoginForm() {
+export default function BasicDemo() {
   return (
-    <Form onSubmit={(data) => console.log(data)}>
-      <Field
-        name="email"
-        label="Email"
-        type="email"
-        required
-        placeholder="you@example.com"
-      />
-      <button type="submit">Submit</button>
-    </Form>
+    <Input placeholder="Enter your name" />
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-## Input Types
+## Advanced Usage
 
-### Text Input
+### Sizes
 
-Standard text input for general text entry.
+Use the `size` prop to control the dimensions of the input.
 
-```tsx
-<Field
-  name="username"
-  label="Username"
-  type="text"
-  placeholder="Enter your username"
-  required
-/>
-```
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex direction="column" gap="4">
+            <Input size="sm" placeholder="Small input" />
+            <Input size="md" placeholder="Medium input (Default)" />
+            <Input size="lg" placeholder="Large input" />
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { Input, Flex } from '@oxygenix-ui/ui';
 
-### Number Input
-
-Numeric input with automatic parsing.
-
-```tsx
-<Field
-  name="age"
-  label="Age"
-  type="number"
-  placeholder="Enter your age"
-  validate={(value) => {
-    if (value < 18) return 'Must be 18 or older';
-    if (value > 120) return 'Please enter a valid age';
-    return true;
-  }}
-/>
-```
-
-### Password Input
-
-Masked input for passwords.
-
-```tsx
-<Field
-  name="password"
-  label="Password"
-  type="password"
-  required
-  validate={(value) => {
-    if (value.length < 8) {
-      return 'Password must be at least 8 characters';
-    }
-    if (!/[A-Z]/.test(value)) {
-      return 'Password must contain an uppercase letter';
-    }
-    if (!/[0-9]/.test(value)) {
-      return 'Password must contain a number';
-    }
-    return true;
-  }}
-/>
-```
-
-### Email Input
-
-Email input with browser validation.
-
-```tsx
-<Field
-  name="email"
-  label="Email Address"
-  type="email"
-  required
-  placeholder="you@example.com"
-/>
-```
-
-### URL Input
-
-URL input with validation.
-
-```tsx
-<Field
-  name="website"
-  label="Website"
-  type="url"
-  placeholder="https://example.com"
-/>
-```
-
-### Tel Input
-
-Telephone number input.
-
-```tsx
-<Field
-  name="phone"
-  label="Phone Number"
-  type="tel"
-  placeholder="+1 (555) 123-4567"
-/>
-```
-
-### Search Input
-
-Search input with appropriate semantics.
-
-```tsx
-<Field
-  name="search"
-  label="Search"
-  type="text"
-  placeholder="Search..."
-/>
-```
-
-## API Reference
-
-### Field (Input)
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `string` | Required | Field name |
-| `label` | `ReactNode` | - | Field label |
-| `type` | `'text' \| 'email' \| 'password' \| 'number' \| 'tel' \| 'url'` | `'text'` | Input type |
-| `placeholder` | `string` | - | Placeholder text |
-| `required` | `boolean` | `false` | Whether field is required |
-| `validate` | `ValidationFunction \| ValidationFunction[]` | - | Validation function(s) |
-| `disabled` | `boolean` | `false` | Whether field is disabled |
-| `readOnly` | `boolean` | `false` | Whether field is read-only |
-| `description` | `string` | - | Help text below the input |
-
-## Validation
-
-### Synchronous Validation
-
-```tsx
-<Field
-  name="username"
-  label="Username"
-  type="text"
-  validate={(value) => {
-    if (value.length < 3) {
-      return 'Username must be at least 3 characters';
-    }
-    if (!/^[a-zA-Z0-9_]+$/.test(value)) {
-      return 'Username can only contain letters, numbers, and underscores';
-    }
-    return true;
-  }}
-/>
-```
-
-### Asynchronous Validation
-
-```tsx
-<Field
-  name="email"
-  label="Email"
-  type="email"
-  validate={async (value) => {
-    const exists = await checkEmailExists(value);
-    if (exists) {
-      return 'Email already taken';
-    }
-    return true;
-  }}
-/>
-```
-
-### Multiple Validators
-
-```tsx
-<Field
-  name="password"
-  label="Password"
-  type="password"
-  validate={[
-    (value) => value.length >= 8 || 'Must be at least 8 characters',
-    (value) => /[A-Z]/.test(value) || 'Must contain uppercase letter',
-    (value) => /[0-9]/.test(value) || 'Must contain a number',
-  ]}
-/>
-```
-
-## Examples
-
-### Login Form
-
-```tsx
-function LoginForm() {
-  const handleSubmit = async (data) => {
-    await login(data.email, data.password);
-  };
-
+export default function SizeDemo() {
   return (
-    <Form onSubmit={handleSubmit}>
-      <Field
-        name="email"
-        label="Email"
-        type="email"
-        required
-        placeholder="you@example.com"
-      />
-
-      <Field
-        name="password"
-        label="Password"
-        type="password"
-        required
-        placeholder="••••••••"
-      />
-
-      <button type="submit">Sign In</button>
-    </Form>
+    <Flex direction="column" gap="4">
+      <Input size="sm" placeholder="Small input" />
+      <Input size="md" placeholder="Medium input (Default)" />
+      <Input size="lg" placeholder="Large input" />
+    </Flex>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-### Registration Form
+### States
 
-```tsx
-function RegistrationForm() {
+The input supports `disabled` and `error` states.
+
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex direction="column" gap="4">
+            <Input disabled placeholder="Disabled input" />
+            <Input error placeholder="Error state" defaultValue="Invalid value" />
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { Input, Flex } from '@oxygenix-ui/ui';
+
+export default function StateDemo() {
   return (
-    <Form onSubmit={handleSubmit}>
-      <Field
-        name="username"
-        label="Username"
-        type="text"
-        required
-        validate={async (value) => {
-          const available = await checkUsername(value);
-          return available || 'Username already taken';
-        }}
-      />
-
-      <Field
-        name="email"
-        label="Email"
-        type="email"
-        required
-      />
-
-      <Field
-        name="password"
-        label="Password"
-        type="password"
-        required
-        validate={[
-          (v) => v.length >= 8 || 'At least 8 characters',
-          (v) => /[A-Z]/.test(v) || 'Include uppercase letter',
-          (v) => /[0-9]/.test(v) || 'Include a number',
-        ]}
-      />
-
-      <Field
-        name="confirmPassword"
-        label="Confirm Password"
-        type="password"
-        required
-        validate={(value, formValues) => {
-          return value === formValues.password || 'Passwords must match';
-        }}
-      />
-
-      <button type="submit">Create Account</button>
-    </Form>
+    <Flex direction="column" gap="4">
+      <Input disabled placeholder="Disabled input" />
+      <Input error placeholder="Error state" defaultValue="Invalid value" />
+    </Flex>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-### Search Form
+### Types
 
-```tsx
-function SearchForm() {
+Supports standard HTML input types.
+
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex direction="column" gap="4">
+            <Input type="password" placeholder="Password" />
+            <Input type="number" placeholder="Quantiy" />
+            <Input type="search" placeholder="Search..." />
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { Input, Flex } from '@oxygenix-ui/ui';
+
+export default function TypeDemo() {
   return (
-    <Form onSubmit={(data) => search(data.query)}>
-      <Field
-        name="query"
-        label="Search"
-        type="text"
-        placeholder="Search products..."
-        description="Enter at least 3 characters"
-        validate={(value) => {
-          if (value.length > 0 && value.length < 3) {
-            return 'Search query must be at least 3 characters';
-          }
-          return true;
-        }}
-      />
-      <button type="submit">Search</button>
-    </Form>
+    <Flex direction="column" gap="4">
+      <Input type="password" placeholder="Password" />
+      <Input type="number" placeholder="Quantiy" />
+      <Input type="search" placeholder="Search..." />
+    </Flex>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Accessibility
 
-The Input component is fully accessible:
+- **Labeling**: Always use the `Input` component with a `label`. The easiest way to do this is with the `FormField` component.
+- **Focus**: The focus ring is styled to be visible for keyboard users.
+- **Error**: When in error state, consider adding `aria-invalid="true"` (handled by `error` prop).
 
-- **Labels**: Properly associated with inputs via `htmlFor`
-- **ARIA**: `aria-label`, `aria-describedby`, `aria-invalid`, `aria-required`
-- **Error Announcements**: Errors announced to screen readers with `role="alert"`
-- **Keyboard Navigation**: Full keyboard support
-- **Focus Management**: Clear focus indicators
+## Props
 
-## Best Practices
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `type` | `'text' \| 'number' \| 'password' \| ...` | `'text'` | HTML input type |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the input |
+| `error` | `boolean` | `false` | Visual error state |
+| `className` | `string` | - | Additional CSS class |
+| ... | `InputHTMLAttributes` | - | All standard input attributes |
 
-### 1. Always Provide Labels
+## Examples
 
-```tsx
-// ✅ Good
-<Field name="email" label="Email" type="email" />
+### Search Input
 
-// ❌ Bad
-<Field name="email" type="email" />
-```
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex gap="2">
+            <Input type="search" placeholder="Search documentation..." className="w-full" />
+            <Button>Search</Button>
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { Input, Button, Flex } from '@oxygenix-ui/ui';
 
-### 2. Use Appropriate Input Types
+export default function SearchDemo() {
+  return (
+    <Flex gap="2">
+      <Input type="search" placeholder="Search documentation..." className="w-full" />
+      <Button>Search</Button>
+    </Flex>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-```tsx
-// ✅ Good
-<Field name="email" type="email" />
-<Field name="phone" type="tel" />
-<Field name="age" type="number" />
+## Common Mistakes
 
-// ❌ Bad - using text for everything
-<Field name="email" type="text" />
-```
+### Missing labels
 
-### 3. Provide Helpful Placeholders
+Inputs must always have an associated label for accessibility. Do not rely solely on `placeholder`. Use `FormField` or connect a `<label>` with `htmlFor`.
 
-```tsx
-// ✅ Good
-<Field 
-  name="phone" 
-  type="tel" 
-  placeholder="+1 (555) 123-4567"
-  description="Include country code"
-/>
+### Type mismatch
 
-// ❌ Bad - vague placeholder
-<Field name="phone" type="tel" placeholder="Phone" />
-```
-
-### 4. Validate Appropriately
-
-```tsx
-// ✅ Good - clear error messages
-<Field
-  name="age"
-  type="number"
-  validate={(v) => v >= 18 || 'Must be 18 or older'}
-/>
-
-// ❌ Bad - vague error
-<Field
-  name="age"
-  type="number"
-  validate={(v) => v >= 18 || 'Invalid'}
-/>
-```
-
-## Related Components
-
-- **Textarea** - For multi-line text input
-- **Select** - For dropdown selections
-- **Form** - Parent form component
-- **FormField** - Custom field wrapper
+Ensure you use the correct `type` for the data being collected. Use `type="email"` for emails and `type="tel"` for phone numbers to trigger the correct keyboard on mobile devices.
