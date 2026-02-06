@@ -1,327 +1,122 @@
----
-title: "Heading"
-description: "Controlled heading hierarchy to prevent random h1-h6 misuse"
----
-
 # Heading
 
-Semantic heading component that enforces proper heading hierarchy. Prevents arbitrary h1-h6 usage and ensures consistent styling.
+Semantic heading component that enforces proper heading hierarchy.
 
-## Installation
+## Overview
 
-```bash
-npm install @oxygenix-ui/ui
-```
+The Heading component handles titles and section headers. It bundles font sizing, weight, and line height while allowing you to strictly control the semantic HTML level (h1-h6).
+
+## Import
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`import { Heading } from '@oxygenix-ui/ui';`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Basic Usage
 
-```tsx
-import { Heading } from '@oxygenix-ui/ui';
+<LiveCodeBlock>
+    <LivePreview>
+        <Heading level="h1">Page Title</Heading>
+    </LivePreview>
+    <LiveSource
+        code={`import { Heading } from '@oxygenix-ui/ui';
 
-function App() {
+export default function App() {
   return (
     <Heading level="h1">Page Title</Heading>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-## Heading Levels
+## Advanced Usage
 
-The Heading component supports all six heading levels (h1-h6).
+### Heading Levels
 
-```tsx
-<Heading level="h1">Heading 1</Heading>
-<Heading level="h2">Heading 2</Heading>
-<Heading level="h3">Heading 3</Heading>
-<Heading level="h4">Heading 4</Heading>
-<Heading level="h5">Heading 5</Heading>
-<Heading level="h6">Heading 6</Heading>
-```
+All standard HTML heading levels are supported.
 
-## API Reference
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex direction="column" gap="4">
+            <Heading level="h1">Heading 1</Heading>
+            <Heading level="h2">Heading 2</Heading>
+            <Heading level="h3">Heading 3</Heading>
+            <Heading level="h4">Heading 4</Heading>
+            <Heading level="h5">Heading 5</Heading>
+            <Heading level="h6">Heading 6</Heading>
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { Heading, Flex } from '@oxygenix-ui/ui';
 
-### Heading
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `level` | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | Required | Heading level (controls both semantics and styling) |
-| `children` | `ReactNode` | Required | Heading content |
-| `className` | `string` | - | Additional CSS class |
-
-All standard HTML heading attributes are supported.
-
-## Why Use Heading?
-
-### Problem: Arbitrary Heading Usage
-
-Without a controlled component, developers often misuse headings:
-
-```tsx
-// ❌ Bad - using h3 for styling, not semantics
-<h3 className="small-heading">Actually a subheading</h3>
-
-// ❌ Bad - skipping levels
-<h1>Page Title</h1>
-<h4>Subsection</h4> {/* Skipped h2 and h3 */}
-
-// ❌ Bad - multiple h1s
-<h1>Header</h1>
-<h1>Another Section</h1>
-```
-
-### Solution: Controlled Hierarchy
-
-The Heading component enforces proper usage:
-
-```tsx
-// ✅ Good - explicit level
-<Heading level="h1">Page Title</Heading>
-<Heading level="h2">Section</Heading>
-<Heading level="h3">Subsection</Heading>
-```
-
-## Examples
-
-### Page Structure
-
-```tsx
-function Page() {
+export default function LevelsDemo() {
   return (
-    <div>
-      <Heading level="h1">Dashboard</Heading>
-      
-      <section>
-        <Heading level="h2">Recent Activity</Heading>
-        <Heading level="h3">Today</Heading>
-        {/* Activity items */}
-        <Heading level="h3">Yesterday</Heading>
-        {/* Activity items */}
-      </section>
-
-      <section>
-        <Heading level="h2">Statistics</Heading>
-        <Heading level="h3">Revenue</Heading>
-        {/* Revenue chart */}
-        <Heading level="h3">Users</Heading>
-        {/* User chart */}
-      </section>
-    </div>
+    <Flex direction="column" gap="4">
+      <Heading level="h1">Heading 1</Heading>
+      <Heading level="h2">Heading 2</Heading>
+      <Heading level="h3">Heading 3</Heading>
+      <Heading level="h4">Heading 4</Heading>
+      <Heading level="h5">Heading 5</Heading>
+      <Heading level="h6">Heading 6</Heading>
+    </Flex>
   );
-}
-```
-
-### Article Layout
-
-```tsx
-function Article() {
-  return (
-    <article>
-      <Heading level="h1">
-        Understanding React Server Components
-      </Heading>
-
-      <Heading level="h2">Introduction</Heading>
-      <p>Server Components are a new feature...</p>
-
-      <Heading level="h2">How They Work</Heading>
-      <p>Server Components render on the server...</p>
-
-      <Heading level="h3">Rendering Process</Heading>
-      <p>The rendering process involves...</p>
-
-      <Heading level="h3">Data Fetching</Heading>
-      <p>Data fetching in Server Components...</p>
-
-      <Heading level="h2">Conclusion</Heading>
-      <p>Server Components provide...</p>
-    </article>
-  );
-}
-```
-
-### Card Headers
-
-```tsx
-function Card({ title, subtitle }) {
-  return (
-    <div className="card">
-      <Heading level="h3">{title}</Heading>
-      {subtitle && (
-        <Text variant="muted">{subtitle}</Text>
-      )}
-      {/* Card content */}
-    </div>
-  );
-}
-```
-
-### Modal Titles
-
-```tsx
-function Modal({ title, children, onClose }) {
-  return (
-    <div className="modal">
-      <div className="modal-header">
-        <Heading level="h2">{title}</Heading>
-        <IconButton
-          icon={<X />}
-          aria-label="Close"
-          onClick={onClose}
-        />
-      </div>
-      <div className="modal-content">
-        {children}
-      </div>
-    </div>
-  );
-}
-```
-
-### Section Headers
-
-```tsx
-function Settings() {
-  return (
-    <div>
-      <Heading level="h1">Settings</Heading>
-
-      <section>
-        <Heading level="h2">Profile</Heading>
-        <Heading level="h3">Personal Information</Heading>
-        {/* Form fields */}
-        <Heading level="h3">Avatar</Heading>
-        {/* Avatar upload */}
-      </section>
-
-      <section>
-        <Heading level="h2">Security</Heading>
-        <Heading level="h3">Password</Heading>
-        {/* Password change */}
-        <Heading level="h3">Two-Factor Authentication</Heading>
-        {/* 2FA settings */}
-      </section>
-    </div>
-  );
-}
-```
-
-## Best Practices
-
-### 1. Follow Heading Hierarchy
-
-Always use headings in order without skipping levels:
-
-```tsx
-// ✅ Good - proper hierarchy
-<Heading level="h1">Page Title</Heading>
-<Heading level="h2">Section</Heading>
-<Heading level="h3">Subsection</Heading>
-
-// ❌ Bad - skipped h2
-<Heading level="h1">Page Title</Heading>
-<Heading level="h3">Subsection</Heading>
-```
-
-### 2. One h1 Per Page
-
-Each page should have exactly one h1:
-
-```tsx
-// ✅ Good - single h1
-<Heading level="h1">Dashboard</Heading>
-<Heading level="h2">Section 1</Heading>
-<Heading level="h2">Section 2</Heading>
-
-// ❌ Bad - multiple h1s
-<Heading level="h1">Dashboard</Heading>
-<Heading level="h1">Another Section</Heading>
-```
-
-### 3. Use for Structure, Not Styling
-
-Choose heading levels based on content hierarchy, not visual appearance:
-
-```tsx
-// ✅ Good - semantic structure
-<Heading level="h2">Section Title</Heading>
-
-// ❌ Bad - using for size
-<Heading level="h4">Actually a section title</Heading>
-// (If you need smaller text, use className or Text component)
-```
-
-### 4. Descriptive Content
-
-Headings should clearly describe the content that follows:
-
-```tsx
-// ✅ Good - descriptive
-<Heading level="h2">User Profile Settings</Heading>
-<Heading level="h2">Recent Transactions</Heading>
-
-// ❌ Bad - vague
-<Heading level="h2">Settings</Heading>
-<Heading level="h2">Items</Heading>
-```
-
-## Heading Hierarchy
-
-Proper heading hierarchy is crucial for:
-
-- **Accessibility**: Screen readers use headings to navigate
-- **SEO**: Search engines use headings to understand content structure
-- **Readability**: Clear hierarchy helps users scan content
-
-### Example Hierarchy
-
-```
-h1: Page Title
-  h2: Main Section
-    h3: Subsection
-      h4: Sub-subsection
-    h3: Another Subsection
-  h2: Another Main Section
-    h3: Subsection
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Accessibility
 
-The Heading component is fully accessible:
+- **Level Order**: Always use heading levels in a descending order (h1 -> h2 -> h3). Do not skip levels (e.g., h1 to h3).
+- **Navigation**: Screen readers use headings to allow users to quickly navigate mainly sections of the page.
+- **Focus**: The component passes through props, so you can add `tabIndex` if a heading needs to be focusable.
 
-- **Semantic HTML**: Uses proper h1-h6 elements
-- **Screen Reader Navigation**: Enables heading-based navigation
-- **Keyboard Navigation**: Focusable when needed
-- **Proper Hierarchy**: Enforces logical document outline
+## Props
 
-## Styling
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `level` | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | **Required** | The semantic HTML heading level |
+| `children` | `ReactNode` | - | Heading content |
+| `className` | `string` | - | Additional CSS class |
 
-Customize Heading using className:
+## Examples
 
-```tsx
-<Heading level="h2" className="custom-heading">
-  Custom Styled Heading
-</Heading>
-```
+### Section Header
 
-```css
-.custom-heading {
-  --heading-color: #custom-color;
-  --heading-margin: 2rem 0 1rem;
-}
-```
+Use a heading paired with a description text.
 
-## Typography Scale
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex direction="column" gap="2">
+            <Heading level="h2">Account Settings</Heading>
+            <Text variant="muted">Manage your profile and security preferences.</Text>
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { Heading, Text, Flex } from '@oxygenix-ui/ui';
 
-The Heading component follows a consistent scale:
+export default function HeaderDemo() {
+  return (
+    <Flex direction="column" gap="2">
+      <Heading level="h2">Account Settings</Heading>
+      <Text variant="muted">Manage your profile and security preferences.</Text>
+    </Flex>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-- **h1**: 32px / 1.2 line-height / 700 weight
-- **h2**: 24px / 1.3 line-height / 600 weight
-- **h3**: 20px / 1.4 line-height / 600 weight
-- **h4**: 18px / 1.4 line-height / 600 weight
-- **h5**: 16px / 1.5 line-height / 600 weight
-- **h6**: 14px / 1.5 line-height / 600 weight
+## Common Mistakes
 
-## Related Components
+### Using headings for sizing only
 
-- **Text** - For body text and captions
-- **Divider** - For separating sections
+Do not pick a `level` just because you like the font size. Always choose the `level` that represents the correct document structure. If you need a specific size but a different semantic level, use CSS or utility classes.
+
+### Multiple H1 tags
+
+A page should strictly have only one `h1` tag that describes the main topic of the page. Use `h2` through `h6` for sub-sections.

@@ -4,14 +4,14 @@ Compact button for icons only - perfect for toolbars, tables, and dense UIs.
 
 ## Overview
 
-The IconButton component renders a button with an icon and no text. It effectively communicates actions while saving space.
+The Icon Button component renders a button with an icon and no text. It effectively communicates actions while saving space.
 
 <LiveCodeBlock>
     <LivePreview>
         <Flex gap="4" align="center">
             <IconButton aria-label="Search" icon={<Search size={20} />} />
-            <IconButton aria-label="Add item" icon={<Plus size={20} />} variant="primary" />
-            <IconButton aria-label="Delete" icon={<Trash size={20} />} variant="danger" />
+            <IconButton aria-label="Add item" icon={<Plus size={20} />} />
+            <IconButton aria-label="Delete" icon={<Trash size={20} />} />
         </Flex>
     </LivePreview>
     <LiveSource
@@ -22,8 +22,8 @@ export default function IconButtonDemo() {
   return (
     <Flex gap="4" align="center">
       <IconButton aria-label="Search" icon={<Search size={20} />} />
-      <IconButton aria-label="Add item" icon={<Plus size={20} />} variant="primary" />
-      <IconButton aria-label="Delete" icon={<Trash size={20} />} variant="danger" />
+      <IconButton aria-label="Add item" icon={<Plus size={20} />} />
+      <IconButton aria-label="Delete" icon={<Trash size={20} />} />
     </Flex>
   );
 }`}
@@ -80,24 +80,44 @@ Use the `size` prop to adjust the button dimensions.
     />
 </LiveCodeBlock>
 
-### Variants
 
-IconButton supports the same variants as the Button component.
+
+
+## Examples
+
+### Toolbar
+
+Icon buttons are commonly used in toolbars for actions like filtering or view switching.
 
 <LiveCodeBlock>
     <LivePreview>
-        <Flex gap="4">
-            <IconButton variant="primary" aria-label="Primary" icon={<Plus size={20} />} />
-            <IconButton variant="secondary" aria-label="Secondary" icon={<Plus size={20} />} />
-            <IconButton variant="ghost" aria-label="Ghost" icon={<Plus size={20} />} />
-            <IconButton variant="danger" aria-label="Danger" icon={<Trash size={20} />} />
+        <Flex gap="2" className="p-2 border rounded-md">
+            <IconButton aria-label="Bold" icon={<Bold size={18} />} />
+            <IconButton aria-label="Italic" icon={<Italic size={18} />} />
+            <IconButton aria-label="Underline" icon={<Underline size={18} />} />
+            <div className="w-px h-6 bg-gray-200 mx-1" />
+            <IconButton aria-label="Align Left" icon={<AlignLeft size={18} />} />
+            <IconButton aria-label="Align Center" icon={<AlignCenter size={18} />} />
+            <IconButton aria-label="Align Right" icon={<AlignRight size={18} />} />
         </Flex>
     </LivePreview>
     <LiveSource
-        code={`<IconButton variant="primary" aria-label="Primary" icon={<Plus size={20} />} />
-<IconButton variant="secondary" aria-label="Secondary" icon={<Plus size={20} />} />
-<IconButton variant="ghost" aria-label="Ghost" icon={<Plus size={20} />} />
-<IconButton variant="danger" aria-label="Danger" icon={<Trash size={20} />} />`}
+        code={`import { IconButton, Flex } from '@oxygenix-ui/ui';
+import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
+
+export default function ToolbarDemo() {
+  return (
+    <Flex gap="2" className="p-2 border rounded-md">
+        <IconButton aria-label="Bold" icon={<Bold size={18} />} />
+        <IconButton aria-label="Italic" icon={<Italic size={18} />} />
+        <IconButton aria-label="Underline" icon={<Underline size={18} />} />
+        <div className="w-px h-6 bg-gray-200 mx-1" />
+        <IconButton aria-label="Align Left" icon={<AlignLeft size={18} />} />
+        <IconButton aria-label="Align Center" icon={<AlignCenter size={18} />} />
+        <IconButton aria-label="Align Right" icon={<AlignRight size={18} />} />
+    </Flex>
+  );
+}`}
         language="tsx"
     />
 </LiveCodeBlock>
@@ -114,7 +134,7 @@ IconButton supports the same variants as the Button component.
 | :--- | :--- | :--- | :--- |
 | `icon` | `ReactNode` | - | The icon element to render |
 | `aria-label` | `string` | - | **Required**. Accessible label for the button |
-| `variant` | `'primary' \| 'secondary' \| 'ghost' \| 'danger' \| 'solid' \| 'soft'` | `'primary'` | Visual style of the button |
+
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the button |
 | `disabled` | `boolean` | `false` | Disables the button |
 | `className` | `string` | - | Additional CSS class |

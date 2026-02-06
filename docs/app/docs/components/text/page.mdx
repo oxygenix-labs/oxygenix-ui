@@ -1,323 +1,182 @@
----
-title: "Text"
-description: "Semantic typography wrapper for consistent text styling"
----
-
 # Text
 
-Semantic typography component that provides consistent text styling across your application. Prevents arbitrary font sizes and weights.
+Semantic typography component that provides consistent text styling across your application.
 
-## Installation
+## Overview
 
-```bash
-npm install @oxygenix-ui/ui
-```
+The Text component is the fundamental building block for all typography in your application. It enforces specific variants and weights to ensure consistency and readability.
+
+## Import
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`import { Text } from '@oxygenix-ui/ui';`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Basic Usage
 
-```tsx
-import { Text } from '@oxygenix-ui/ui';
+<LiveCodeBlock>
+    <LivePreview>
+        <Text>This is body text with consistent styling.</Text>
+    </LivePreview>
+    <LiveSource
+        code={`import { Text } from '@oxygenix-ui/ui';
 
-function App() {
+export default function App() {
   return (
     <Text>This is body text with consistent styling.</Text>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-## Variants
+## Advanced Usage
 
-The Text component supports five semantic variants.
+### Variants
 
-### Body (Default)
+Use variants to control the semantic meaning and visual style of the text.
 
-Standard body text for paragraphs and general content.
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex direction="column" gap="4">
+            <Text variant="body">Body (Default): Standard text for paragraphs</Text>
+            <Text variant="muted">Muted: Secondary information</Text>
+            <Text variant="caption">Caption: Labels and metadata</Text>
+            <Text variant="small">Small: Fine print and disclaimers</Text>
+            <Text variant="large">Large: Lead paragraphs or emphasis</Text>
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { Text, Flex } from '@oxygenix-ui/ui';
 
-```tsx
-<Text variant="body">
-  This is standard body text used for paragraphs and general content.
-</Text>
-```
+export default function VariantsDemo() {
+  return (
+    <Flex direction="column" gap="4">
+      <Text variant="body">Body (Default): Standard text for paragraphs</Text>
+      <Text variant="muted">Muted: Secondary information</Text>
+      <Text variant="caption">Caption: Labels and metadata</Text>
+      <Text variant="small">Small: Fine print and disclaimers</Text>
+      <Text variant="large">Large: Lead paragraphs or emphasis</Text>
+    </Flex>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-### Muted
-
-Subdued text for secondary information.
-
-```tsx
-<Text variant="muted">
-  This is muted text for less important information.
-</Text>
-```
-
-### Caption
-
-Small text for captions, labels, and metadata.
-
-```tsx
-<Text variant="caption">
-  Posted 2 hours ago
-</Text>
-```
-
-### Small
-
-Smaller text for fine print or disclaimers.
-
-```tsx
-<Text variant="small">
-  * Terms and conditions apply
-</Text>
-```
-
-### Large
-
-Larger text for emphasis or lead paragraphs.
-
-```tsx
-<Text variant="large">
-  This is a lead paragraph with larger text for emphasis.
-</Text>
-```
-
-## Font Weight
+### Font Weights
 
 Control the font weight independently of the variant.
 
-```tsx
-<Text weight="normal">Normal weight text</Text>
-<Text weight="medium">Medium weight text</Text>
-<Text weight="bold">Bold weight text</Text>
-```
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex direction="column" gap="4">
+            <Text weight="normal">Normal weight text</Text>
+            <Text weight="medium">Medium weight text</Text>
+            <Text weight="bold">Bold weight text</Text>
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { Text, Flex } from '@oxygenix-ui/ui';
 
-## Custom HTML Element
-
-Use the `as` prop to render as a different HTML element while maintaining the styling.
-
-```tsx
-<Text as="span">Inline text</Text>
-<Text as="div">Block text</Text>
-<Text as="label">Form label</Text>
-```
-
-## API Reference
-
-### Text
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'body' \| 'muted' \| 'caption' \| 'small' \| 'large'` | `'body'` | Text variant |
-| `weight` | `'normal' \| 'medium' \| 'bold'` | `'normal'` | Font weight |
-| `as` | `ElementType` | `'p'` | HTML element to render |
-| `children` | `ReactNode` | Required | Text content |
-| `className` | `string` | - | Additional CSS class |
-
-All standard HTML element attributes are supported based on the `as` prop.
-
-## Examples
-
-### Article Content
-
-```tsx
-function Article() {
+export default function WeightDemo() {
   return (
-    <article>
-      <Text variant="large" weight="medium">
-        This is the lead paragraph that introduces the article with
-        larger, medium-weight text to draw attention.
-      </Text>
-
-      <Text variant="body">
-        This is the main body content of the article. It uses the
-        default body variant for optimal readability.
-      </Text>
-
-      <Text variant="muted">
-        Last updated: January 15, 2024
-      </Text>
-    </article>
+    <Flex direction="column" gap="4">
+      <Text weight="normal">Normal weight text</Text>
+      <Text weight="medium">Medium weight text</Text>
+      <Text weight="bold">Bold weight text</Text>
+    </Flex>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-### Form Labels and Help Text
+### Polymorphism
 
-```tsx
-function FormField() {
+Use the `as` prop to change the underlying HTML element while maintaining the style.
+
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex direction="column" gap="4">
+            <Text as="p">Rendered as paragraph</Text>
+            <Text as="span">Rendered as span</Text>
+            <Text as="label">Rendered as label</Text>
+            <Text as="div">Rendered as div</Text>
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { Text, Flex } from '@oxygenix-ui/ui';
+
+export default function PolymorphismDemo() {
   return (
-    <div>
-      <Text as="label" weight="medium" htmlFor="email">
-        Email Address
-      </Text>
-      <input id="email" type="email" />
-      <Text variant="caption" as="span">
-        We'll never share your email with anyone else.
-      </Text>
-    </div>
+    <Flex direction="column" gap="4">
+      <Text as="p">Rendered as paragraph</Text>
+      <Text as="span">Rendered as span</Text>
+      <Text as="label">Rendered as label</Text>
+      <Text as="div">Rendered as div</Text>
+    </Flex>
   );
-}
-```
-
-### Card Metadata
-
-```tsx
-function UserCard({ user }) {
-  return (
-    <div className="card">
-      <Text variant="body" weight="medium">
-        {user.name}
-      </Text>
-      <Text variant="muted">
-        {user.role}
-      </Text>
-      <Text variant="caption">
-        Joined {user.joinDate}
-      </Text>
-    </div>
-  );
-}
-```
-
-### Status Messages
-
-```tsx
-function StatusMessage({ type, message }) {
-  return (
-    <Text 
-      variant="body"
-      weight="medium"
-      className={`status-${type}`}
-    >
-      {message}
-    </Text>
-  );
-}
-```
-
-### List Items
-
-```tsx
-function FeatureList() {
-  return (
-    <ul>
-      <li>
-        <Text variant="body" weight="medium">
-          Fast Performance
-        </Text>
-        <Text variant="muted">
-          Optimized for speed and efficiency
-        </Text>
-      </li>
-      <li>
-        <Text variant="body" weight="medium">
-          Accessible
-        </Text>
-        <Text variant="muted">
-          WCAG 2.2 AA compliant
-        </Text>
-      </li>
-    </ul>
-  );
-}
-```
-
-## Best Practices
-
-### 1. Use Semantic Variants
-
-Choose variants based on content hierarchy:
-
-```tsx
-// ✅ Good - semantic usage
-<Text variant="large">Introduction paragraph</Text>
-<Text variant="body">Main content</Text>
-<Text variant="muted">Secondary information</Text>
-<Text variant="caption">Metadata</Text>
-
-// ❌ Bad - arbitrary styling
-<Text style={{ fontSize: '18px' }}>Some text</Text>
-<Text style={{ color: '#666' }}>Other text</Text>
-```
-
-### 2. Combine Variant and Weight
-
-Use variant for size/color and weight for emphasis:
-
-```tsx
-// ✅ Good
-<Text variant="body" weight="medium">Important body text</Text>
-<Text variant="muted" weight="bold">Emphasized secondary text</Text>
-
-// ❌ Bad - using variant for emphasis
-<Text variant="large">Not actually large content</Text>
-```
-
-### 3. Use Appropriate HTML Elements
-
-Match the `as` prop to the semantic meaning:
-
-```tsx
-// ✅ Good
-<Text as="label" htmlFor="name">Name</Text>
-<Text as="span">Inline text</Text>
-<Text as="p">Paragraph</Text>
-
-// ❌ Bad - wrong semantics
-<Text as="div" htmlFor="name">Name</Text> {/* labels should be <label> */}
-```
-
-### 4. Maintain Hierarchy
-
-Use variants to establish clear visual hierarchy:
-
-```tsx
-// ✅ Good - clear hierarchy
-<Text variant="large" weight="medium">Main heading</Text>
-<Text variant="body">Body content</Text>
-<Text variant="caption">Additional info</Text>
-
-// ❌ Bad - no hierarchy
-<Text>Everything</Text>
-<Text>Looks</Text>
-<Text>The same</Text>
-```
-
-## Typography Scale
-
-The Text component follows a consistent typography scale:
-
-- **Large**: 18px / 1.5 line-height
-- **Body**: 14px / 1.6 line-height
-- **Muted**: 14px / 1.6 line-height (reduced opacity)
-- **Caption**: 12px / 1.4 line-height
-- **Small**: 11px / 1.4 line-height
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Accessibility
 
-The Text component is accessible by default:
+- **Semantic HTML**: By using the `as` prop, you can ensure your text uses the correct HTML tag (e.g., `<label>`, `<p>`, `<span>`) for screen readers.
+- **Contrast**: The built-in variants (especially `muted`) are designed to meet standard contrast ratios.
+- **Scaling**: Text sizes are defined in relative units to respect user browser settings.
 
-- **Semantic HTML**: Uses appropriate elements via `as` prop
-- **Readable Contrast**: Muted variant maintains WCAG AA contrast
-- **Line Height**: Optimized for readability
-- **Font Size**: Minimum 11px for legibility
+## Props
 
-## Styling
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `variant` | `'body' \| 'muted' \| 'caption' \| 'small' \| 'large'` | `'body'` | Text style variant |
+| `weight` | `'normal' \| 'medium' \| 'bold'` | `'normal'` | Font weight |
+| `as` | `ElementType` | `'p'` | Underlying HTML element to render |
+| `children` | `ReactNode` | - | Text content |
+| `className` | `string` | - | Additional CSS class |
 
-Customize Text using className:
+## Examples
 
-```tsx
-<Text className="custom-text">
-  Custom styled text
-</Text>
-```
+### Metadata
 
-```css
-.custom-text {
-  --text-color: #custom-color;
-  --text-line-height: 1.8;
-}
-```
+Combine `body` and `muted` text to create clear content hierarchies.
 
-## Related Components
+<LiveCodeBlock>
+    <LivePreview>
+        <Flex direction="column" gap="1">
+            <Text weight="medium">John Doe</Text>
+            <Text variant="muted">Software Engineer</Text>
+            <Text variant="caption">Joined 2024</Text>
+        </Flex>
+    </LivePreview>
+    <LiveSource
+        code={`import { Text, Flex } from '@oxygenix-ui/ui';
 
-- **Heading** - For headings with controlled hierarchy
-- **Button** - For interactive text elements
+export default function MetadataDemo() {
+  return (
+    <Flex direction="column" gap="1">
+      <Text weight="medium">John Doe</Text>
+      <Text variant="muted">Software Engineer</Text>
+      <Text variant="caption">Joined 2024</Text>
+    </Flex>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
+
+## Common Mistakes
+
+### Using arbitrary styles
+
+Avoid using the `className` prop to set font sizes or colors directly. Use `variant` and `weight` props to maintain consistency with the design system.
+
+### Incorrect HTML semantics
+
+Don't use `Text` with `as="div"` for everything. Use specific tags like `p`, `span`, or `label` via the `as` prop to ensure your application is accessible.

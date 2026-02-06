@@ -10,8 +10,19 @@ function slugify(text: string): string {
 
 import { CodeTabs } from '@/components/mdx/CodeTabs';
 import { LiveCodeBlock, LivePreview, LiveSource } from '@/components/mdx/LiveCodeBlock';
-import { Button, Flex, ArrowRightIcon, Input, IconButton } from '@oxygenix-ui/ui';
-import { Search, Plus, Trash, Edit } from 'lucide-react';
+import { Button, Flex, ArrowRightIcon, Input, IconButton, Text, Heading } from '@oxygenix-ui/ui';
+import {
+  Search,
+  Plus,
+  Trash,
+  Edit,
+  Bold,
+  Italic,
+  Underline,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+} from 'lucide-react';
 
 // Custom heading components with IDs
 const createHeading = (level: number) => {
@@ -56,6 +67,14 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     Plus,
     Trash,
     Edit,
+    Bold,
+    Italic,
+    Underline,
+    AlignLeft,
+    AlignCenter,
+    AlignRight,
+    Text,
+    Heading,
     ...components,
   };
 }
