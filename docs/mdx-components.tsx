@@ -26,6 +26,8 @@ import {
   Checkbox,
   RadioGroup,
   DataTable,
+  TableToolbar,
+  EmptyState,
 } from '@oxygenix-ui/ui';
 import {
   Search,
@@ -99,6 +101,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     Checkbox,
     RadioGroup,
     DataTable,
+    TableToolbar,
+    EmptyState,
     ...components,
   };
 }
