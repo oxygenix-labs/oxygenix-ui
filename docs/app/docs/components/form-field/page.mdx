@@ -1,315 +1,173 @@
----
-title: "FormField"
-description: "Field wrapper component with label, error, hint, and control"
----
-
 # FormField
 
-Wrapper component that combines label, error message, hint text, and form control into a cohesive field structure.
+A wrapper component that provides context, labels, and error messages for form inputs.
 
-## Installation
+## Overview
 
-```bash
-npm install @oxygenix-ui/forms
-```
+The FormField component standardizes the presentation of form controls. It handles the rendering of labels, required indicators, helper text, and error messages in a consistent accessible layout.
+
+## Import
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`import { FormField } from '@oxygenix-ui/ui';`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Basic Usage
 
-The `Field` component is the FormField wrapper. It automatically handles labels, errors, hints, and accessibility.
+Wrap any form control (like `Input`, `Select`, `Textarea`) with `FormField`.
 
-```tsx
-import { Form, Field } from '@oxygenix-ui/forms';
+<LiveCodeBlock>
+    <LivePreview>
+        <FormField label="Username" htmlFor="username-basic">
+            <Input id="username-basic" placeholder="Enter username" />
+        </FormField>
+    </LivePreview>
+    <LiveSource
+        code={`import { FormField, Input } from '@oxygenix-ui/ui';
 
-function MyForm() {
+export default function BasicDemo() {
   return (
-    <Form onSubmit={handleSubmit}>
-      <Field
-        name="email"
-        label="Email Address"
-        type="email"
-        description="We'll never share your email"
-        required
-      />
-    </Form>
+    <FormField label="Username" htmlFor="username-basic">
+      <Input id="username-basic" placeholder="Enter username" />
+    </FormField>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-## Structure
+## Advanced Usage
 
-The FormField (Field) component provides:
+### Helper Text and Hints
 
-1. **Label** - Accessible label for the input
-2. **Description** - Helper text below the label
-3. **Control** - The actual input/select/textarea
-4. **Error** - Validation error message
+Use the `hint` prop to provide additional instructions or context to the user.
 
-```
-┌─────────────────────────────────┐
-│ Label *                         │ ← Label (with required indicator)
-│ Helper text here                │ ← Description
-│ ┌─────────────────────────────┐ │
-│ │ Input field                 │ │ ← Control
-│ └─────────────────────────────┘ │
-│ ⚠ Error message                 │ ← Error (when invalid)
-└─────────────────────────────────┘
-```
+<LiveCodeBlock>
+    <LivePreview>
+        <FormField 
+            label="Password" 
+            htmlFor="password-hint" 
+            hint="Must be at least 8 characters long."
+        >
+            <Input type="password" id="password-hint" />
+        </FormField>
+    </LivePreview>
+    <LiveSource
+        code={`import { FormField, Input } from '@oxygenix-ui/ui';
 
-## Features
+export default function HintDemo() {
+  return (
+    <FormField 
+        label="Password" 
+        htmlFor="password-hint" 
+        hint="Must be at least 8 characters long."
+    >
+        <Input type="password" id="password-hint" />
+    </FormField>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-### Label
+### Validation Errors
 
-Automatically associated with the control.
+Pass an error message string to the `error` prop to display it. This typically puts the wrapped input into an error state as well, but you should also pass `error` to the input itself for visual consistency.
 
-```tsx
-<Field
-  name="username"
-  label="Username"
-  type="text"
-  required
-/>
-```
+<LiveCodeBlock>
+    <LivePreview>
+        <FormField 
+            label="Email" 
+            htmlFor="email-error" 
+            error="Please enter a valid email address."
+            required
+        >
+            <Input type="email" id="email-error" error defaultValue="invalid-email" />
+        </FormField>
+    </LivePreview>
+    <LiveSource
+        code={`import { FormField, Input } from '@oxygenix-ui/ui';
 
-### Description (Hint)
+export default function ErrorDemo() {
+  return (
+    <FormField 
+        label="Email" 
+        htmlFor="email-error" 
+        error="Please enter a valid email address."
+        required
+    >
+        <Input type="email" id="email-error" error defaultValue="invalid-email" />
+    </FormField>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-Provide helpful context below the label.
+## Accessibility
 
-```tsx
-<Field
-  name="password"
-  label="Password"
-  type="password"
-  description="Must be at least 8 characters with uppercase, lowercase, and numbers"
-  required
-/>
-```
+- **Label Association**: The `htmlFor` prop on `FormField` MUST match the `id` prop on the child input. This ensures that when a user clicks the label, focus is transferred to the input, and screen readers correctly identify the input.
+- **Required Indicator**: The `required` prop adds a visual indicator (usually an asterisk) and ensures screen readers know the field is mandatory.
 
-### Error Messages
-
-Automatically displayed when validation fails.
-
-```tsx
-<Field
-  name="email"
-  label="Email"
-  type="email"
-  required
-  validate={async (value) => {
-    const exists = await checkEmail(value);
-    return exists ? 'Email already taken' : true;
-  }}
-/>
-```
-
-### Custom Error Rendering
-
-Customize how errors are displayed.
-
-```tsx
-<Field
-  name="username"
-  label="Username"
-  type="text"
-  validate={(value) => {
-    if (value.length < 3) return 'Too short';
-    if (value.length > 20) return 'Too long';
-    return true;
-  }}
-  renderError={(error) => (
-    <div style={{ color: 'red', fontWeight: 'bold' }}>
-      ❌ {error.message}
-    </div>
-  )}
-/>
-```
-
-## API Reference
-
-### Field (FormField)
+## Props
 
 | Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `string` | Required | Field name |
-| `label` | `ReactNode` | - | Field label |
-| `description` | `string` | - | Helper text |
-| `type` | `FieldType` | `'text'` | Input type |
-| `required` | `boolean` | `false` | Whether field is required |
-| `validate` | `ValidationFunction \| ValidationFunction[]` | - | Validation function(s) |
-| `renderError` | `(error: FieldError) => ReactNode` | - | Custom error renderer |
+| :--- | :--- | :--- | :--- |
+| `label` | `string` | - | The text label for the field |
+| `htmlFor` | `string` | - | The ID of the input being labeled |
+| `hint` | `string` | - | Helper text displayed below the input |
+| `error` | `string` | - | Error message displayed below the input |
+| `required` | `boolean` | `false` | Whether the field is required |
+| `children` | `ReactNode` | - | The form control to wrap |
 | `className` | `string` | - | Additional CSS class |
 
 ## Examples
 
-### Complete Field
+### With Select
 
-```tsx
-<Field
-  name="email"
-  label="Email Address"
-  type="email"
-  placeholder="you@example.com"
-  description="We'll use this to send you updates"
-  required
-  validate={async (value) => {
-    if (!value.includes('@')) {
-      return 'Please enter a valid email';
-    }
-    const exists = await checkEmailExists(value);
-    if (exists) {
-      return 'This email is already registered';
-    }
-    return true;
-  }}
-/>
-```
+<LiveCodeBlock>
+    <LivePreview>
+        <FormField label="Role" htmlFor="role-select">
+            <Select 
+                id="role-select"
+                options={[
+                    { label: 'Admin', value: 'admin' },
+                    { label: 'User', value: 'user' },
+                    { label: 'Guest', value: 'guest' },
+                ]}
+            />
+        </FormField>
+    </LivePreview>
+    <LiveSource
+        code={`import { FormField, Select } from '@oxygenix-ui/ui';
 
-### Field with Custom Render
+export default function SelectDemo() {
+  return (
+    <FormField label="Role" htmlFor="role-select">
+        <Select 
+            id="role-select"
+            options={[
+                { label: 'Admin', value: 'admin' },
+                { label: 'User', value: 'user' },
+                { label: 'Guest', value: 'guest' },
+            ]}
+        />
+    </FormField>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-```tsx
-<Field
-  name="bio"
-  label="Bio"
-  description="Tell us about yourself"
-  render={({ field, fieldState }) => (
-    <div>
-      <textarea
-        {...field}
-        placeholder="Your bio..."
-        maxLength={500}
-        style={{
-          width: '100%',
-          minHeight: '100px',
-          borderColor: fieldState.error ? 'red' : '#ccc'
-        }}
-      />
-      <div style={{ textAlign: 'right', fontSize: '12px' }}>
-        {field.value?.length || 0} / 500
-      </div>
-      {fieldState.error && (
-        <div style={{ color: 'red' }}>
-          {fieldState.error.message}
-        </div>
-      )}
-    </div>
-  )}
-/>
-```
+## Common Mistakes
 
-### Conditional Field
+### Forgetting htmlFor/id
 
-```tsx
-<Field
-  name="otherReason"
-  label="Please specify"
-  type="text"
-  condition={(values) => values.reason === 'other'}
-  required
-  description="Tell us more about your reason"
-/>
-```
+The most common mistake is omitting the `htmlFor` prop on FormField or the `id` prop on the input. Always ensure they are present and identical.
 
-## Accessibility
+### Using for non-form elements
 
-The FormField component ensures:
-
-- **Label Association**: `htmlFor` links label to input
-- **ARIA Attributes**: 
-  - `aria-describedby` for description and errors
-  - `aria-invalid` when field has errors
-  - `aria-required` for required fields
-- **Error Announcements**: Errors have `role="alert"` for screen readers
-- **Focus Management**: Proper focus indicators
-
-## Best Practices
-
-### 1. Always Provide Labels
-
-```tsx
-// ✅ Good
-<Field name="email" label="Email" type="email" />
-
-// ❌ Bad
-<Field name="email" type="email" />
-```
-
-### 2. Use Descriptions for Context
-
-```tsx
-// ✅ Good
-<Field
-  name="apiKey"
-  label="API Key"
-  type="password"
-  description="Found in your account settings"
-/>
-
-// ❌ Bad - no context
-<Field name="apiKey" label="API Key" type="password" />
-```
-
-### 3. Provide Clear Error Messages
-
-```tsx
-// ✅ Good
-<Field
-  name="age"
-  label="Age"
-  type="number"
-  validate={(v) => v >= 18 || 'You must be 18 or older to register'}
-/>
-
-// ❌ Bad
-<Field
-  name="age"
-  label="Age"
-  type="number"
-  validate={(v) => v >= 18 || 'Invalid'}
-/>
-```
-
-### 4. Use Required Indicator
-
-```tsx
-// ✅ Good - required prop shows indicator
-<Field name="email" label="Email" type="email" required />
-
-// ❌ Bad - manual asterisk in label
-<Field name="email" label="Email *" type="email" />
-```
-
-## Styling
-
-The FormField uses CSS modules. Customize via className:
-
-```tsx
-<Field
-  name="email"
-  label="Email"
-  type="email"
-  className="custom-field"
-/>
-```
-
-```css
-.custom-field {
-  margin-bottom: 24px;
-}
-
-.custom-field label {
-  font-weight: 600;
-  color: #333;
-}
-
-.custom-field input {
-  border-radius: 8px;
-  padding: 12px;
-}
-```
-
-## Related Components
-
-- **Input** - Text input fields
-- **Select** - Dropdown fields
-- **Checkbox** - Boolean fields
-- **Textarea** - Multi-line text
-- **FieldGroup** - For grouping multiple fields
+Do not use `FormField` to wrap non-interactive content just for styling. It renders a `<label>` element which expects an interactive control.

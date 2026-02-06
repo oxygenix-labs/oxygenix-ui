@@ -1,364 +1,170 @@
----
-title: "FormGroup"
-description: "Logical grouping component for organizing related fields in large forms"
----
-
 # FormGroup
 
-Component for logically grouping related form fields, essential for organizing large forms and improving accessibility.
+A container component for grouping related form controls.
 
-## Installation
+## Overview
 
-```bash
-npm install @oxygenix-ui/forms
-```
+The FormGroup component helps organize complex forms by grouping related fields together. It renders as a semantic `<fieldset>` with a `<legend>`.
+
+## Import
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`import { FormGroup } from '@oxygenix-ui/ui';`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Basic Usage
 
-```tsx
-import { Form, Field, FieldGroup } from '@oxygenix-ui/forms';
+Group related fields, such as a set of checkboxes.
 
-function UserForm() {
+<LiveCodeBlock>
+    <LivePreview>
+        <FormGroup legend="Notify me via">
+            <Flex direction="column" gap="2">
+                <Checkbox label="Email" />
+                <Checkbox label="SMS" />
+                <Checkbox label="Push Notification" />
+            </Flex>
+        </FormGroup>
+    </LivePreview>
+    <LiveSource
+        code={`import { FormGroup, Checkbox, Flex } from '@oxygenix-ui/ui';
+
+export default function BasicDemo() {
   return (
-    <Form onSubmit={handleSubmit}>
-      <FieldGroup legend="Personal Information">
-        <Field name="firstName" label="First Name" type="text" required />
-        <Field name="lastName" label="Last Name" type="text" required />
-        <Field name="email" label="Email" type="email" required />
-      </FieldGroup>
-
-      <FieldGroup legend="Address">
-        <Field name="street" label="Street" type="text" required />
-        <Field name="city" label="City" type="text" required />
-        <Field name="zip" label="ZIP Code" type="text" required />
-      </FieldGroup>
-
-      <button type="submit">Submit</button>
-    </Form>
+    <FormGroup legend="Notify me via">
+      <Flex direction="column" gap="2">
+        <Checkbox label="Email" />
+        <Checkbox label="SMS" />
+        <Checkbox label="Push Notification" />
+      </Flex>
+    </FormGroup>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-## Features
-
-### Semantic Grouping
-
-Uses `<fieldset>` and `<legend>` for semantic HTML.
-
-```tsx
-<FieldGroup legend="Contact Information">
-  <Field name="phone" label="Phone" type="tel" />
-  <Field name="email" label="Email" type="email" />
-</FieldGroup>
-```
+## Advanced Usage
 
 ### With Description
 
-Add context to field groups.
+Add a description to provide more context about the group.
 
-```tsx
-<FieldGroup 
-  legend="Security Settings"
-  description="Configure your account security preferences"
->
-  <Field name="twoFactor" label="Enable 2FA" type="checkbox" />
-  <Field name="loginAlerts" label="Login alerts" type="checkbox" />
-</FieldGroup>
-```
+<LiveCodeBlock>
+    <LivePreview>
+        <FormGroup 
+            legend="Profile Settings" 
+            description="These settings control your public profile visibility."
+        >
+            <RadioGroup 
+                name="visibility"
+                options={[
+                    { label: 'Public', value: 'public' },
+                    { label: 'Private', value: 'private' },
+                    { label: 'Friends Only', value: 'friends' },
+                ]}
+            />
+        </FormGroup>
+    </LivePreview>
+    <LiveSource
+        code={`import { FormGroup, RadioGroup } from '@oxygenix-ui/ui';
 
-### Nested Groups
+export default function DescriptionDemo() {
+  return (
+    <FormGroup 
+        legend="Profile Settings" 
+        description="These settings control your public profile visibility."
+    >
+        <RadioGroup 
+            name="visibility"
+            options={[
+                { label: 'Public', value: 'public' },
+                { label: 'Private', value: 'private' },
+                { label: 'Friends Only', value: 'friends' },
+            ]}
+        />
+    </FormGroup>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-Group related sections hierarchically.
+## Accessibility
 
-```tsx
-<Form onSubmit={handleSubmit}>
-  <FieldGroup legend="Account Details">
-    <Field name="username" label="Username" type="text" required />
-    <Field name="email" label="Email" type="email" required />
-    
-    <FieldGroup legend="Password">
-      <Field name="password" label="Password" type="password" required />
-      <Field name="confirmPassword" label="Confirm Password" type="password" required />
-    </FieldGroup>
-  </FieldGroup>
-</Form>
-```
+- **Semantic HTML**: Renders a `<fieldset>`, which is the correct element for grouping form controls.
+- **Legend**: Renders a `<legend>`, which provides an accessible name for the group. Screen readers will often announce the legend when the user navigates into the group.
 
-## API Reference
-
-### FieldGroup
+## Props
 
 | Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `legend` | `ReactNode` | - | Group legend (heading) |
-| `description` | `string` | - | Group description |
-| `children` | `ReactNode` | Required | Child fields |
+| :--- | :--- | :--- | :--- |
+| `legend` | `string` | - | The title of the group |
+| `description` | `string` | - | Helper text describing the group |
+| `children` | `ReactNode` | - | The form controls to group |
 | `className` | `string` | - | Additional CSS class |
 
 ## Examples
 
-### User Profile Form
+### Address Group
 
-```tsx
-function ProfileForm() {
-  return (
-    <Form onSubmit={handleSubmit}>
-      <FieldGroup legend="Basic Information">
-        <Field name="firstName" label="First Name" type="text" required />
-        <Field name="lastName" label="Last Name" type="text" required />
-        <Field name="email" label="Email" type="email" required />
-        <Field name="phone" label="Phone" type="tel" />
-      </FieldGroup>
-
-      <FieldGroup legend="Address">
-        <Field name="street" label="Street Address" type="text" required />
-        <Field name="city" label="City" type="text" required />
-        <Field name="state" label="State" type="select" options={states} required />
-        <Field name="zip" label="ZIP Code" type="text" required />
-      </FieldGroup>
-
-      <FieldGroup legend="Preferences">
-        <Field name="newsletter" label="Subscribe to newsletter" type="checkbox" />
-        <Field name="notifications" label="Email notifications" type="checkbox" />
-      </FieldGroup>
-
-      <button type="submit">Save Profile</button>
-    </Form>
-  );
-}
-```
-
-### Multi-Section Form
-
-```tsx
-function ApplicationForm() {
-  return (
-    <Form onSubmit={handleSubmit}>
-      <FieldGroup 
-        legend="Applicant Information"
-        description="Tell us about yourself"
-      >
-        <Field name="fullName" label="Full Name" type="text" required />
-        <Field name="email" label="Email" type="email" required />
-        <Field name="phone" label="Phone Number" type="tel" required />
-      </FieldGroup>
-
-      <FieldGroup 
-        legend="Education"
-        description="Your educational background"
-      >
-        <Field name="degree" label="Highest Degree" type="select" options={degrees} required />
-        <Field name="university" label="University" type="text" required />
-        <Field name="graduationYear" label="Graduation Year" type="number" required />
-      </FieldGroup>
-
-      <FieldGroup 
-        legend="Work Experience"
-        description="Your professional experience"
-      >
-        <Field name="currentRole" label="Current Role" type="text" />
-        <Field name="company" label="Company" type="text" />
-        <Field name="yearsExperience" label="Years of Experience" type="number" required />
-      </FieldGroup>
-
-      <FieldGroup legend="Additional Information">
-        <Field 
-          name="coverLetter" 
-          label="Cover Letter" 
-          type="textarea" 
-          description="Tell us why you're interested"
-        />
-        <Field name="resume" label="Resume" type="file" />
-      </FieldGroup>
-
-      <button type="submit">Submit Application</button>
-    </Form>
-  );
-}
-```
-
-### Settings Form
-
-```tsx
-function SettingsForm() {
-  return (
-    <Form onSubmit={handleSubmit}>
-      <FieldGroup legend="Profile Settings">
-        <Field name="displayName" label="Display Name" type="text" />
-        <Field name="bio" label="Bio" type="textarea" />
-        <Field name="website" label="Website" type="url" />
-      </FieldGroup>
-
-      <FieldGroup legend="Privacy">
-        <Field name="publicProfile" label="Make profile public" type="checkbox" />
-        <Field name="showEmail" label="Show email on profile" type="checkbox" />
-        <Field name="allowMessages" label="Allow direct messages" type="checkbox" />
-      </FieldGroup>
-
-      <FieldGroup legend="Notifications">
-        <Field name="emailComments" label="Email on new comments" type="checkbox" />
-        <Field name="emailMessages" label="Email on new messages" type="checkbox" />
-        <Field name="emailUpdates" label="Product updates" type="checkbox" />
-      </FieldGroup>
-
-      <FieldGroup legend="Account">
-        <Field 
-          name="deleteAccount" 
-          label="Delete my account" 
-          type="checkbox"
-          description="This action cannot be undone"
-        />
-      </FieldGroup>
-
-      <button type="submit">Save Settings</button>
-    </Form>
-  );
-}
-```
-
-### Billing Form
-
-```tsx
-function BillingForm() {
-  return (
-    <Form onSubmit={handleSubmit}>
-      <FieldGroup legend="Billing Information">
-        <Field name="cardName" label="Name on Card" type="text" required />
-        <Field name="cardNumber" label="Card Number" type="text" required />
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-          <Field name="expiry" label="Expiry Date" type="text" placeholder="MM/YY" required />
-          <Field name="cvv" label="CVV" type="text" required />
+<LiveCodeBlock>
+    <LivePreview>
+        <div className="border p-4 rounded-md">
+            <FormGroup legend="Shipping Address">
+                <Flex direction="column" gap="4">
+                    <FormField label="Street Address" htmlFor="street">
+                        <Input id="street" />
+                    </FormField>
+                    <Flex gap="4">
+                        <FormField label="City" htmlFor="city" className="flex-1">
+                            <Input id="city" />
+                        </FormField>
+                        <FormField label="ZIP Code" htmlFor="zip" className="w-32">
+                            <Input id="zip" />
+                        </FormField>
+                    </Flex>
+                </Flex>
+            </FormGroup>
         </div>
-      </FieldGroup>
+    </LivePreview>
+    <LiveSource
+        code={`import { FormGroup, FormField, Input, Flex } from '@oxygenix-ui/ui';
 
-      <FieldGroup legend="Billing Address">
-        <Field 
-          name="sameAsShipping" 
-          label="Same as shipping address" 
-          type="checkbox" 
-        />
-        <Field 
-          name="billingStreet" 
-          label="Street Address" 
-          type="text" 
-          condition={(values) => !values.sameAsShipping}
-          required 
-        />
-        <Field 
-          name="billingCity" 
-          label="City" 
-          type="text"
-          condition={(values) => !values.sameAsShipping}
-          required 
-        />
-      </FieldGroup>
-
-      <button type="submit">Complete Purchase</button>
-    </Form>
+export default function AddressDemo() {
+  return (
+    <div className="border p-4 rounded-md">
+      <FormGroup legend="Shipping Address">
+        <Flex direction="column" gap="4">
+          <FormField label="Street Address" htmlFor="street">
+            <Input id="street" />
+          </FormField>
+          <Flex gap="4">
+            <FormField label="City" htmlFor="city" className="flex-1">
+              <Input id="city" />
+            </FormField>
+            <FormField label="ZIP Code" htmlFor="zip" className="w-32">
+              <Input id="zip" />
+            </FormField>
+          </Flex>
+        </Flex>
+      </FormGroup>
+    </div>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-## Accessibility
+## Common Mistakes
 
-The FieldGroup component ensures:
+### Using for layout only
 
-- **Semantic HTML**: Uses `<fieldset>` and `<legend>`
-- **Screen Readers**: Groups announced as related fields
-- **Keyboard Navigation**: Proper tab order maintained
-- **Visual Grouping**: Clear visual separation
+Do not use `FormGroup` just to put a border or title around generic content. Use it specifically for grouping *form controls* that are logically related.
 
-## Best Practices
+### Nested FormGroups
 
-### 1. Group Related Fields
-
-```tsx
-// ✅ Good - logical grouping
-<FieldGroup legend="Contact Information">
-  <Field name="email" label="Email" type="email" />
-  <Field name="phone" label="Phone" type="tel" />
-</FieldGroup>
-
-// ❌ Bad - unrelated fields
-<FieldGroup legend="Information">
-  <Field name="email" label="Email" type="email" />
-  <Field name="favoriteColor" label="Favorite Color" type="text" />
-</FieldGroup>
-```
-
-### 2. Use Descriptive Legends
-
-```tsx
-// ✅ Good - clear legend
-<FieldGroup legend="Shipping Address">
-  {/* fields */}
-</FieldGroup>
-
-// ❌ Bad - vague legend
-<FieldGroup legend="Section 1">
-  {/* fields */}
-</FieldGroup>
-```
-
-### 3. Add Descriptions for Context
-
-```tsx
-// ✅ Good - helpful description
-<FieldGroup 
-  legend="Privacy Settings"
-  description="Control who can see your information"
->
-  {/* fields */}
-</FieldGroup>
-
-// ❌ Bad - no context
-<FieldGroup legend="Privacy Settings">
-  {/* fields */}
-</FieldGroup>
-```
-
-### 4. Don't Over-Group
-
-```tsx
-// ✅ Good - meaningful groups
-<FieldGroup legend="Personal Info">
-  <Field name="name" />
-  <Field name="email" />
-</FieldGroup>
-
-// ❌ Bad - single field in group
-<FieldGroup legend="Name">
-  <Field name="name" />
-</FieldGroup>
-```
-
-## Styling
-
-The FieldGroup uses CSS modules. Customize via className:
-
-```tsx
-<FieldGroup legend="Contact" className="custom-group">
-  {/* fields */}
-</FieldGroup>
-```
-
-```css
-.custom-group {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 24px;
-  margin-bottom: 24px;
-}
-
-.custom-group legend {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-}
-```
-
-## Related Components
-
-- **Form** - Parent form component
-- **Field** - Individual form fields
-- **FormField** - Field wrapper with label and error
+Avoid nesting generic `FormGroup`s too deeply, as it can be confusing for screen reader navigation. Use headings (`h3`, `h4`) for subgroupings if necessary inside a larger form.
