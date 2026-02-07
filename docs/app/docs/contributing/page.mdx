@@ -1,0 +1,135 @@
+
+export const metadata = {
+  title: 'Contributing to Oxygenix UI',
+  description: 'Learn how to contribute to the Oxygenix UI library.',
+}
+
+# Contributing to Oxygenix UI
+
+Thank you for your interest in contributing to Oxygenix UI! We welcome contributions from the community to help make this library better for everyone. Whether you're fixing a bug, improving documentation, or adding a new feature, your help is appreciated.
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed on your machine:
+
+- [Node.js](https://nodejs.org/) (version 18 or higher)
+- [pnpm](https://pnpm.io/) (version 8 or higher)
+- [Git](https://git-scm.com/)
+
+## Getting Started
+
+1. **Fork the repository**: Click the "Fork" button at the top right of the repository page on GitHub.
+
+2. **Clone your fork**:
+   <LiveSource
+     code={`git clone https://github.com/YOUR_USERNAME/oxygenix-ui.git
+     cd oxygenix-ui`}
+     language="bash"
+   />
+
+3. **Install dependencies**:
+   <LiveSource
+     code={`pnpm install`}
+     language="bash"
+   />
+
+## Development Workflow
+
+We use a monorepo structure managed by pnpm workspaces. Here are the common commands you'll use:
+
+### Start Development Server
+To start the development environment, including the documentation site and Storybook:
+
+<LiveSource
+  code={`pnpm start`}
+  language="bash"
+/>
+This command runs:
+- `pnpm dev`: Watch mode for packages.
+- `pnpm storybook`: Starts Storybook on port 6006.
+- `pnpm --filter oxygenix-ui-docs dev`: Starts the documentation site.
+
+### Individual Commands
+
+- **Run Storybook only**:
+  <LiveSource
+    code={`pnpm storybook`}
+    language="bash"
+  />
+
+- **Run Docs only**:
+  <LiveSource
+    code={`pnpm --filter oxygenix-ui-docs dev`}
+    language="bash"
+  />
+
+- **Build packages**:
+  <LiveSource
+    code={`pnpm build`}
+    language="bash"
+  />
+
+## Coding Standards
+
+### TypeScript
+We use TypeScript for all our packages. Please ensure your code is strictly typed and follows our configuration.
+
+### Linting and Formatting
+We enforce coding styles using ESLint and Prettier. Before submitting your code, run:
+
+<LiveSource
+  code={`# Run linting
+  pnpm lint
+
+  # Run formatting check
+  pnpm format:check
+
+  # Fix formatting issues
+  pnpm format`}
+  language="bash"
+/>
+
+Running `pnpm lint` will check for code quality issues, and `pnpm format` will ensure your code follows our style guide.
+
+### Commits
+We encourage clear and descriptive commit messages. Pre-commit hooks are set up to run linting on your staged files to catch issues early.
+
+## Pull Request Process
+
+1. **Create a new branch**: Always work on a fresh branch for your changes.
+   <LiveSource
+     code={`git checkout -b feature/my-new-feature`}
+     language="bash"
+   />
+
+2. **Make your changes**: Implement your feature or fix.
+
+3. **Verify your changes**: Run tests and check Storybook/docs to ensure everything works as expected.
+   <LiveSource
+     code={`pnpm test`}
+     language="bash"
+   />
+
+4. **Commit your changes**:
+   <LiveSource
+     code={`git commit -m "feat: add new button component"`}
+     language="bash"
+   />
+
+5. **Push to your fork**:
+   <LiveSource
+     code={`git push origin feature/my-new-feature`}
+     language="bash"
+   />
+
+6. **Submit a Pull Request**: Go to the original repository and open a Pull Request from your fork. Provide a clear description of your changes and link to any relevant issues.
+
+## Code of Conduct
+
+We are committed to providing a friendly, safe, and welcoming environment for all, regardless of gender, sexual orientation, disability, ethnicity, religion, or similar personal characteristic.
+
+Please be kind and courteous. Harassment of any kind will not be tolerated.
+
+---
+
+**Happy Coding!** 🚀
