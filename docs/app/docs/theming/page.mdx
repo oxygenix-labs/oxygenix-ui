@@ -1,0 +1,246 @@
+
+# Theming
+
+Oxygenix UI features a powerful and flexible theming system built on top of CSS variables and React Context. It supports light and dark modes out of the box, provides a comprehensive set of design tokens, and allows for easy customization.
+
+## Overview
+
+The theming system is designed to be:
+- **Zero-runtime overhead**: Most styling is done via CSS variables.
+- **Type-safe**: TypeScript tokens are available for CSS-in-JS or inline styles.
+- **Dark mode ready**: Semantic colors automatically adapt to the user's preferred color scheme.
+- **Enterprise-grade**: Accessible color palettes and consistent spacing/typography scales.
+
+## Getting Started
+
+### 1. Installation
+
+Ensure you have the core packages installed:
+
+<LiveCodeBlock>
+  <LiveSource
+    language="bash"
+    code={`pnpm add @oxygenix-ui/ui @oxygenix-ui/tokens`}
+  />
+</LiveCodeBlock>
+
+### 2. Import Styles
+
+Import the enterprise theme CSS and the UI package CSS in your root layout or main entry file (e.g., `app/layout.tsx` or `src/main.tsx`):
+
+<LiveCodeBlock>
+  <LiveSource
+    language="tsx"
+    code={`import '@oxygenix-ui/tokens/dist/themes/enterprise.css';
+import '@oxygenix-ui/ui/dist/index.css';`}
+  />
+</LiveCodeBlock>
+
+### 3. Setup Theme Provider
+
+Wrap your application with a `ThemeProvider` to manage light/dark mode state. While `next-themes` is a popular choice, here is a simple implementation you can use:
+
+<LiveCodeBlock>
+  <LiveSource
+    language="tsx"
+    filename="components/ThemeProvider.tsx"
+    code={`'use client';
+
+import { createContext, useContext, useEffect, useState } from 'react';
+
+type Theme = 'light' | 'dark';
+
+const ThemeContext = createContext({
+  theme: 'light' as Theme,
+  setTheme: (theme: Theme) => {},
+  toggleTheme: () => {},
+});
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setThemeState] = useState<Theme>('light');
+
+  useEffect(() => {
+    // Check local storage or system preference
+    const stored = localStorage.getItem('theme') as Theme | null;
+    const system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    const initial = stored || system;
+    
+    setThemeState(initial);
+    document.documentElement.setAttribute('data-theme', initial);
+  }, []);
+
+  const setTheme = (newTheme: Theme) => {
+    setThemeState(newTheme);
+    localStorage.setItem('theme', newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+  };
+
+  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
+
+  return (
+    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+export const useTheme = () => useContext(ThemeContext);`}
+  />
+</LiveCodeBlock>
+
+Then use it in your layout:
+
+<LiveCodeBlock>
+  <LiveSource
+    language="tsx"
+    filename="app/layout.tsx"
+    code={`import { ThemeProvider } from '@/components/ThemeProvider';
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
+`}
+  />
+</LiveCodeBlock>
+
+## Design Tokens
+
+Oxygenix UI provides a comprehensive set of design tokens tailored for enterprise applications.
+
+### Colors
+
+Colors are organized into **Primitives** (raw values) and **Semantics** (functional usage).
+
+#### Semantic Colors (Recommended)
+
+Use these variables to ensuring automatic dark mode support.
+
+| Token | CSS Variable | Description |
+| :--- | :--- | :--- |
+| **Methods** | | |
+| Primary | `--oxy-primary-600` | Main brand color |
+| Background | `--oxy-color-bg-primary` | Main page background |
+| Surface | `--oxy-color-bg-secondary` | Cards, sidebars, headers |
+| Text | `--oxy-color-text-primary` | Main body text |
+| Muted Text | `--oxy-color-text-secondary` | Secondary/helper text |
+| Border | `--oxy-color-border-default` | Default border color |
+
+#### Color Palette
+
+The primitive palette includes `gray`, `primary` (blue), `success` (green), `warning` (amber), and `error` (red).
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: '8px', margin: '24px 0' }}>
+  {[50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map(step => (
+    <div key={step}>
+      <div style={{ height: '40px', background: `var(--oxy-primary-${step})`, borderRadius: '4px' }} />
+      <div style={{ fontSize: '12px', marginTop: '4px', textAlign: 'center' }}>{step}</div>
+    </div>
+  ))}
+</div>
+
+### Spacing
+
+Based on a 4px scale.
+
+| Token | CSS Variable | Value | Pixels |
+| :--- | :--- | :--- | :--- |
+| 1 | `--oxy-spacing-1` | 0.25rem | 4px |
+| 2 | `--oxy-spacing-2` | 0.5rem | 8px |
+| 3 | `--oxy-spacing-3` | 0.75rem | 12px |
+| 4 | `--oxy-spacing-4` | 1rem | 16px |
+| 5 | `--oxy-spacing-5` | 1.25rem | 20px |
+| 6 | `--oxy-spacing-6` | 1.5rem | 24px |
+| 8 | `--oxy-spacing-8` | 2rem | 32px |
+
+### Typography
+
+| Token | CSS Variable | Value |
+| :--- | :--- | :--- |
+| Sans | `--oxy-font-family-sans` | System UI stack (Inter preferred) |
+| Mono | `--oxy-font-family-mono` | Monospace stack |
+| Base Size | `--oxy-font-size-base` | 16px (1rem) |
+| Small | `--oxy-font-size-sm` | 14px (0.875rem) |
+
+### Radius
+
+| Token | CSS Variable | Value |
+| :--- | :--- | :--- |
+| sm | `--oxy-radius-sm` | 2px |
+| base | `--oxy-radius-base` | 4px |
+| md | `--oxy-radius-md` | 6px |
+| lg | `--oxy-radius-lg` | 8px |
+| full | `--oxy-radius-full` | 9999px |
+
+## Dark Mode
+
+Dark mode is handled automatically via semantic tokens. The `data-theme="dark"` attribute on the `<html>` or `<body>` tag triggers the dark theme values.
+
+<LiveCodeBlock>
+  <LiveSource
+    language="css"
+    code={`/* How it works internally */
+:root {
+  --oxy-color-bg-primary: #ffffff;
+  --oxy-color-text-primary: #171717;
+}
+
+[data-theme="dark"] {
+  --oxy-color-bg-primary: #171717;
+  --oxy-color-text-primary: #fafafa;
+}`}
+  />
+</LiveCodeBlock>
+
+## Customization
+
+You can override any token by defining it in your own global CSS file. Ensure your CSS is imported **after** the Oxygenix theme.
+
+<LiveCodeBlock>
+  <LiveSource
+    language="css"
+    filename="styles/globals.css"
+    code={`:root {
+  /* Change primary color to Purple */
+  --oxy-primary-500: #8b5cf6;
+  --oxy-primary-600: #7c3aed;
+  
+  /* Increase base radius */
+  --oxy-radius-base: 8px;
+  
+  /* Custom font */
+  --oxy-font-family-sans: 'Geist', sans-serif;
+}`}
+  />
+</LiveCodeBlock>
+
+## Runtime Switching
+
+To switch themes at runtime, use the `useTheme` hook exposed by your `ThemeProvider`.
+
+<LiveCodeBlock>
+  <LiveSource
+    language="tsx"
+    code={`import { useTheme } from '@/components/ThemeProvider';
+import { Button } from '@oxygenix-ui/ui';
+import { Sun, Moon } from 'lucide-react';
+
+export function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme();
+
+  return (
+    <Button variant="ghost" size="icon" onClick={toggleTheme}>
+      {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+    </Button>
+  );
+}
+`}
+  />
+</LiveCodeBlock>

@@ -1,0 +1,103 @@
+
+# Performance
+
+Oxygenix UI is designed with performance in mind. We prioritize small bundle sizes, efficient rendering, and modern build optimizations.
+
+## Tree Shaking
+
+Our packages are built as **ES Modules (ESM)** and configured with `sideEffects: false` in `package.json`. This allows modern bundlers (Webpack, Rollup, Vite) to eliminate unused code (dead code elimination).
+
+### How it works
+
+When you import a named export, only the code for that specific component and its dependencies is included in your final bundle.
+
+<LiveCodeBlock>
+  <LiveSource
+    language="tsx"
+    code={`// ✅ Good: Only imports Button code
+import { Button } from '@oxygenix-ui/ui';
+
+// ❌ Bad: Imports EVERYTHING (if not tree-shaken)
+import * as Oxygen from '@oxygenix-ui/ui';`}
+  />
+</LiveCodeBlock>
+
+## Bundle Size Strategy
+
+We maintain a strict philosophy regarding dependencies:
+
+1.  **Zero Runtime Dependencies**: The `@oxygenix-ui/core` package has zero runtime dependencies.
+2.  **Shared Utilities**: Common logic is extracted to the core package to prevent code duplication across components.
+3.  **Lazy Loading**: Complex components like `Tabs` use internal state to only render active panels, reducing the initial DOM footprint.
+
+## Virtualization & Lists
+
+For most tables and lists, our `DataTable` component's built-in pagination is sufficient and performant.
+
+<LiveCodeBlock>
+  <LiveSource
+    language="tsx"
+    code={`<DataTable
+  data={users}
+  pagination
+  pageSize={10} // Limits DOM nodes to 10 rows
+  columns={columns}
+/>`}
+  />
+</LiveCodeBlock>
+
+### Handling Massive Datasets
+
+If you need to render thousands of rows **without** pagination (infinite scroll), we recommend composing Oxygenix UI primitive components with a dedicated virtualization library like `react-window` or `@tanstack/react-virtual`.
+
+**Why not built-in?** Virtualization adds significant complexity and weight. usage is specific to the application's scrolling behavior (window vs container), so we leave this choice to the developer while providing the lightweight primitives to build it.
+
+## Server-Side Rendering (SSR)
+
+Oxygenix UI is fully compatible with Next.js App Router and React Server Components (RSC).
+
+### "Use Client" Directives
+
+All interactive components (Buttons, Inputs, Modals) are marked with `"use client"` at the top of their build output. This allows you to import them directly into Server Components without errors—Next.js will automatically treat the boundary correctly.
+
+<LiveCodeBlock>
+  <LiveSource
+    language="tsx"
+    filename="app/page.tsx (Server Component)"
+    code={`import { Button } from '@oxygenix-ui/ui'; // Works fine!
+
+export default function Page() {
+  return (
+    <main>
+      <h1>Hello Server</h1>
+      <Button>Click me</Button>
+    </main>
+  );
+}`}
+  />
+</LiveCodeBlock>
+
+## Recommended Best Practices
+
+1.  **Lazy Load Routes**: Split your application code by route using `React.lazy` or Next.js `dynamic` imports.
+2.  **Optimize Images**: Use `next/image` to automatically resize and format images.
+3.  **Avoid Layout Thrashing**: Use the `Skeleton` component to reserve space while data loads, preventing cumulative layout shift (CLS).
+
+<LiveCodeBlock>
+  <LiveSource
+    language="tsx"
+    code={`import { Skeleton } from '@oxygenix-ui/ui';
+
+function LoadingProfile() {
+  return (
+    <div style={{ display: 'flex', gap: '16px' }}>
+      <Skeleton variant="circular" width={40} height={40} />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <Skeleton variant="text" width={120} />
+        <Skeleton variant="text" width={80} />
+      </div>
+    </div>
+  );
+}`}
+  />
+</LiveCodeBlock>

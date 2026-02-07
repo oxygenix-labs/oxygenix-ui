@@ -1,0 +1,71 @@
+
+# Accessibility
+
+Oxygenix UI is committed to providing an inclusive experience for all users. Our components are designed and tested to meet **WCAG 2.1 Level AA** standards.
+
+## Our Commitment
+
+We believe that the web should be accessible to everyone, regardless of their abilities or impairments. Oxygenix UI components are built with semantic HTML, proper ARIA attributes, and robust keyboard navigation support to ensure that your applications are usable by as many people as possible.
+
+## Standards
+
+Our development process aligns with the following standards:
+
+-   **WCAG 2.1 Level AA**: The Web Content Accessibility Guidelines (WCAG) are the gold standard for web accessibility. We target compliance with Level AA criteria.
+-   **WAI-ARIA 1.2**: We strictly follow the WAI-ARIA Authoring Practices Guide (APG) for interactive patterns like Modals, Tabs, and Comboboxes.
+
+## Keyboard Support
+
+All interactive components in Oxygenix UI are fully navigable using a keyboard.
+
+### Focus Management
+
+-   **Visible Focus Indicators**: We ensure that focused elements have a clear, high-contrast visual indicator (ring or outline). Never suppress the focus outline unless you are providing a custom alternative.
+-   **Focus Order**: The logical tab order follows the visual layout of the page.
+-   **Focus Trapping**: Components like [Modals](/docs/components/modal) and [Drawers](/docs/components/drawer) trap focus within them while open, preventing users from accidentally navigating to background content.
+
+### Standard Shortcuts
+
+| Key | Action |
+| :--- | :--- |
+| `Tab` | Move focus to the next interactive element |
+| `Shift + Tab` | Move focus to the previous interactive element |
+| `Enter` / `Space` | Activate buttons, links, and toggle controls |
+| `Escape` | Close overlays (Modals, Popovers, Tooltips) |
+| `Arrow Keys` | Navigate within composite widgets (Tabs, Radio Groups, Menus) |
+
+## Screen Reader Support
+
+We rigorously test our components with modern screen readers (NVDA, VoiceOver, JAWS) to ensure a seamless experience.
+
+### Semantic HTML
+
+We prioritize native HTML elements (`<button>`, `<input>`, `<table>`) over custom ARIA implementations whenever possible. This provides built-in accessibility features and ensures compatibility with assistive technologies.
+
+### ARIA Attributes
+
+When native elements are insufficient, we use WAI-ARIA attributes to enhance semantics.
+
+-   **Roles**: We use roles like `dialog`, `tablist`, `alert`, and `status` to communicate component purpose.
+-   **States**: Attributes like `aria-expanded`, `aria-selected`, `aria-invalid`, and `aria-disabled` are automatically managed by our components to reflect their current state.
+-   **Labels**: We ensure all form inputs and interactive controls have accessible names via `label` elements, `aria-label`, or `aria-labelledby`.
+
+## Developer Responsibilities
+
+While Oxygenix UI provides accessible building blocks, creating an accessible application requires effort from you, the developer.
+
+### "We provide the bricks, you build the house."
+
+Using accessible components does not automatically make your application accessible. You must also:
+
+1.  **Structure Content Logically**: Use proper heading hierarchy (`h1` through `h6`) to structure your page content. Do not skip heading levels.
+2.  **Provide Text Alternatives**: Always provide `alt` text for images and descriptive link text (avoid "click here").
+3.  **Ensure Color Contrast**: While our default theme meets contrast ratios, be careful when customizing colors to maintain WCAG AA compliance (4.5:1 for normal text).
+4.  **Label Inputs**: Always link `Label` components to their inputs or provide an `aria-label` if a visual label is not desired.
+5.  **Test with Real Users**: Automated tools catch only ~30% of issues. Test your app with a keyboard and screen reader.
+
+## Resources
+
+-   [Web Content Accessibility Guidelines (WCAG) 2.1](https://www.w3.org/TR/WCAG21/)
+-   [WAI-ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/)
+-   [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
