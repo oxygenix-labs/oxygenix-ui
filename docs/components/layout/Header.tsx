@@ -55,6 +55,12 @@ export function Header() {
     if (path === '/components') {
       return pathname?.startsWith('/components');
     }
+    if (path === '/playground') {
+      return pathname?.startsWith('/playground');
+    }
+    if (path === '/changelog') {
+      return pathname?.startsWith('/changelog');
+    }
     return pathname === path;
   };
 
@@ -94,8 +100,19 @@ export function Header() {
                 </Link>
               </li>
               <li>
-                <Link href="/examples" className={styles.navLink}>
-                  Examples
+                <Link
+                  href="/playground"
+                  className={`${styles.navLink} ${isActive('/playground') ? styles.active : ''}`}
+                >
+                  Playground
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/changelog"
+                  className={`${styles.navLink} ${isActive('/changelog') ? styles.active : ''}`}
+                >
+                  Changelog
                 </Link>
               </li>
             </ul>

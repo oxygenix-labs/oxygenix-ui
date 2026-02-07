@@ -1,0 +1,8 @@
+.editor {
+    height: 100%;
+    width: 100%;
+    background-color: #1e1e1e;
+    border-left: 1px solid var(--color-border);
+    font-family: 'Fira Code', 'Menlo', monospace;
+    font-size: 14px;
+}
