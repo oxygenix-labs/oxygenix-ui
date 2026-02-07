@@ -1,351 +1,96 @@
----
-title: "Badge"
-description: "Status indicators with 6 variants, 3 sizes, and optional dot indicator"
----
-
 # Badge
 
-Status indicator component with 6 variants, 3 sizes, and optional dot indicator. Perfect for active, pending, and archived states.
+Small status descriptors for UI elements.
 
-## Installation
+## Overview
 
-```bash
-npm install @oxygenix-ui/ui
-```
+Badges are used to highlight an item's status for quick recognition. They are commonly used for tags, counts, and status indicators.
+
+## Import
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`import { Badge } from '@oxygenix-ui/ui';`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Basic Usage
 
-```tsx
-import { Badge } from '@oxygenix-ui/ui';
+The `Badge` component renders a small colored label. Use the `variant` prop to control the color.
 
-function MyComponent() {
-  return <Badge>Active</Badge>;
-}
-```
+import BadgeBasicDemo from './BadgeBasicDemo';
+import BadgeAdvancedDemo from './BadgeAdvancedDemo';
 
-## Variants
+<LiveCodeBlock>
+    <LivePreview>
+        <BadgeBasicDemo />
+    </LivePreview>
+    <LiveSource
+        code={`import { Badge } from '@oxygenix-ui/ui';
 
-### Default
+export default function BadgeBasicDemo() {
+  return (
+    <div style={{ display: 'flex', gap: '16px' }}>
+      <Badge>Default</Badge>
+      <Badge variant="primary">Primary</Badge>
+      <Badge variant="success">Success</Badge>
+      <Badge variant="warning">Warning</Badge>
+      <Badge variant="error">Error</Badge>
+    </div>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-```tsx
-<Badge variant="default">Default</Badge>
-```
+## Advanced Usage
 
-### Primary
+Control the `size` (sm, md, lg) and use the `dot` prop to add a visual status indicator.
 
-```tsx
-<Badge variant="primary">Primary</Badge>
-```
+<LiveCodeBlock>
+    <LivePreview>
+        <BadgeAdvancedDemo />
+    </LivePreview>
+    <LiveSource
+        code={`import { Badge } from '@oxygenix-ui/ui';
 
-### Success
+export default function BadgeAdvancedDemo() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      {/* Sizes */}
+      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <Badge size="sm" variant="primary">Small</Badge>
+          <Badge size="md" variant="primary">Medium</Badge>
+          <Badge size="lg" variant="primary">Large</Badge>
+      </div>
 
-```tsx
-<Badge variant="success">Active</Badge>
-```
+      {/* With Dot Indicator */}
+      <div style={{ display: 'flex', gap: '8px' }}>
+          <Badge dot variant="success">Online</Badge>
+          <Badge dot variant="warning">Away</Badge>
+          <Badge dot variant="error">Busy</Badge>
+      </div>
+    </div>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-### Warning
+## Accessibility
 
-```tsx
-<Badge variant="warning">Pending</Badge>
-```
+-   **Semantic Content**: Badges generally contain text that is read by screen readers.
+-   **Color Usage**: Ensure that color is not the only way information is conveyed. The text content (e.g., "Error", "Success") provides the primary semantic meaning.
 
-### Error
-
-```tsx
-<Badge variant="error">Failed</Badge>
-```
-
-### Info
-
-```tsx
-<Badge variant="info">New</Badge>
-```
-
-## Sizes
-
-### Small
-
-```tsx
-<Badge size="sm">Small</Badge>
-```
-
-### Medium (Default)
-
-```tsx
-<Badge size="md">Medium</Badge>
-```
-
-### Large
-
-```tsx
-<Badge size="lg">Large</Badge>
-```
-
-## Features
-
-### Dot Indicator
-
-Add a dot for live status.
-
-```tsx
-<Badge variant="success" dot>Online</Badge>
-<Badge variant="error" dot>Offline</Badge>
-```
-
-## API Reference
+## Props
 
 ### Badge
 
 | Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | Badge variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Badge size |
-| `children` | `ReactNode` | Required | Badge content |
-| `dot` | `boolean` | `false` | Show dot indicator |
-| `className` | `string` | - | Additional CSS class |
-
-## Examples
-
-### User Status
-
-```tsx
-function UserStatus({ status }) {
-  const statusConfig = {
-    online: { variant: 'success', label: 'Online', dot: true },
-    away: { variant: 'warning', label: 'Away', dot: true },
-    offline: { variant: 'default', label: 'Offline', dot: false },
-  };
-
-  const config = statusConfig[status];
-
-  return (
-    <Badge variant={config.variant} dot={config.dot}>
-      {config.label}
-    </Badge>
-  );
-}
-```
-
-### Order Status
-
-```tsx
-function OrderStatus({ status }) {
-  const statusMap = {
-    pending: { variant: 'warning', label: 'Pending' },
-    processing: { variant: 'info', label: 'Processing' },
-    shipped: { variant: 'primary', label: 'Shipped' },
-    delivered: { variant: 'success', label: 'Delivered' },
-    cancelled: { variant: 'error', label: 'Cancelled' },
-  };
-
-  const { variant, label } = statusMap[status];
-
-  return <Badge variant={variant}>{label}</Badge>;
-}
-```
-
-### Task Priority
-
-```tsx
-function TaskPriority({ priority }) {
-  const priorityConfig = {
-    low: { variant: 'default', label: 'Low' },
-    medium: { variant: 'info', label: 'Medium' },
-    high: { variant: 'warning', label: 'High' },
-    urgent: { variant: 'error', label: 'Urgent' },
-  };
-
-  const { variant, label } = priorityConfig[priority];
-
-  return <Badge variant={variant} size="sm">{label}</Badge>;
-}
-```
-
-### Feature Badges
-
-```tsx
-function FeatureBadges() {
-  return (
-    <Stack direction="horizontal" gap={2}>
-      <Badge variant="success">New</Badge>
-      <Badge variant="primary">Beta</Badge>
-      <Badge variant="warning">Deprecated</Badge>
-    </Stack>
-  );
-}
-```
-
-### User Role
-
-```tsx
-function UserRole({ role }) {
-  const roleConfig = {
-    admin: { variant: 'error', label: 'Admin' },
-    moderator: { variant: 'warning', label: 'Moderator' },
-    user: { variant: 'default', label: 'User' },
-    guest: { variant: 'info', label: 'Guest' },
-  };
-
-  const { variant, label } = roleConfig[role];
-
-  return <Badge variant={variant}>{label}</Badge>;
-}
-```
-
-### Notification Count
-
-```tsx
-function NotificationBadge({ count }) {
-  if (count === 0) return null;
-
-  return (
-    <Badge variant="error" size="sm">
-      {count > 99 ? '99+' : count}
-    </Badge>
-  );
-}
-```
-
-### Live Indicator
-
-```tsx
-function LiveIndicator({ isLive }) {
-  if (!isLive) return null;
-
-  return (
-    <Badge variant="error" dot>
-      LIVE
-    </Badge>
-  );
-}
-```
-
-### Payment Status
-
-```tsx
-function PaymentStatus({ status }) {
-  const statusConfig = {
-    paid: { variant: 'success', label: 'Paid' },
-    pending: { variant: 'warning', label: 'Pending' },
-    failed: { variant: 'error', label: 'Failed' },
-    refunded: { variant: 'info', label: 'Refunded' },
-  };
-
-  const { variant, label } = statusConfig[status];
-
-  return <Badge variant={variant}>{label}</Badge>;
-}
-```
-
-### Environment Badge
-
-```tsx
-function EnvironmentBadge({ env }) {
-  const envConfig = {
-    production: { variant: 'success', label: 'Production' },
-    staging: { variant: 'warning', label: 'Staging' },
-    development: { variant: 'info', label: 'Development' },
-  };
-
-  const { variant, label } = envConfig[env];
-
-  return <Badge variant={variant} size="sm">{label}</Badge>;
-}
-```
-
-## Best Practices
-
-### 1. Use Semantic Variants
-
-```tsx
-// ✅ Good - semantic colors
-<Badge variant="success">Active</Badge>
-<Badge variant="warning">Pending</Badge>
-<Badge variant="error">Failed</Badge>
-
-// ❌ Bad - wrong colors
-<Badge variant="error">Active</Badge>
-<Badge variant="success">Failed</Badge>
-```
-
-### 2. Keep Text Concise
-
-```tsx
-// ✅ Good - short and clear
-<Badge variant="success">Active</Badge>
-<Badge variant="warning">Pending</Badge>
-
-// ❌ Bad - too verbose
-<Badge variant="success">Currently Active</Badge>
-<Badge variant="warning">Pending Approval</Badge>
-```
-
-### 3. Use Dot for Live Status
-
-```tsx
-// ✅ Good - dot indicates live/active
-<Badge variant="success" dot>Online</Badge>
-<Badge variant="error" dot>LIVE</Badge>
-
-// ❌ Bad - dot for static status
-<Badge variant="default" dot>Archived</Badge>
-```
-
-### 4. Choose Appropriate Size
-
-```tsx
-// ✅ Good - small for inline use
-<span>User <Badge size="sm">Admin</Badge></span>
-
-// ✅ Good - large for prominent display
-<Badge size="lg" variant="error">URGENT</Badge>
-
-// ❌ Bad - large for inline use
-<span>User <Badge size="lg">Admin</Badge></span>
-```
-
-## Use Cases
-
-### Perfect for:
-- ✅ User status (online/offline)
-- ✅ Order status
-- ✅ Task priority
-- ✅ Feature flags (new, beta)
-- ✅ User roles
-- ✅ Notification counts
-- ✅ Payment status
-- ✅ Environment indicators
-
-### Not recommended for:
-- ❌ Long text (use Text or Label)
-- ❌ Interactive elements (use Button)
-- ❌ Form validation (use field errors)
-
-## Accessibility
-
-The Badge component is accessible:
-
-- **Semantic HTML**: Uses `<span>` element
-- **Color + Text**: Not relying on color alone
-- **Contrast**: Sufficient color contrast
-
-## Styling
-
-Customize Badge using className:
-
-```tsx
-<Badge className="custom-badge">Custom</Badge>
-```
-
-```css
-.custom-badge {
-  border-radius: 4px;
-  font-weight: 600;
-}
-```
-
-## Related Components
-
-- **Alert** - For inline notifications
-- **Toast** - For temporary notifications
-- **Button** - For interactive elements
+| :--- | :--- | :--- | :--- |
+| `children` | `ReactNode` | - | The content to display inside the badge |
+| `variant` | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | Visual color variant |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the badge |
+| `dot` | `boolean` | `false` | Shows a small dot indicator (useful for status) |
+| `className` | `string` | - | Additional CSS class names |
