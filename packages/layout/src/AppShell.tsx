@@ -3,6 +3,7 @@
  *
  * Main application layout with sidebar, header, content, and footer
  */
+'use client';
 
 import { ReactNode } from 'react';
 import { cn } from '@oxygenix-ui/core';

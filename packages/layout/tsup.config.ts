@@ -3,12 +3,15 @@ import { defineConfig } from 'tsup';
 export default defineConfig({
   entry: ['src/index.ts'],
   format: ['esm', 'cjs'],
-  dts: false, // Temporarily disabled
-  splitting: true,
+  dts: false,
+  splitting: false,
   sourcemap: true,
   clean: true,
-  treeshake: true,
+  treeshake: false,
   external: ['react', 'react-dom', '@oxygenix-ui/core', '@oxygenix-ui/tokens'],
+  banner: {
+    js: '"use client";',
+  },
   loader: {
     '.css': 'local-css',
   },

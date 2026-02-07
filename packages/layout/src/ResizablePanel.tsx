@@ -3,8 +3,10 @@
  *
  * Panel that can be resized by dragging handles
  */
+'use client';
 
 import React, { ReactNode, useRef, useState, useCallback, useEffect } from 'react';
+
 import { cn, clamp } from '@oxygenix-ui/core';
 import styles from './Layout.module.css';
 

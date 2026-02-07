@@ -110,6 +110,9 @@ importers:
       '@oxygenix-ui/core':
         specifier: workspace:^
         version: link:../packages/core
+      '@oxygenix-ui/layout':
+        specifier: workspace:^
+        version: link:../packages/layout
       '@oxygenix-ui/tokens':
         specifier: workspace:^
         version: link:../packages/tokens

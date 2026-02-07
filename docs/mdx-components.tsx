@@ -30,6 +30,7 @@ import {
   EmptyState,
   Skeleton,
 } from '@oxygenix-ui/ui';
+import { AppShell } from '@oxygenix-ui/layout';
 import {
   Search,
   Plus,
@@ -105,6 +106,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     TableToolbar,
     EmptyState,
     Skeleton,
+    AppShell,
     ...components,
   };
 }

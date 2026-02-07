@@ -3,6 +3,7 @@
  *
  * Collapsible sidebar with navigation
  */
+'use client';
 
 import { ReactNode } from 'react';
 import { cn, useControllable } from '@oxygenix-ui/core';

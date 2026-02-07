@@ -1,447 +1,97 @@
----
-title: "AppShell"
-description: "Application layout component with sidebar, header, content, and footer"
----
+# AppShell
 
-import { Badge } from '@/components/ui/Badge'
-import { CodeTabs } from '@/components/mdx/CodeTabs'
+The fundamental layout component for building applications with a header, sidebar, and main content area.
 
-# AppShell <Badge variant="stable">Stable</Badge>
+## Overview
 
-Main application layout component that provides a consistent structure with sidebar, header, content area, and footer.
+AppShell provides a responsive shell for your application. It handles the positioning of the sidebar, header, and main content, ensuring a consistent layout structure across your app.
 
-## Installation
+## Import
 
-<CodeTabs
-  tabs={[
-    { label: 'npm', code: 'npm install @oxygenix-ui/layout', language: 'bash' },
-    { label: 'yarn', code: 'yarn add @oxygenix-ui/layout', language: 'bash' },
-    { label: 'pnpm', code: 'pnpm add @oxygenix-ui/layout', language: 'bash' },
-  ]}
-/>
+<LiveCodeBlock>
+    <LiveSource
+        code={`import { AppShell } from '@oxygenix-ui/layout';`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Basic Usage
 
-```tsx
-import { AppShell } from '@oxygenix-ui/layout';
+<LiveCodeBlock>
+    <LivePreview>
+        <div className="h-[400px] border rounded-lg overflow-hidden relative">
+            <AppShell
+                header={
+                    <div className="h-14 border-b flex items-center px-4 font-semibold">
+                        My Application
+                    </div>
+                }
+                sidebar={
+                    <div className="w-64 border-r h-full p-4">
+                        <nav className="space-y-2">
+                             <div className="p-2 bg-gray-100 rounded">Dashboard</div>
+                             <div className="p-2">Settings</div>
+                             <div className="p-2">Profile</div>
+                        </nav>
+                    </div>
+                }
+            >
+                <div className="p-6">
+                    <h1 className="text-2xl font-bold mb-4">Welcome back</h1>
+                    <p className="text-gray-600">This is the main content area of your application.</p>
+                </div>
+            </AppShell>
+        </div>
+    </LivePreview>
+    <LiveSource
+        code={`import { AppShell } from '@oxygenix-ui/layout';
 
-function App() {
+export default function BasicDemo() {
   return (
-    <AppShell
-      header={<Header />}
-      sidebar={<Sidebar />}
-      footer={<Footer />}
-    >
-      <YourContent />
-    </AppShell>
+    <div className="h-[400px] border rounded-lg overflow-hidden relative">
+      <AppShell
+        header={
+            <div className="h-14 border-b flex items-center px-4 font-semibold">
+                My Application
+            </div>
+        }
+        sidebar={
+            <div className="w-64 border-r h-full p-4">
+                <nav className="space-y-2">
+                        <div className="p-2 bg-gray-100 rounded">Dashboard</div>
+                        <div className="p-2">Settings</div>
+                        <div className="p-2">Profile</div>
+                </nav>
+            </div>
+        }
+      >
+        <div className="p-6">
+            <h1 className="text-2xl font-bold mb-4">Welcome back</h1>
+            <p className="text-gray-600">This is the main content area of your application.</p>
+        </div>
+      </AppShell>
+    </div>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-## Features
-
-### Flexible Layout
-
-AppShell provides a flexible grid-based layout that adapts to your application's needs.
-
-```tsx
-<AppShell
-  sidebar={
-    <nav>
-      <ul>
-        <li><a href="/dashboard">Dashboard</a></li>
-        <li><a href="/users">Users</a></li>
-        <li><a href="/settings">Settings</a></li>
-      </ul>
-    </nav>
-  }
-  header={
-    <header>
-      <h1>My Application</h1>
-      <UserMenu />
-    </header>
-  }
-  footer={
-    <footer>
-      <p>© 2024 My Company</p>
-    </footer>
-  }
->
-  <main>
-    <h2>Welcome to the Dashboard</h2>
-    <p>Your content goes here...</p>
-  </main>
-</AppShell>
-```
-
-### Without Sidebar
-
-You can omit the sidebar for simpler layouts.
-
-```tsx
-<AppShell
-  header={<Header />}
-  footer={<Footer />}
->
-  <YourContent />
-</AppShell>
-```
-
-### Header Only
-
-Or use just a header with content.
-
-```tsx
-<AppShell header={<Header />}>
-  <YourContent />
-</AppShell>
-```
-
-## API Reference
-
-### AppShell
+## Props
 
 | Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `sidebar` | `ReactNode` | - | Sidebar content |
-| `header` | `ReactNode` | - | Header content |
-| `children` | `ReactNode` | Required | Main content |
-| `footer` | `ReactNode` | - | Footer content |
-| `className` | `string` | - | Additional CSS class |
+| :--- | :--- | :--- | :--- |
+| `children` | `ReactNode` | **Required** | The main content of the application |
+| `header` | `ReactNode` | - | Content to display at the top |
+| `sidebar` | `ReactNode` | - | Content to display on the side |
+| `className` | `string` | - | Additional CSS class for the root element |
 
-## Layout Structure
+## Common Mistakes
 
-The AppShell component creates the following layout structure:
+### Missing Height Constraint
 
-```
-┌─────────────────────────────────────────┐
-│ Header (full width)                     │
-├──────────┬──────────────────────────────┤
-│          │                              │
-│ Sidebar  │ Main Content                 │
-│          │                              │
-│          │                              │
-│          │                              │
-├──────────┴──────────────────────────────┤
-│ Footer (full width)                     │
-└─────────────────────────────────────────┘
-```
+`AppShell` is designed to fill the available space. Ensure its parent container has a defined height (e.g., `h-screen`) so the layout works as expected.
 
-## Examples
+### Sidebar Width
 
-### Complete Application Layout
-
-```tsx
-import { AppShell } from '@oxygenix-ui/layout';
-import { Logo, Navigation, UserMenu, Footer } from './components';
-
-export function App() {
-  return (
-    <AppShell
-      header={
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between',
-          padding: '1rem 2rem',
-          borderBottom: '1px solid #e5e5e5'
-        }}>
-          <Logo />
-          <UserMenu />
-        </div>
-      }
-      sidebar={
-        <Navigation
-          items={[
-            { label: 'Dashboard', href: '/dashboard', icon: 'home' },
-            { label: 'Users', href: '/users', icon: 'users' },
-            { label: 'Settings', href: '/settings', icon: 'settings' },
-          ]}
-        />
-      }
-      footer={
-        <Footer 
-          copyright="© 2024 My Company"
-          links={[
-            { label: 'Privacy', href: '/privacy' },
-            { label: 'Terms', href: '/terms' },
-            { label: 'Support', href: '/support' },
-          ]}
-        />
-      }
-    >
-      <div style={{ padding: '2rem' }}>
-        <h1>Dashboard</h1>
-        <p>Welcome to your dashboard!</p>
-      </div>
-    </AppShell>
-  );
-}
-```
-
-### Admin Panel Layout
-
-```tsx
-import { AppShell } from '@oxygenix-ui/layout';
-
-export function AdminPanel() {
-  return (
-    <AppShell
-      header={
-        <div className="admin-header">
-          <h1>Admin Panel</h1>
-          <div className="admin-actions">
-            <button>Notifications</button>
-            <button>Profile</button>
-          </div>
-        </div>
-      }
-      sidebar={
-        <div className="admin-sidebar">
-          <div className="sidebar-section">
-            <h3>Content</h3>
-            <ul>
-              <li><a href="/admin/posts">Posts</a></li>
-              <li><a href="/admin/pages">Pages</a></li>
-              <li><a href="/admin/media">Media</a></li>
-            </ul>
-          </div>
-          <div className="sidebar-section">
-            <h3>Users</h3>
-            <ul>
-              <li><a href="/admin/users">All Users</a></li>
-              <li><a href="/admin/roles">Roles</a></li>
-            </ul>
-          </div>
-          <div className="sidebar-section">
-            <h3>Settings</h3>
-            <ul>
-              <li><a href="/admin/general">General</a></li>
-              <li><a href="/admin/security">Security</a></li>
-            </ul>
-          </div>
-        </div>
-      }
-    >
-      <div className="admin-content">
-        {/* Your admin content */}
-      </div>
-    </AppShell>
-  );
-}
-```
-
-### Documentation Site Layout
-
-```tsx
-import { AppShell } from '@oxygenix-ui/layout';
-
-export function DocsLayout({ children }) {
-  return (
-    <AppShell
-      header={
-        <div className="docs-header">
-          <a href="/">
-            <img src="/logo.svg" alt="Logo" />
-          </a>
-          <nav>
-            <a href="/docs">Docs</a>
-            <a href="/components">Components</a>
-            <a href="/examples">Examples</a>
-          </nav>
-          <div className="header-actions">
-            <button>Search</button>
-            <button>Theme</button>
-            <a href="https://github.com">GitHub</a>
-          </div>
-        </div>
-      }
-      sidebar={
-        <nav className="docs-sidebar">
-          <div className="sidebar-group">
-            <h4>Getting Started</h4>
-            <ul>
-              <li><a href="/docs/installation">Installation</a></li>
-              <li><a href="/docs/quick-start">Quick Start</a></li>
-            </ul>
-          </div>
-          <div className="sidebar-group">
-            <h4>Components</h4>
-            <ul>
-              <li><a href="/docs/components/button">Button</a></li>
-              <li><a href="/docs/components/form">Form</a></li>
-              <li><a href="/docs/components/table">Table</a></li>
-            </ul>
-          </div>
-        </nav>
-      }
-    >
-      <article className="docs-content">
-        {children}
-      </article>
-    </AppShell>
-  );
-}
-```
-
-## Styling
-
-The AppShell component uses CSS modules for styling. You can customize the appearance by:
-
-1. **Using the className prop**:
-```tsx
-<AppShell className="my-custom-layout">
-  {/* content */}
-</AppShell>
-```
-
-2. **Overriding CSS variables**:
-```css
-.my-custom-layout {
-  --app-shell-sidebar-width: 280px;
-  --app-shell-header-height: 64px;
-  --app-shell-footer-height: 48px;
-}
-```
-
-3. **Custom CSS**:
-```css
-/* Target specific parts */
-.app-shell-sidebar {
-  background: #f5f5f5;
-}
-
-.app-shell-header {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.app-shell-content {
-  padding: 2rem;
-}
-```
-
-## Responsive Behavior
-
-The AppShell component is responsive by default:
-
-- **Desktop** (> 1024px): Full layout with sidebar
-- **Tablet** (768px - 1024px): Collapsible sidebar
-- **Mobile** (< 768px): Sidebar hidden, accessible via menu button
-
-## Accessibility
-
-The AppShell component follows accessibility best practices:
-
-- Semantic HTML elements (`<header>`, `<aside>`, `<main>`, `<footer>`)
-- Proper ARIA landmarks
-- Keyboard navigation support
-- Screen reader friendly
-
-## Best Practices
-
-### 1. Keep Header Minimal
-
-The header should contain only essential navigation and actions.
-
-```tsx
-// ✅ Good
-<AppShell
-  header={
-    <>
-      <Logo />
-      <MainNav />
-      <UserMenu />
-    </>
-  }
->
-```
-
-### 2. Organize Sidebar Content
-
-Group related navigation items together.
-
-```tsx
-// ✅ Good
-<AppShell
-  sidebar={
-    <>
-      <NavGroup title="Content">
-        <NavItem href="/posts">Posts</NavItem>
-        <NavItem href="/pages">Pages</NavItem>
-      </NavGroup>
-      <NavGroup title="Settings">
-        <NavItem href="/profile">Profile</NavItem>
-        <NavItem href="/preferences">Preferences</NavItem>
-      </NavGroup>
-    </>
-  }
->
-```
-
-### 3. Use Sticky Positioning
-
-Make the header and sidebar sticky for better UX.
-
-```css
-.app-shell-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.app-shell-sidebar {
-  position: sticky;
-  top: var(--app-shell-header-height);
-  height: calc(100vh - var(--app-shell-header-height));
-  overflow-y: auto;
-}
-```
-
-## Integration with Routing
-
-### Next.js App Router
-
-```tsx
-// app/layout.tsx
-import { AppShell } from '@oxygenix-ui/layout';
-
-export default function RootLayout({ children }) {
-  return (
-    <html>
-      <body>
-        <AppShell
-          header={<Header />}
-          sidebar={<Sidebar />}
-        >
-          {children}
-        </AppShell>
-      </body>
-    </html>
-  );
-}
-```
-
-### React Router
-
-```tsx
-import { AppShell } from '@oxygenix-ui/layout';
-import { Outlet } from 'react-router-dom';
-
-export function Layout() {
-  return (
-    <AppShell
-      header={<Header />}
-      sidebar={<Sidebar />}
-    >
-      <Outlet />
-    </AppShell>
-  );
-}
-```
-
-## Related Components
-
-- **Header** - Pre-built header component
-- **Sidebar** - Pre-built sidebar component
-- **Navigation** - Navigation menu component
-- **Footer** - Pre-built footer component
+The `AppShell` does not enforce a width on the sidebar content. You must ensure the content passed to the `sidebar` prop has a defined width, or it might collapse.
