@@ -52,6 +52,9 @@ export function Header() {
     if (path === '/docs') {
       return pathname?.startsWith('/docs');
     }
+    if (path === '/components') {
+      return pathname?.startsWith('/components');
+    }
     return pathname === path;
   };
 
@@ -83,7 +86,10 @@ export function Header() {
                 </Link>
               </li>
               <li>
-                <Link href="/docs/components/data-table" className={styles.navLink}>
+                <Link
+                  href="/components"
+                  className={`${styles.navLink} ${isActive('/components') ? styles.active : ''}`}
+                >
                   Components
                 </Link>
               </li>

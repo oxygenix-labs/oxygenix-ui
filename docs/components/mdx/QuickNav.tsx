@@ -18,11 +18,13 @@ export function QuickNav() {
   useEffect(() => {
     // Extract all h2 and h3 headings from the page
     const elements = Array.from(document.querySelectorAll('main h2, main h3'));
-    const headingData = elements.map((element) => ({
-      id: element.id,
-      text: element.textContent || '',
-      level: parseInt(element.tagName.substring(1)),
-    }));
+    const headingData = elements
+      .filter((element) => element.id)
+      .map((element) => ({
+        id: element.id,
+        text: element.textContent || '',
+        level: parseInt(element.tagName.substring(1)),
+      }));
     setHeadings(headingData);
 
     // Scroll spy functionality

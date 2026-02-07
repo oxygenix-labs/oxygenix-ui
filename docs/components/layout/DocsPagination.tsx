@@ -26,7 +26,7 @@ export function DocsPagination() {
   const flatNav = flattenNavigation(navigation);
   const currentIndex = flatNav.findIndex((item) => item.href === pathname);
 
-  if (currentIndex === -1) return null;
+  if (currentIndex === -1 || pathname === '/components') return null;
 
   const prev = flatNav[currentIndex - 1];
   const next = flatNav[currentIndex + 1];
