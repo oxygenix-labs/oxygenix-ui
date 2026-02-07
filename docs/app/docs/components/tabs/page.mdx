@@ -1,312 +1,145 @@
----
-title: "Tabs"
-description: "Lazy-loaded tab panels with Context API, keyboard navigation, and proper ARIA"
----
-
 # Tabs
 
-Lazy-loaded tab panel component with Context API for state management, keyboard navigation support, and proper ARIA attributes. Fully composable with TabsList, TabsTrigger, and TabsContent.
+A set of layered sections of content—known as tab panels—that are displayed one at a time.
 
-## Installation
+## Overview
 
-```bash
-npm install @oxygenix-ui/ui
-```
+The `Tabs` component follows the WAI-ARIA Tabs pattern. It supports keyboard navigation (left/right arrows) and lazy loading of content.
+
+## Import
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`import { Tabs, TabsList, TabsTrigger, TabsContent } from '@oxygenix-ui/ui';`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Basic Usage
 
-```tsx
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@oxygenix-ui/ui';
+The `Tabs` component is composed of `TabsList`, `TabsTrigger`, and `TabsContent`. Use `defaultValue` to set the initially active tab.
 
-function MyTabs() {
+import TabsBasicDemo from './TabsBasicDemo';
+import TabsAdvancedDemo from './TabsAdvancedDemo';
+
+<LiveCodeBlock>
+    <LivePreview>
+        <TabsBasicDemo />
+    </LivePreview>
+    <LiveSource
+        code={`import { Tabs, TabsList, TabsTrigger, TabsContent, Text } from '@oxygenix-ui/ui';
+
+export default function TabsBasicDemo() {
   return (
-    <Tabs defaultValue="tab1">
+    <Tabs defaultValue="account">
       <TabsList>
-        <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-        <TabsTrigger value="tab2">Tab 2</TabsTrigger>
-        <TabsTrigger value="tab3">Tab 3</TabsTrigger>
-      </TabsList>
-
-      <TabsContent value="tab1">
-        <p>Content for Tab 1</p>
-      </TabsContent>
-      <TabsContent value="tab2">
-        <p>Content for Tab 2</p>
-      </TabsContent>
-      <TabsContent value="tab3">
-        <p>Content for Tab 3</p>
-      </TabsContent>
-    </Tabs>
-  );
-}
-```
-
-## Features
-
-### Lazy Loading
-
-Only renders active tab content (default behavior).
-
-```tsx
-<Tabs defaultValue="overview">
-  <TabsList>
-    <TabsTrigger value="overview">Overview</TabsTrigger>
-    <TabsTrigger value="analytics">Analytics</TabsTrigger>
-    <TabsTrigger value="reports">Reports</TabsTrigger>
-  </TabsList>
-
-  {/* Only the active tab content is rendered */}
-  <TabsContent value="overview" lazy>
-    <ExpensiveComponent />
-  </TabsContent>
-  <TabsContent value="analytics" lazy>
-    <HeavyDataTable />
-  </TabsContent>
-  <TabsContent value="reports" lazy>
-    <ComplexCharts />
-  </TabsContent>
-</Tabs>
-```
-
-### Controlled State
-
-Control tab state externally.
-
-```tsx
-function ControlledTabs() {
-  const [activeTab, setActiveTab] = useState('profile');
-
-  return (
-    <Tabs value={activeTab} onValueChange={setActiveTab}>
-      <TabsList>
-        <TabsTrigger value="profile">Profile</TabsTrigger>
+        <TabsTrigger value="account">Account</TabsTrigger>
+        <TabsTrigger value="password">Password</TabsTrigger>
         <TabsTrigger value="settings">Settings</TabsTrigger>
       </TabsList>
-
-      <TabsContent value="profile">Profile content</TabsContent>
-      <TabsContent value="settings">Settings content</TabsContent>
+      <div style={{ padding: '16px', background: '#f5f5f5', borderRadius: '0 0 4px 4px', marginTop: '8px' }}>
+          <TabsContent value="account">
+            <Text weight="medium">Account Details</Text>
+          </TabsContent>
+          <TabsContent value="password">
+             <Text weight="medium">Change Password</Text>
+          </TabsContent>
+          <TabsContent value="settings">
+             <Text weight="medium">Preferences</Text>
+          </TabsContent>
+      </div>
     </Tabs>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-### Disabled Tabs
+## Advanced Usage
 
-Disable specific tabs.
+You can control the active tab state programmatically using `value` and `onValueChange`. Tabs can also be disabled.
 
-```tsx
-<TabsList>
-  <TabsTrigger value="public">Public</TabsTrigger>
-  <TabsTrigger value="private" disabled>Private (Premium)</TabsTrigger>
-</TabsList>
-```
+<LiveCodeBlock>
+    <LivePreview>
+        <TabsAdvancedDemo />
+    </LivePreview>
+    <LiveSource
+        code={`import { Tabs, TabsList, TabsTrigger, TabsContent, Button } from '@oxygenix-ui/ui';
+import { useState } from 'react';
 
-## API Reference
+export default function TabsAdvancedDemo() {
+  const [activeTab, setActiveTab] = useState('tab1');
+
+  return (
+    <div>
+      <div style={{ marginBottom: '16px' }}>
+          <Button size="sm" onClick={() => setActiveTab('tab3')}>Jump to Tab 3</Button>
+      </div>
+
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <TabsList>
+          <TabsTrigger value="tab1">First Tab</TabsTrigger>
+          <TabsTrigger value="tab2">Second Tab</TabsTrigger>
+          <TabsTrigger value="tab3">Third Tab</TabsTrigger>
+          <TabsTrigger value="tab4" disabled>Disabled Tab</TabsTrigger>
+        </TabsList>
+        <div style={{ padding: '16px', border: '1px solid #e5e7eb' }}>
+            <TabsContent value="tab1">Content for the first tab.</TabsContent>
+            <TabsContent value="tab2">Content for the second tab.</TabsContent>
+            <TabsContent value="tab3">Content for the third tab.</TabsContent>
+        </div>
+      </Tabs>
+    </div>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
+
+## Accessibility
+
+-   **Roles**:
+    -   `TabsList`: `role="tablist"`
+    -   `TabsTrigger`: `role="tab"`
+    -   `TabsContent`: `role="tabpanel"`
+-   **Keyboard Navigation**:
+    -   `ArrowRight` / `ArrowLeft`: Moves focus between tabs.
+    -   `Home` / `End`: Moves focus to the first or last tab.
+    -   `Enter` / `Space`: Activates the selected tab.
+-   **ARIA Attributes**:
+    -   `aria-selected`: Indicates the active tab.
+    -   `aria-controls`: Connects the tab to its panel.
+    -   `aria-labelledby`: Connects the panel to its tab.
+
+## Props
 
 ### Tabs
 
 | Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `defaultValue` | `string` | - | Default active tab |
-| `value` | `string` | - | Controlled active tab |
-| `onValueChange` | `(value: string) => void` | - | Change handler |
-| `children` | `ReactNode` | Required | Tab components |
-| `className` | `string` | - | Additional CSS class |
+| :--- | :--- | :--- | :--- |
+| `defaultValue` | `string` | - | The value of the tab to select by default (uncontrolled) |
+| `value` | `string` | - | The controlled value of the tab to select |
+| `onValueChange` | `(value: string) => void` | - | Callback when the value changes |
+| `children` | `ReactNode` | - | Contains `TabsList` and `TabsContent` |
 
 ### TabsList
 
 | Prop | Type | Description |
-|------|------|-------------|
-| `children` | `ReactNode` | TabsTrigger components |
-| `className` | `string` | Additional CSS class |
+| :--- | :--- | :--- |
+| `children` | `ReactNode` | Contains `TabsTrigger` items |
 
 ### TabsTrigger
 
 | Prop | Type | Description |
-|------|------|-------------|
-| `value` | `string` | Tab value |
-| `children` | `ReactNode` | Trigger content |
-| `disabled` | `boolean` | Disable tab |
-| `className` | `string` | Additional CSS class |
+| :--- | :--- | :--- |
+| `value` | `string` | Unique value identifying the tab |
+| `disabled` | `boolean` | Whether the tab is disabled |
+| `children` | `ReactNode` | Tab label content |
 
 ### TabsContent
 
 | Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | Required | Tab value |
-| `children` | `ReactNode` | Required | Panel content |
-| `lazy` | `boolean` | `true` | Lazy load content |
-| `className` | `string` | - | Additional CSS class |
-
-## Examples
-
-### Settings Page
-
-```tsx
-function SettingsPage() {
-  return (
-    <Tabs defaultValue="general">
-      <TabsList>
-        <TabsTrigger value="general">General</TabsTrigger>
-        <TabsTrigger value="security">Security</TabsTrigger>
-        <TabsTrigger value="notifications">Notifications</TabsTrigger>
-        <TabsTrigger value="billing">Billing</TabsTrigger>
-      </TabsList>
-
-      <TabsContent value="general">
-        <GeneralSettings />
-      </TabsContent>
-      <TabsContent value="security">
-        <SecuritySettings />
-      </TabsContent>
-      <TabsContent value="notifications">
-        <NotificationSettings />
-      </TabsContent>
-      <TabsContent value="billing">
-        <BillingSettings />
-      </TabsContent>
-    </Tabs>
-  );
-}
-```
-
-### Product Details
-
-```tsx
-function ProductDetails({ product }) {
-  return (
-    <Tabs defaultValue="description">
-      <TabsList>
-        <TabsTrigger value="description">Description</TabsTrigger>
-        <TabsTrigger value="specs">Specifications</TabsTrigger>
-        <TabsTrigger value="reviews">Reviews ({product.reviewCount})</TabsTrigger>
-      </TabsList>
-
-      <TabsContent value="description">
-        <div dangerouslySetInnerHTML={{ __html: product.description }} />
-      </TabsContent>
-      <TabsContent value="specs">
-        <SpecsTable specs={product.specs} />
-      </TabsContent>
-      <TabsContent value="reviews">
-        <ReviewsList productId={product.id} />
-      </TabsContent>
-    </Tabs>
-  );
-}
-```
-
-### Dashboard with Lazy Loading
-
-```tsx
-function Dashboard() {
-  return (
-    <Tabs defaultValue="overview">
-      <TabsList>
-        <TabsTrigger value="overview">Overview</TabsTrigger>
-        <TabsTrigger value="analytics">Analytics</TabsTrigger>
-        <TabsTrigger value="reports">Reports</TabsTrigger>
-      </TabsList>
-
-      {/* Only active tab is rendered */}
-      <TabsContent value="overview" lazy>
-        <OverviewCharts />
-      </TabsContent>
-      <TabsContent value="analytics" lazy>
-        <AnalyticsDashboard />
-      </TabsContent>
-      <TabsContent value="reports" lazy>
-        <ReportsTable />
-      </TabsContent>
-    </Tabs>
-  );
-}
-```
-
-### With Icons
-
-```tsx
-import { User, Settings, Bell } from 'lucide-react';
-
-<TabsList>
-  <TabsTrigger value="profile">
-    <User size={16} />
-    Profile
-  </TabsTrigger>
-  <TabsTrigger value="settings">
-    <Settings size={16} />
-    Settings
-  </TabsTrigger>
-  <TabsTrigger value="notifications">
-    <Bell size={16} />
-    Notifications
-  </TabsTrigger>
-</TabsList>
-```
-
-## Keyboard Accessibility
-
-The Tabs component is fully keyboard accessible:
-
-- **Tab**: Navigate between tab triggers
-- **Enter/Space**: Activate tab
-- **Arrow Keys**: Navigate between tabs (when focused)
-
-## Best Practices
-
-### 1. Use Lazy Loading for Heavy Content
-
-```tsx
-// ✅ Good - lazy loads heavy components
-<TabsContent value="analytics" lazy>
-  <HeavyDataTable />
-</TabsContent>
-
-// ❌ Bad - renders all content immediately
-<TabsContent value="analytics" lazy={false}>
-  <HeavyDataTable />
-</TabsContent>
-```
-
-### 2. Provide Clear Tab Labels
-
-```tsx
-// ✅ Good - clear labels
-<TabsTrigger value="profile">Profile</TabsTrigger>
-<TabsTrigger value="settings">Settings</TabsTrigger>
-
-// ❌ Bad - vague labels
-<TabsTrigger value="tab1">Tab 1</TabsTrigger>
-<TabsTrigger value="tab2">Tab 2</TabsTrigger>
-```
-
-### 3. Use Controlled State When Needed
-
-```tsx
-// ✅ Good - controlled for external logic
-const [tab, setTab] = useState('overview');
-
-<Tabs value={tab} onValueChange={setTab}>
-  {/* Tabs */}
-</Tabs>
-
-// ✅ Good - uncontrolled for simple cases
-<Tabs defaultValue="overview">
-  {/* Tabs */}
-</Tabs>
-```
-
-## Accessibility
-
-The Tabs component is fully accessible:
-
-- **ARIA**: `role="tablist"`, `role="tab"`, `role="tabpanel"`
-- **aria-selected**: Indicates active tab
-- **aria-controls**: Links tab to panel
-- **aria-labelledby**: Links panel to tab
-- **Keyboard**: Full keyboard navigation support
-
-## Related Components
-
-- **Breadcrumbs** - For hierarchical navigation
-- **Pagination** - For paginated content
+| :--- | :--- | :--- | :--- |
+| `value` | `string` | **Required** | Must match the `value` of the associated `TabsTrigger` |
+| `lazy` | `boolean` | `true` | If true, content is not mounted until the tab is active |
+| `children` | `ReactNode` | - | The content to display |

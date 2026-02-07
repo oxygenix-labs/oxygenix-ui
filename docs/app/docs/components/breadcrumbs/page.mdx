@@ -1,289 +1,118 @@
----
-title: "Breadcrumbs"
-description: "Async-friendly breadcrumb navigation with custom separators and ARIA support"
----
-
 # Breadcrumbs
 
-Async-friendly breadcrumb navigation component with custom separator support, click handlers, proper ARIA breadcrumb navigation, and current page indication.
+Displays a list of links indicating the current page's location within a navigational hierarchy.
 
-## Installation
+## Overview
 
-```bash
-npm install @oxygenix-ui/ui
-```
+Breadcrumbs help users understand their location within a website and move back to parent categories.
+
+## Import
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`import { Breadcrumbs } from '@oxygenix-ui/ui';`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Basic Usage
 
-```tsx
-import { Breadcrumbs } from '@oxygenix-ui/ui';
+Pass an array of `items` where each item has a `label`. Add an `href` to make an item clickable. The last item typically represents the current page and should not have an `href`.
 
-function MyPage() {
+import BreadcrumbsBasicDemo from './BreadcrumbsBasicDemo';
+import BreadcrumbsAdvancedDemo from './BreadcrumbsAdvancedDemo';
+
+<LiveCodeBlock>
+    <LivePreview>
+        <BreadcrumbsBasicDemo />
+    </LivePreview>
+    <LiveSource
+        code={`import { Breadcrumbs } from '@oxygenix-ui/ui';
+
+export default function BreadcrumbsBasicDemo() {
   return (
     <Breadcrumbs
       items={[
         { label: 'Home', href: '/' },
-        { label: 'Products', href: '/products' },
-        { label: 'Electronics' },
+        { label: 'Components', href: '/docs/components' },
+        { label: 'Breadcrumbs' },
       ]}
     />
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-## Features
+## Advanced Usage
 
-### Custom Separators
+You can customize the `separator` between items and use React components (like icons) for labels.
 
-Use different separator styles.
+<LiveCodeBlock>
+    <LivePreview>
+        <BreadcrumbsAdvancedDemo />
+    </LivePreview>
+    <LiveSource
+        code={`import { Breadcrumbs } from '@oxygenix-ui/ui';
+import { ChevronRight, Home } from 'lucide-react';
 
-```tsx
-// Default: /
-<Breadcrumbs items={items} />
+export default function BreadcrumbsAdvancedDemo() {
+  return (
+    <>
+      {/* Custom Separator */}
+      <Breadcrumbs
+        separator={<ChevronRight size={14} />}
+        items={[
+          { label: 'Projects', href: '#' },
+          { label: 'Settings' },
+        ]}
+      />
 
-// Greater than
-<Breadcrumbs items={items} separator=">" />
+      {/* With Icons */}
+      <Breadcrumbs
+        items={[
+          { label: <Home size={16} />, href: '#' },
+          { label: 'Dashboard', href: '#' },
+          { label: 'Analytics' },
+        ]}
+      />
+    </>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-// Arrow
-<Breadcrumbs items={items} separator="→" />
+## Accessibility
 
-// Dot
-<Breadcrumbs items={items} separator="•" />
+-   **Landmark**: The component uses a `<nav>` element with `aria-label="Breadcrumb"`.
+-   **Current Page**: The last item (if it has no `href`) receives `aria-current="page"`.
+-   **Separators**: Separators are hidden from screen readers using `aria-hidden="true"`.
 
-// Custom icon
-import { ChevronRight } from 'lucide-react';
-<Breadcrumbs items={items} separator={<ChevronRight size={14} />} />
-```
-
-### Click Handlers
-
-Handle navigation with onClick.
-
-```tsx
-function NavigableBreadcrumbs() {
-  const navigate = useNavigate();
-
-  const items = [
-    { label: 'Home', onClick: () => navigate('/') },
-    { label: 'Products', onClick: () => navigate('/products') },
-    { label: 'Electronics' },
-  ];
-
-  return <Breadcrumbs items={items} />;
-}
-```
-
-### With Links
-
-Use href for standard links.
-
-```tsx
-<Breadcrumbs
-  items={[
-    { label: 'Home', href: '/' },
-    { label: 'Users', href: '/users' },
-    { label: 'John Doe', href: '/users/123' },
-    { label: 'Edit' },
-  ]}
-/>
-```
-
-## API Reference
+## Props
 
 ### Breadcrumbs
 
 | Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `items` | `BreadcrumbsItem[]` | Required | Breadcrumb items |
-| `separator` | `ReactNode` | `'/'` | Custom separator |
-| `className` | `string` | - | Additional CSS class |
+| :--- | :--- | :--- | :--- |
+| `items` | `BreadcrumbsItem[]` | **Required** | Array of breadcrumb items |
+| `separator` | `ReactNode` | `/` | Visual separator between items |
+| `className` | `string` | - | Additional CSS class names |
 
 ### BreadcrumbsItem
 
 | Property | Type | Description |
-|----------|------|-------------|
-| `label` | `ReactNode` | Item label |
-| `href` | `string` | Item URL |
-| `onClick` | `() => void` | Click handler |
+| :--- | :--- | :--- |
+| `label` | `ReactNode` | Text or component to display |
+| `href` | `string` | URL for the link (renders `<a>` if present, `<span>` otherwise) |
+| `onClick` | `() => void` | Optional click handler |
 
-## Examples
+## Common Mistakes
 
-### Product Page
+### Adding href to Last Item
 
-```tsx
-function ProductPage({ product }) {
-  return (
-    <>
-      <Breadcrumbs
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'Products', href: '/products' },
-          { label: product.category, href: `/products/${product.category}` },
-          { label: product.name },
-        ]}
-        separator=">"
-      />
-      <ProductDetails product={product} />
-    </>
-  );
-}
-```
+The last item in the breadcrumb trail represents the current page. It should generally not be a link (unless it links to a specific anchor on the page).
 
-### User Profile
+### Accessibility Labels
 
-```tsx
-function UserProfile({ user }) {
-  return (
-    <>
-      <Breadcrumbs
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'Users', href: '/users' },
-          { label: user.name },
-        ]}
-      />
-      <UserDetails user={user} />
-    </>
-  );
-}
-```
-
-### Nested Settings
-
-```tsx
-function SecuritySettings() {
-  return (
-    <>
-      <Breadcrumbs
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'Settings', href: '/settings' },
-          { label: 'Security' },
-        ]}
-        separator="→"
-      />
-      <SecurityForm />
-    </>
-  );
-}
-```
-
-### Async Breadcrumbs
-
-```tsx
-function AsyncBreadcrumbs({ productId }) {
-  const [product, setProduct] = useState(null);
-
-  useEffect(() => {
-    fetchProduct(productId).then(setProduct);
-  }, [productId]);
-
-  if (!product) return <Skeleton variant="text" width={300} />;
-
-  return (
-    <Breadcrumbs
-      items={[
-        { label: 'Home', href: '/' },
-        { label: 'Products', href: '/products' },
-        { label: product.category, href: `/products/${product.category}` },
-        { label: product.name },
-      ]}
-    />
-  );
-}
-```
-
-## Accessibility
-
-The Breadcrumbs component is fully accessible:
-
-- **ARIA**: `<nav aria-label="Breadcrumb">`
-- **Current Page**: Last item has `aria-current="page"`
-- **Semantic HTML**: Uses `<a>` for links, `<span>` for current page
-- **Separator**: `aria-hidden="true"` on separators
-
-## Best Practices
-
-### 1. Always Include Home
-
-```tsx
-// ✅ Good - starts with home
-<Breadcrumbs
-  items={[
-    { label: 'Home', href: '/' },
-    { label: 'Products', href: '/products' },
-    { label: 'Laptop' },
-  ]}
-/>
-
-// ❌ Bad - missing home
-<Breadcrumbs
-  items={[
-    { label: 'Products', href: '/products' },
-    { label: 'Laptop' },
-  ]}
-/>
-```
-
-### 2. Last Item is Current Page
-
-```tsx
-// ✅ Good - last item has no href
-<Breadcrumbs
-  items={[
-    { label: 'Home', href: '/' },
-    { label: 'Products', href: '/products' },
-    { label: 'Laptop' }, // Current page
-  ]}
-/>
-
-// ❌ Bad - last item has href
-<Breadcrumbs
-  items={[
-    { label: 'Home', href: '/' },
-    { label: 'Products', href: '/products' },
-    { label: 'Laptop', href: '/products/laptop' },
-  ]}
-/>
-```
-
-### 3. Keep Labels Concise
-
-```tsx
-// ✅ Good - short labels
-<Breadcrumbs
-  items={[
-    { label: 'Home', href: '/' },
-    { label: 'Products', href: '/products' },
-    { label: 'Laptop' },
-  ]}
-/>
-
-// ❌ Bad - too verbose
-<Breadcrumbs
-  items={[
-    { label: 'Go to Home Page', href: '/' },
-    { label: 'Browse All Products', href: '/products' },
-    { label: 'Dell XPS 13 Laptop' },
-  ]}
-/>
-```
-
-## Use Cases
-
-### Perfect for:
-- ✅ Product pages
-- ✅ User profiles
-- ✅ Nested settings
-- ✅ Documentation pages
-- ✅ Multi-level navigation
-
-### Not recommended for:
-- ❌ Flat pages (use PageHeader instead)
-- ❌ Single-level navigation
-
-## Related Components
-
-- **PageHeader** - For page titles
-- **Tabs** - For tab navigation
-- **Sidebar** - For app navigation
+If using only icons for breadcrumb labels (e.g., a Home icon), ensure you provide screen reader context, though the `Breadcrumbs` component treats labels as visual content. Consider using `aria-label` or visually hidden text if the icon itself isn't semantic enough.
