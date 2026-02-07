@@ -1,0 +1,19 @@
+<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient-light" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#000000" />
+      <stop offset="50%" stop-color="#262626" />
+      <stop offset="100%" stop-color="#000000" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Stylized "O" - Left circle with cutout -->
+  <circle cx="18" cy="28" r="14" fill="url(#gradient-light)" opacity="0.9" />
+  <circle cx="18" cy="28" r="9" fill="#525252" opacity="0.1" />
+  
+  <!-- Stylized "X" - Crossed lines -->
+  <path d="M28 16 L32 16 L38 28 L44 16 L48 16 L40 30 L48 44 L44 44 L38 32 L32 44 L28 44 L36 30 Z" fill="url(#gradient-light)" opacity="0.9" />
+  
+  <!-- Small accent circle (represents subscript 2) -->
+  <circle cx="50" cy="38" r="3.5" fill="#525252" opacity="0.8" />
+</svg>

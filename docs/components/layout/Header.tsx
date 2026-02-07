@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { Moon, Sun, Search, Github, Menu } from 'lucide-react';
 import { MobileMenu } from './MobileMenu';
 import { SearchDialog } from './SearchDialog';
+import { OxygenixLabsLogo } from './OxygenixLogo';
 import styles from './Header.module.css';
 
 export function Header() {
@@ -77,8 +78,7 @@ export function Header() {
           </button>
 
           <Link href="/" className={styles.logo}>
-            <div className={styles.logoIcon}>O</div>
-            <span>Oxygenix UI</span>
+            <OxygenixLabsLogo variant={theme} product="ui" size="small" />
           </Link>
 
           <nav className={styles.nav}>
