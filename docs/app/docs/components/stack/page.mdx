@@ -1,203 +1,109 @@
----
-title: "Stack"
-description: "Radix-style spacing utility for vertical/horizontal layouts with gap control"
----
-
 # Stack
 
-Radix-style spacing utility component for creating vertical or horizontal layouts with consistent gap spacing and alignment control.
+A layout utility component for managing vertical and horizontal spacing between elements, similar to Flexbox but with a simplified API.
 
-## Installation
+## Overview
 
-```bash
-npm install @oxygenix-ui/layout
-```
+The `Stack` component abstracts common Flexbox patterns to make layout creation faster and more consistent. It handles direction, alignment, justification, and spacing (gap) between children.
+
+## Import
+
+<LiveCodeBlock>
+    <LiveSource
+        code={`import { Stack } from '@oxygenix-ui/ui';`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
 ## Basic Usage
 
-```tsx
-import { Stack } from '@oxygenix-ui/layout';
+By default, `Stack` arranges items vertically with a standard gap.
 
-function MyComponent() {
+import StackBasicDemo from './StackBasicDemo';
+import StackAdvancedDemo from './StackAdvancedDemo';
+
+<LiveCodeBlock>
+    <LivePreview>
+        <StackBasicDemo />
+    </LivePreview>
+    <LiveSource
+        code={`import { Stack } from '@oxygenix-ui/ui';
+
+export default function StackBasicDemo() {
   return (
     <Stack gap={4}>
-      <div>Item 1</div>
-      <div>Item 2</div>
-      <div>Item 3</div>
+      <div style={{ padding: '16px', background: '#f5f5f5', borderRadius: '4px' }}>Item 1</div>
+      <div style={{ padding: '16px', background: '#f5f5f5', borderRadius: '4px' }}>Item 2</div>
+      <div style={{ padding: '16px', background: '#f5f5f5', borderRadius: '4px' }}>Item 3</div>
     </Stack>
   );
-}
-```
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-## Features
+## Advanced Usage
 
-### Vertical Direction (Default)
+You can control the `direction` (horizontal or vertical), `align` (cross-axis), and `justify` (main-axis) properties, as well as customize the `gap`.
 
-Stack items vertically with gap spacing.
+<LiveCodeBlock>
+    <LivePreview>
+        <StackAdvancedDemo />
+    </LivePreview>
+    <LiveSource
+        code={`import { Stack, Button, Text } from '@oxygenix-ui/ui';
 
-```tsx
-<Stack gap={4} direction="vertical">
-  <Card>Card 1</Card>
-  <Card>Card 2</Card>
-  <Card>Card 3</Card>
-</Stack>
-```
+export default function StackAdvancedDemo() {
+  return (
+    <Stack gap={6}>
+      <div>
+        <Text style={{ marginBottom: '8px' }}>Horizontal Alignment</Text>
+        <Stack direction="horizontal" gap={2} align="center">
+          <Button size="sm">Small</Button>
+          <Button>Medium</Button>
+          <Button size="lg">Large</Button>
+        </Stack>
+      </div>
 
-### Horizontal Direction
+      <div>
+        <Text style={{ marginBottom: '8px' }}>Justify Content</Text>
+        <Stack direction="horizontal" gap={2} justify="between" style={{ background: '#f5f5f5', padding: '12px', borderRadius: '4px' }}>
+          <Button variant="outline" size="sm">Left</Button>
+          <Button variant="outline" size="sm">Right</Button>
+        </Stack>
+      </div>
+    </Stack>
+  );
+}`}
+        language="tsx"
+    />
+</LiveCodeBlock>
 
-Stack items horizontally.
+## Accessibility
 
-```tsx
-<Stack gap={2} direction="horizontal">
-  <Button>Cancel</Button>
-  <Button>Save</Button>
-</Stack>
-```
+-   **Structure**: `Stack` renders a `<div>` by default. It is a layout utility and does not have inherent semantic meaning like `<nav>` or `<main>`. Use semantic HTML elements inside the stack or wrapper styles where appropriate.
+-   **Flexbox**: Uses standard CSS Flexbox, so screen readers traverse content in DOM order. Visual order matches DOM order unless explicitly overridden (which `Stack` avoids by default).
 
-### Gap Sizes
-
-7 gap sizes based on 8px spacing scale.
-
-```tsx
-<Stack gap={1}>  {/* 4px */}
-<Stack gap={2}>  {/* 8px */}
-<Stack gap={3}>  {/* 12px */}
-<Stack gap={4}>  {/* 16px */}
-<Stack gap={5}>  {/* 24px */}
-<Stack gap={6}>  {/* 32px */}
-<Stack gap={7}>  {/* 40px */}
-<Stack gap={8}>  {/* 48px */}
-```
-
-### Alignment Control
-
-Control cross-axis alignment.
-
-```tsx
-<Stack gap={4} align="start">    {/* flex-start */}
-<Stack gap={4} align="center">   {/* center */}
-<Stack gap={4} align="end">      {/* flex-end */}
-<Stack gap={4} align="stretch">  {/* stretch (default) */}
-```
-
-### Justify Options
-
-Control main-axis justification.
-
-```tsx
-<Stack gap={4} justify="start">    {/* flex-start */}
-<Stack gap={4} justify="center">   {/* center */}
-<Stack gap={4} justify="end">      {/* flex-end */}
-<Stack gap={4} justify="between">  {/* space-between */}
-```
-
-## API Reference
+## Props
 
 ### Stack
 
 | Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `direction` | `'vertical' \| 'horizontal'` | `'vertical'` | Stack direction |
-| `gap` | `1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8` | `4` | Gap size (spacing scale) |
-| `align` | `'start' \| 'center' \| 'end' \| 'stretch'` | `'stretch'` | Cross-axis alignment |
-| `justify` | `'start' \| 'center' \| 'end' \| 'between'` | `'start'` | Main-axis justification |
-| `children` | `ReactNode` | Required | Stack content |
-| `className` | `string` | - | Additional CSS class |
+| :--- | :--- | :--- | :--- |
+| `children` | `ReactNode` | **Required** | Content to arrange |
+| `direction` | `'vertical' \| 'horizontal'` | `'vertical'` | Flex direction |
+| `align` | `'start' \| 'center' \| 'end' \| 'stretch'` | `'stretch'` | Cross-axis alignment (align-items) |
+| `justify` | `'start' \| 'center' \| 'end' \| 'between'` | `'start'` | Main-axis alignment (justify-content) |
+| `gap` | `1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 8` | `4` | Spacing between items (mapped to design tokens) |
+| `className` | `string` | - | Additional CSS class names |
+| `style` | `CSSProperties` | - | Inline styles |
 
-## Examples
+## Common Mistakes
 
-### Form Actions
+### Using Stack for Everything
 
-```tsx
-<Stack gap={2} direction="horizontal" justify="end">
-  <Button variant="ghost">Cancel</Button>
-  <Button>Submit</Button>
-</Stack>
-```
+While convenient, `Stack` adds a DOM node. For tight lists or complex grids where semantic markup (`<ul>`, `<li>` or CSS Grid) is more appropriate, consider using adjacent sibling selectors in CSS or the `Grid` component.
 
-### Card List
+### Nested Stacks
 
-```tsx
-<Stack gap={4}>
-  {users.map(user => (
-    <UserCard key={user.id} user={user} />
-  ))}
-</Stack>
-```
-
-### Toolbar
-
-```tsx
-<Stack gap={2} direction="horizontal" align="center">
-  <input type="search" placeholder="Search..." />
-  <Button variant="ghost">Filter</Button>
-  <Button>Export</Button>
-</Stack>
-```
-
-### Centered Content
-
-```tsx
-<Stack gap={4} align="center" justify="center" style={{ minHeight: '400px' }}>
-  <Icon size={48} />
-  <Heading level={2}>Welcome</Heading>
-  <Text>Get started by creating your first project</Text>
-  <Button>Create Project</Button>
-</Stack>
-```
-
-### Sidebar Navigation
-
-```tsx
-<Stack gap={1}>
-  <NavLink href="/" active>Dashboard</NavLink>
-  <NavLink href="/users">Users</NavLink>
-  <NavLink href="/settings">Settings</NavLink>
-</Stack>
-```
-
-## Best Practices
-
-### 1. Use Consistent Gap Sizes
-
-```tsx
-// ✅ Good - consistent spacing
-<Stack gap={4}>
-  <Section />
-  <Section />
-</Stack>
-
-// ❌ Bad - inconsistent spacing
-<div style={{ display: 'flex', flexDirection: 'column' }}>
-  <div style={{ marginBottom: '13px' }} />
-  <div style={{ marginBottom: '19px' }} />
-</div>
-```
-
-### 2. Choose Appropriate Direction
-
-```tsx
-// ✅ Good - horizontal for buttons
-<Stack gap={2} direction="horizontal">
-  <Button>Cancel</Button>
-  <Button>Save</Button>
-</Stack>
-
-// ❌ Bad - vertical for buttons
-<Stack gap={2} direction="vertical">
-  <Button>Cancel</Button>
-  <Button>Save</Button>
-</Stack>
-```
-
-### 3. Use Semantic Gap Sizes
-
-- `gap={1-2}` - Tight spacing (buttons, chips)
-- `gap={3-4}` - Normal spacing (form fields, list items)
-- `gap={5-6}` - Loose spacing (sections, cards)
-- `gap={7-8}` - Extra spacing (major sections)
-
-## Related Components
-
-- **Grid** - For 2D layouts
-- **AppShell** - For app structure
+Nesting many `Stack` components can lead to a deep DOM tree ("div soup"). If you find yourself nesting 4+ levels deep just for layout, consider if a CSS Grid (via the `Grid` component) would be cleaner.
